@@ -117,12 +117,12 @@ swich_tab(my_hotkey){
         if !is_input()
             Send "^{Tab}"  ; next tab
         else
-            Send "K"
+            SendInput "K"
     } else if (InStr(my_hotkey, "+j")) {
         if !is_input()
             Send "^+{Tab}"  ; previouse tab
         else
-            Send "J"
+            SendInput "J"
     }
 }
 
@@ -133,15 +133,68 @@ swich_tab(my_hotkey){
 
 ;; --------------------------------------------------------------------------------------------------
 #HotIf WinActive("ahk_exe zotero.exe")
+!e::Send "^+l"          ; focus library
 +k::
 +j::
 {
     swich_tab(ThisHotKey)
 }
-!e::Send "^+l"          ; focus library
-!d::Send "{Down 9}"     ; scroll half-page down
-!u::Send "{Up 9}"       ; scroll half-page up
-!/::Send "^f"           ; find
++h::
++l::
+{
+    if InStr(ThisHotkey, "+h")
+        if !is_input()
+            Send "!{Left}"
+        else
+            SendInput "H"
+    else if InStr(ThisHotKey, "+l")
+        if !is_input()
+            Send "!{Right}"
+        else
+            SendInput "L"
+}
+j::  ; scroll down
+{
+    if !is_input()
+        Send "{Down}"
+    else
+        SendInput "j"
+}
+k::  ; scroll up
+{
+    if !is_input()
+        Send "{Up}"
+    else
+        SendInput "k"
+}
+u::  ; scroll half-page up
+{
+    if !is_input()
+        Send "{Up 9}"
+    else
+        SendInput "u"
+}
+d::  ; scroll half-page down
+{
+    if !is_input()
+        Send "{Down 9}"
+    else
+        SendInput "d"
+}
+/::  ; find
+{
+    if !is_input()
+        Send "^f"
+    else
+        SendInput "/"
+}
+x::  ; close
+{
+    if !is_input()
+        Send "^w"
+    else
+        SendInput "x"
+}
 #HotIf
 
 ;; --------------------------------------------------------------------------------------------------
