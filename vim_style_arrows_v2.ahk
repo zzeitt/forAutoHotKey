@@ -167,6 +167,20 @@ k::  ; scroll up
     else
         SendInput "k"
 }
+h::  ; left
+{
+    if !is_input()
+        Send "{Left}"
+    else
+        SendInput "l"
+}
+l::  ; right
+{
+    if !is_input()
+        Send "{Right}"
+    else
+        SendInput "l"
+}
 u::  ; scroll half-page up
 {
     if !is_input()
@@ -194,6 +208,13 @@ x::  ; close
         Send "^w"
     else
         SendInput "x"
+}
+a::  ; SHIFT + F10
+{
+    if !is_input()
+        Send "+{F10}"
+    else
+        SendInput "a"
 }
 #HotIf
 
