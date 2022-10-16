@@ -112,6 +112,14 @@ is_input(t_sleep:=50) {
         return false
     }
 }
+
+is_caps_on() {
+    if GetKeyState("CapsLock", "T")
+        return true
+    else
+        return false
+}
+
 swich_tab(my_hotkey){
     if (InStr(my_hotkey, "+k")) {
         if !is_input()
@@ -158,42 +166,60 @@ j::  ; scroll down
     if !is_input()
         Send "{Down}"
     else
-        SendInput "j"
+        if is_caps_on()
+            SendInput "J"
+        else
+            SendInput "j"
 }
 k::  ; scroll up
 {
     if !is_input()
         Send "{Up}"
     else
-        SendInput "k"
+        if is_caps_on()
+            SendInput "K"
+        else
+            SendInput "k"
 }
 h::  ; left
 {
     if !is_input()
         Send "{Left}"
     else
-        SendInput "l"
+        if is_caps_on()
+            SendInput "H"
+        else
+            SendInput "h"
 }
 l::  ; right
 {
     if !is_input()
         Send "{Right}"
     else
-        SendInput "l"
+        if is_caps_on()
+            SendInput "L"
+        else
+            SendInput "l"
 }
 u::  ; scroll half-page up
 {
     if !is_input()
         Send "{Up 9}"
     else
-        SendInput "u"
+        if is_caps_on()
+            SendInput "U"
+        else
+            SendInput "u"
 }
 d::  ; scroll half-page down
 {
     if !is_input()
         Send "{Down 9}"
     else
-        SendInput "d"
+        if is_caps_on()
+            SendInput "D"
+        else
+            SendInput "d"
 }
 /::  ; find
 {
@@ -207,14 +233,20 @@ x::  ; close
     if !is_input()
         Send "^w"
     else
-        SendInput "x"
+        if is_caps_on()
+            SendInput "X"
+        else
+            SendInput "x"
 }
 a::  ; SHIFT + F10
 {
     if !is_input()
         Send "+{F10}"
     else
-        SendInput "a"
+        if is_caps_on()
+            SendInput "A"
+        else
+            SendInput "a"
 }
 #HotIf
 
