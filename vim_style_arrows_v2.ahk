@@ -167,7 +167,7 @@ j::  ; scroll down
 {
     if !is_input()
         Send "{Down}"
-    else
+    else  ;; don't send original j/k to system, because j/k is hard-defined in zotero
         if is_caps_on()
             SendInput "J"
         else
@@ -183,72 +183,40 @@ k::  ; scroll up
         else
             SendInput "k"
 }
-h::  ; left
+~h::  ; left
 {
     if !is_input()
         Send "{Left}"
-    else
-        if is_caps_on()
-            SendInput "H"
-        else
-            SendInput "h"
 }
-l::  ; right
+~l::  ; right
 {
     if !is_input()
         Send "{Right}"
-    else
-        if is_caps_on()
-            SendInput "L"
-        else
-            SendInput "l"
 }
-u::  ; scroll half-page up
+~u::  ; scroll half-page up
 {
     if !is_input()
         Send "{Up 9}"
-    else
-        if is_caps_on()
-            SendInput "U"
-        else
-            SendInput "u"
 }
-d::  ; scroll half-page down
+~d::  ; scroll half-page down
 {
     if !is_input()
         Send "{Down 9}"
-    else
-        if is_caps_on()
-            SendInput "D"
-        else
-            SendInput "d"
 }
-/::  ; find
+~/::  ; find
 {
     if !is_input()
         Send "^f"
-    else
-        SendInput "/"
 }
-x::  ; close
+~x::  ; close
 {
     if !is_input()
         Send "^w"
-    else
-        if is_caps_on()
-            SendInput "X"
-        else
-            SendInput "x"
 }
-a::  ; SHIFT + F10
+~a::  ; SHIFT + F10
 {
     if !is_input()
         Send "+{F10}"
-    else
-        if is_caps_on()
-            SendInput "A"
-        else
-            SendInput "a"
 }
 #HotIf
 
