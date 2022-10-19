@@ -31,6 +31,8 @@
 !^l::Send "{LWin Down}{Right}{LWin Up}"  ; ALT + CTRL + m            ->    Home + Right
 !^k::Send "{LWin Down}{Up}{LWin Up}"  ; ALT + CTRL + m            ->    Home + Up
 !^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT +CTRL + m            ->    Home + Down
+#+h::Send "#+{Left}"                    ; WIN + SHIFT + h        -> WIN + SHIFT + Left
+#+l::Send "#+{Right}"                    ; WIN + SHIFT + l        -> WIN + SHIFT + Right
 !y::Send "^c" ; ALT + y -> Copy
 !p::Send "^v" ; ALT + p -> Paste
 !x::Send "^x" ; ALT + x -> Cut
