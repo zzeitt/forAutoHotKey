@@ -247,3 +247,9 @@ k::  ; scroll up
 !u::Send "!{Up}"
 !r::Send "!{Right}"
 #HotIf
+
+;; --------------------------------------------------------------------------------------------------
+#HotIf WinActive("ahk_exe emacs.exe")
+!j::Send "!{Down}"
+!k::Send "!{Up}"
+#HotIf
