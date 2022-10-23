@@ -208,11 +208,6 @@ k::  ; scroll up
     if !is_input()
         Send "^f"
 }
-~x::  ; close
-{
-    if !is_input()
-        Send "^w"
-}
 ~a::  ; SHIFT + F10
 {
     if !is_input()
