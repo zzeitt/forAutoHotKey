@@ -250,6 +250,7 @@ k::  ; scroll up
 
 ;; --------------------------------------------------------------------------------------------------
 #HotIf WinActive("ahk_exe Code.exe")
-!g::Send "^{Home}"
-!+g::Send "^{End}"
+!g::Send "^{Home}"  ; goto begin of page
+!+g::Send "^{End}"  ; goto bottom of page
+!e::Send "^+e"      ; goto file explorer panel
 #HotIf
