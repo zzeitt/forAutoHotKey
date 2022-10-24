@@ -247,3 +247,9 @@ k::  ; scroll up
 #HotIf WinActive("ahk_exe emacs.exe")
 !x::Send "!x"
 #HotIf
+
+;; --------------------------------------------------------------------------------------------------
+#HotIf WinActive("ahk_exe Code.exe")
+!g::Send "^{Home}"
+!+g::Send "^{End}"
+#HotIf
