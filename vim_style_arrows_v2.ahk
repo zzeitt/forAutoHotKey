@@ -27,19 +27,20 @@
 
 ;; --------------------------------------------------------------------------------------------------
 ;; Modified by @zeit
-!^h::Send "{LWin Down}{Left}{LWin Up}"   ; ALT + CTRL + n            ->    Home + Left
-!^l::Send "{LWin Down}{Right}{LWin Up}"  ; ALT + CTRL + m            ->    Home + Right
-!^k::Send "{LWin Down}{Up}{LWin Up}"  ; ALT + CTRL + m            ->    Home + Up
-!^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT +CTRL + m            ->    Home + Down
-#+h::Send "#+{Left}"                    ; WIN + SHIFT + h        -> WIN + SHIFT + Left
-#+l::Send "#+{Right}"                    ; WIN + SHIFT + l        -> WIN + SHIFT + Right
-!y::Send "^c" ; ALT + y -> Copy
-!p::Send "^v" ; ALT + p -> Paste
-!x::Send "^x" ; ALT + x -> Cut
-!z::Send "^z" ; ALT + z -> Undo
-!;::Send "{Esc}" ; ALT + ;
-!8::Send "{LAlt Down}{F4}{LAlt Up}" ; Alt + 0 -> Alt + F4
-![::Send "+{Ins}" ; ALT + [ -> SHIFT + INSERT
+!^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + n            -> Home + Left
+!^l::Send "{LWin Down}{Right}{LWin Up}" ; ALT + CTRL + m            -> Home + Right
+!^k::Send "{LWin Down}{Up}{LWin Up}"    ; ALT + CTRL + m            -> Home + Up
+!^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + m            -> Home + Down
+#+h::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
+#+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
+!y::Send "^c"                           ; ALT + y                   -> Copy
+!p::Send "^v"                           ; ALT + p                   -> Paste
+!x::Send "^x"                           ; ALT + x                   -> Cut
+!z::Send "^z"                           ; ALT + z                   -> Undo
+!;::Send "{Esc}"                        ; ALT + ;                   -> Esc
+!8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
+![::Send "+{Ins}"                       ; ALT + [                   -> SHIFT + INSERT
+#BackSpace::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 
 ;; --------------------------------------------------------------------------------------------------
 ;; 音量调节 (Copied from https://www.cnblogs.com/hyaray/p/7507476.html)
