@@ -41,6 +41,12 @@
 !8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
 ![::Send "+{Ins}"                       ; ALT + [                   -> SHIFT + INSERT
 !/::Send "^f"                           ; ALT + /                   -> CTRL + F
+
+#HotIf !WinActive("ahk_exe msedge.exe")
+!g::Send "^{Home}"                      ; ALT + G                   -> CTRL + HOME
+!+g::Send "^{End}"                      ; ALT + SHIFT + G           -> CTRL + END
+#HotIf
+
 #BackSpace::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 
 ;; --------------------------------------------------------------------------------------------------
