@@ -40,6 +40,7 @@
 !;::Send "{Esc}"                        ; ALT + ;                   -> Esc
 !8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
 ![::Send "+{Ins}"                       ; ALT + [                   -> SHIFT + INSERT
+!/::Send "^f"                           ; ALT + /                   -> CTRL + F
 #BackSpace::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 
 ;; --------------------------------------------------------------------------------------------------
@@ -225,7 +226,6 @@ k::  ; scroll up
 }
 !d::Send "{Down 9}"     ; scroll half-page down
 !u::Send "{Up 9}"       ; scroll half-page up
-!/::Send "^f"           ; find
 #HotIf
 
 ;; --------------------------------------------------------------------------------------------------
