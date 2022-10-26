@@ -35,11 +35,14 @@
 #+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
 !y::Send "^c"                           ; ALT + y                   -> Copy
 !p::Send "^v"                           ; ALT + p                   -> Paste
+
+#HotIf !WinActive("ahk_exe emacs.exe")
 !x::Send "^x"                           ; ALT + x                   -> Cut
+#HotIf
+
 !z::Send "^z"                           ; ALT + z                   -> Undo
 !;::Send "{Esc}"                        ; ALT + ;                   -> Esc
 !8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
-![::Send "+{Ins}"                       ; ALT + [                   -> SHIFT + INSERT
 !/::Send "^f"                           ; ALT + /                   -> CTRL + F
 
 #HotIf !WinActive("ahk_exe msedge.exe")
@@ -253,11 +256,10 @@ k::  ; scroll up
 ;; --------------------------------------------------------------------------------------------------
 #HotIf WinActive("ahk_exe emacs.exe")
 !x::Send "!x"
+![::Send "+{Ins}"                       ; ALT + [                   -> SHIFT + INSERT
 #HotIf
 
 ;; --------------------------------------------------------------------------------------------------
 #HotIf WinActive("ahk_exe Code.exe")
-!g::Send "^{Home}"  ; goto begin of page
-!+g::Send "^{End}"  ; goto bottom of page
 !e::Send "^+e"      ; goto file explorer panel
 #HotIf
