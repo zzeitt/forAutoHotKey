@@ -50,7 +50,7 @@
 !+g::Send "^{End}"                      ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
 
-#BackSpace::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
+#q::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 
 ;; --------------------------------------------------------------------------------------------------
 ;; 音量调节 (Copied from https://www.cnblogs.com/hyaray/p/7507476.html)
