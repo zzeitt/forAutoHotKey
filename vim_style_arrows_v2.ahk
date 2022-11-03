@@ -129,13 +129,16 @@ zeit_reload(font:=FONT_MSYAHEI) {
 
 ;; --------------------------------------------------------------------------------
 ;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
-zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI, show_args:="AutoSize Center") {
-    my_gui := Gui()
-    my_gui.Opt("+AlwaysOnTop -Caption +ToolWindow")  ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
+zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI, show_args:="AutoSize Center", title:="zeit_tooltip") {
+    if WinExist(title)
+        WinClose(title)
+    my_gui := Gui("+AlwaysOnTop -Caption +ToolWindow", title)
+    ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
     my_gui.SetFont("s16", font)
     my_gui.Add("Text", "Center", msg)
     my_gui.Show(show_args)
-    SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
+    if (delay_ms > 0)
+        SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
 }
 ;; --------------------------------------------------------------------------------
 
@@ -258,20 +261,24 @@ zotero_mode := "NORMAL"
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zeit_tooltip(zotero_mode,,,"xCenter y100")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
+        WinActivate("ahk_exe zotero.exe")
     }
     !n:: {
         global zotero_mode := "NORMAL"
-        zeit_tooltip(zotero_mode,,,"xCenter y100")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
+        WinActivate("ahk_exe zotero.exe")
     }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
     !n:: {
         global zotero_mode := "NORMAL"
-        zeit_tooltip(zotero_mode,,,"xCenter y100")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
+        WinActivate("ahk_exe zotero.exe")
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zeit_tooltip(zotero_mode,,,"xCenter y100")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
+        WinActivate("ahk_exe zotero.exe")
     }
 #HotIf
 
