@@ -130,12 +130,12 @@ zeit_reload(font:=FONT_MSYAHEI) {
 
 ;; --------------------------------------------------------------------------------
 ;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
-zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI) {
+zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI, show_args:="AutoSize Center") {
     my_gui := Gui()
     my_gui.Opt("+AlwaysOnTop -Caption +ToolWindow")  ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
     my_gui.SetFont("s16", font)
     my_gui.Add("Text", "Center", msg)
-    my_gui.Show("AutoSize Center")
+    my_gui.Show(show_args)
     SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
 }
 ;; --------------------------------------------------------------------------------
@@ -202,77 +202,95 @@ hyf_SoundSetWaveVolume(mode, n)
 ;; ====================================================================================
 ;; Zotero
 ;; ====================================================================================
-#HotIf WinActive("ahk_exe zotero.exe")
-!e::Send "^+l"          ; focus library
-+k::
-+j::
-{
-    swich_tab(ThisHotKey)
-}
-+h::
-+l::
-{
-    if InStr(ThisHotkey, "+h")
+zotero_mode := "NORMAL"
+#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "NORMAL")
+    !e::Send "^+l"          ; focus library
+    +k::
+    +j::
+    {
+        swich_tab(ThisHotKey)
+    }
+    +h::
+    +l::
+    {
+        if InStr(ThisHotkey, "+h")
+            if !is_input()
+                Send "!{Left}"
+            else
+                SendInput "H"
+        else if InStr(ThisHotKey, "+l")
+            if !is_input()
+                Send "!{Right}"
+            else
+                SendInput "L"
+    }
+    j::  ; scroll down
+    {
         if !is_input()
-            Send "!{Left}"
-        else
-            SendInput "H"
-    else if InStr(ThisHotKey, "+l")
+            Send "{Down}"
+        else  ;; don't send original j/k to system, because j/k is hard-defined in zotero
+            if is_caps_on()
+                SendInput "J"
+            else
+                SendInput "j"
+    }
+    k::  ; scroll up
+    {
         if !is_input()
-            Send "!{Right}"
+            Send "{Up}"
         else
-            SendInput "L"
-}
-j::  ; scroll down
-{
-    if !is_input()
-        Send "{Down}"
-    else  ;; don't send original j/k to system, because j/k is hard-defined in zotero
-        if is_caps_on()
-            SendInput "J"
-        else
-            SendInput "j"
-}
-k::  ; scroll up
-{
-    if !is_input()
-        Send "{Up}"
-    else
-        if is_caps_on()
-            SendInput "K"
-        else
-            SendInput "k"
-}
-~h::  ; left
-{
-    if !is_input()
-        Send "{Left}"
-}
-~l::  ; right
-{
-    if !is_input()
-        Send "{Right}"
-}
-~u::  ; scroll half-page up
-{
-    if !is_input()
-        Send "{Up 9}"
-}
-~d::  ; scroll half-page down
-{
-    if !is_input()
-        Send "{Down 9}"
-}
-~/::  ; find
-{
-    if !is_input()
-        Send "^f"
-}
-~a::  ; SHIFT + F10
-{
-    if !is_input()
-        Send "+{F10}"
-}
+            if is_caps_on()
+                SendInput "K"
+            else
+                SendInput "k"
+    }
+    ~h::  ; left
+    {
+        if !is_input()
+            Send "{Left}"
+    }
+    ~l::  ; right
+    {
+        if !is_input()
+            Send "{Right}"
+    }
+    ~u::  ; scroll half-page up
+    {
+        if !is_input()
+            Send "{Up 9}"
+    }
+    ~d::  ; scroll half-page down
+    {
+        if !is_input()
+            Send "{Down 9}"
+    }
+    ~/::  ; find
+    {
+        if !is_input()
+            Send "^f"
+    }
+    ~a::  ; SHIFT + F10
+    {
+        if !is_input()
+            Send "+{F10}"
+    }
+    !i:: {
+        global zotero_mode := "INSERT"
+        zeit_tooltip(zotero_mode,,,"xCenter y100")
+    }
+    !n:: {
+        global zotero_mode := "NORMAL"
+        zeit_tooltip(zotero_mode,,,"xCenter y100")
+    }
+#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
+    !n:: {
+        global zotero_mode := "NORMAL"
+        zeit_tooltip(zotero_mode,,,"xCenter y100")
+    }
+    !i:: {
+        global zotero_mode := "INSERT"
+        zeit_tooltip(zotero_mode,,,"xCenter y100")
+    }
 #HotIf
 
 ;; ====================================================================================
