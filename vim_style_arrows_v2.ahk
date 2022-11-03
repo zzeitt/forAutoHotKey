@@ -143,18 +143,15 @@ zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI, show_args:="AutoSize Center
 ;; ====================================================================================
 ;; 音量调节 (Borrowed from https://www.cnblogs.com/hyaray/p/7507476.html)
 ;; ====================================================================================
-!F3::
-{
+!F3:: {
     hyf_SoundSetWaveVolume("+", 5)
 }
 
-!F2::
-{
+!F2:: {
     hyf_SoundSetWaveVolume("-", 5)
 }
 
-!F1::
-{
+!F1:: {
     SoundSetMute -1
     mute_on_off := SoundGetMute()
     If mute_on_off
@@ -163,25 +160,19 @@ zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI, show_args:="AutoSize Center
         zeit_tooltip("静音  OFF")
 }
 
-hyf_SoundSetWaveVolume(mode, n)
-{ ;mode为"+"或"-"
+hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
     Sound_Get := SoundGetVolume()
 
-    If (mode = "+")
-    {
+    if (mode = "+") {
         Sound_Now := Round(Sound_Get) + n
-        If (Sound_Now > 100)
-        {
+        if (Sound_Now > 100) {
             SoundSetVolume 100
             zeit_tooltip("音量 = 100")
             Return
         }
-    }
-    Else
-    {
+    } else {
         Sound_Now := Round(Sound_Get) - n
-        If (Sound_Now < 0)
-        {
+        If (Sound_Now < 0) {
             SoundSetVolume 0
             zeit_tooltip("音量 = 0")
             Return
@@ -224,8 +215,7 @@ zotero_mode := "NORMAL"
             else
                 SendInput "L"
     }
-    j::  ; scroll down
-    {
+    j:: {  ; scroll down
         if !is_input()
             Send "{Down}"
         else  ;; don't send original j/k to system, because j/k is hard-defined in zotero
@@ -234,8 +224,7 @@ zotero_mode := "NORMAL"
             else
                 SendInput "j"
     }
-    k::  ; scroll up
-    {
+    k:: { ; scroll up
         if !is_input()
             Send "{Up}"
         else
@@ -244,33 +233,27 @@ zotero_mode := "NORMAL"
             else
                 SendInput "k"
     }
-    ~h::  ; left
-    {
+    ~h:: { ; left
         if !is_input()
             Send "{Left}"
     }
-    ~l::  ; right
-    {
+    ~l:: { ; right
         if !is_input()
             Send "{Right}"
     }
-    ~u::  ; scroll half-page up
-    {
+    ~u:: { ; scroll half-page up
         if !is_input()
             Send "{Up 9}"
     }
-    ~d::  ; scroll half-page down
-    {
+    ~d:: { ; scroll half-page down
         if !is_input()
             Send "{Down 9}"
     }
-    ~/::  ; find
-    {
+    ~/:: { ; find
         if !is_input()
             Send "^f"
     }
-    ~a::  ; SHIFT + F10
-    {
+    ~a:: { ; SHIFT + F10
         if !is_input()
             Send "+{F10}"
     }
@@ -310,14 +293,12 @@ zotero_mode := "NORMAL"
 ;; Explorer
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe explorer.exe")
-!e::
-{
+!e:: {
     Send "^e"
     Sleep 10
     Send "{Esc}"
 }
-!'::
-{
+!':: {
     Send "^a{Up}{Down}"
 }
 !u::Send "!{Up}"
