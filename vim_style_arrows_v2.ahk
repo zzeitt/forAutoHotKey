@@ -1,29 +1,33 @@
 ﻿TraySetIcon "vim_style_arrows.ico"
 
-!h::Send "{Left}"         ; ALT + h            ->    Left                 (Cursor left one character)
-!b::Send "^{Left}"       ; ALT + b            ->    CTRL + Left          (Cursor left per word)
-!+h::Send "+{Left}"      ; ALT + SHIFT + h    ->    SHIFT + Left         (Select one character)
-!+b::Send "+^{Left}"     ; ALT + SHIFT + b    ->    SHIFT + CTRL + Left  (Select per word)
+;; ====================================================================================
+;; Global mappings
+;; ====================================================================================
 
-!l::Send "{Right}"       ; ALT + l            ->    Right                (Cursor right one character)
-!w::Send "^{Right}"      ; ALT + w            ->    CTRL + Right         (Cursor right per word)
-!+l::Send "+{Right}"      ; ALT + SHIFT + l    ->    SHIFT + Right        (Select one character)
-!+w::Send "+^{Right}"     ; ALT + SHIFT + W    ->    SHIFT + CTRL + Right (Select per word)
+!h::Send "{Left}"           ; ALT + h            ->    Left                 (Cursor left one character)
+!b::Send "^{Left}"          ; ALT + b            ->    CTRL + Left          (Cursor left per word)
+!+h::Send "+{Left}"         ; ALT + SHIFT + h    ->    SHIFT + Left         (Select one character)
+!+b::Send "+^{Left}"        ; ALT + SHIFT + b    ->    SHIFT + CTRL + Left  (Select per word)
 
-!k::Send "{Up}"           ; ALT + k            ->    Up                   (Cursor up line)
-!+k::Send "+{Up}"         ; ALT + SHIFT + k    ->    SHIFT + Up           (Select one line)
+!l::Send "{Right}"          ; ALT + l            ->    Right                (Cursor right one character)
+!w::Send "^{Right}"         ; ALT + w            ->    CTRL + Right         (Cursor right per word)
+!+l::Send "+{Right}"        ; ALT + SHIFT + l    ->    SHIFT + Right        (Select one character)
+!+w::Send "+^{Right}"       ; ALT + SHIFT + W    ->    SHIFT + CTRL + Right (Select per word)
 
-!j::Send "{Down}"         ; ALT + j            ->    Left                 (Cursor down line)
-!+j::Send "+{Down}"       ; ALT + SHIFT + j    ->    SHIFT + Left         (Select one line)
+!k::Send "{Up}"             ; ALT + k            ->    Up                   (Cursor up line)
+!+k::Send "+{Up}"           ; ALT + SHIFT + k    ->    SHIFT + Up           (Select one line)
 
-!0::Send "{Home}"         ; ALT + a            ->    Home                 (Cursor to beginning of line)
-!+0::Send "+{Home}"      ; ALT + SHIFT + a    ->    SHIFT + Home         (Select to beginning of line)
+!j::Send "{Down}"           ; ALT + j            ->    Left                 (Cursor down line)
+!+j::Send "+{Down}"         ; ALT + SHIFT + j    ->    SHIFT + Left         (Select one line)
 
-!4::Send "{End}"          ; ALT + f            ->    End                  (Cursor to end of line)
-!+4::Send "+{End}"        ; ALT + SHIFT + f    ->    SHIFT + End          (Select to end of line)
+!0::Send "{Home}"           ; ALT + a            ->    Home                 (Cursor to beginning of line)
+!+0::Send "+{Home}"         ; ALT + SHIFT + a    ->    SHIFT + Home         (Select to beginning of line)
 
-!BackSpace::Send "{Del}"        ; ALT + m            ->    DEL                  (Delete one character)
-!+BackSpace::Send "^{BS}"       ; ALT + SHIFT + BACKSPACE   ->  CTRL + DELETE   (Backspace one word)
+!4::Send "{End}"            ; ALT + f            ->    End                  (Cursor to end of line)
+!+4::Send "+{End}"          ; ALT + SHIFT + f    ->    SHIFT + End          (Select to end of line)
+
+!BackSpace::Send "{Del}"    ; ALT + m            ->    DEL                  (Delete one character)
+!+BackSpace::Send "^{BS}"   ; ALT + SHIFT + BACKSPACE   ->  CTRL + DELETE   (Backspace one word)
 
 ;; --------------------------------------------------------------------------------------------------
 ;; Modified by @zeit
@@ -52,8 +56,9 @@
 
 #q::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
 ;; 音量调节 (Copied from https://www.cnblogs.com/hyaray/p/7507476.html)
+;; ====================================================================================
 !F3::
 {
     hyf_SoundSetWaveVolume("+", 5)
@@ -115,8 +120,9 @@ hyf_removeToolTip() ;清除ToolTip
     ToolTip
 }
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
 ;; My Functions
+;; ====================================================================================
 is_input(t_sleep:=50) {
     Sleep t_sleep  ; give function time to get pos
     if CaretGetPos(&x, &y) {
@@ -147,12 +153,16 @@ swich_tab(my_hotkey){
     }
 }
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
+;; Edge
+;; ====================================================================================
 #HotIf WinActive("ahk_exe msedge.exe")
 !'::Send "{F10}"  ; Edge打开时的快捷键
 #HotIf
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
+;; Zotero
+;; ====================================================================================
 #HotIf WinActive("ahk_exe zotero.exe")
 !e::Send "^+l"          ; focus library
 +k::
@@ -226,18 +236,22 @@ k::  ; scroll up
 }
 #HotIf
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
+;; SumtraPDF
+;; ====================================================================================
 #HotIf WinActive("ahk_exe SumatraPDF.exe")
 +k::
 +j::
 {
     swich_tab(ThisHotKey)
 }
-!d::Send "{Down 9}"     ; scroll half-page down
-!u::Send "{Up 9}"       ; scroll half-page up
+!d::Send "{Down 9}"                 ; scroll half-page down
+!u::Send "{Up 9}"                   ; scroll half-page up
 #HotIf
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
+;; Explorer
+;; ====================================================================================
 #HotIf WinActive("ahk_exe explorer.exe")
 !e::
 {
@@ -253,13 +267,17 @@ k::  ; scroll up
 !r::Send "!{Right}"
 #HotIf
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
+;; Emacs
+;; ====================================================================================
 #HotIf WinActive("ahk_exe emacs.exe")
 !x::Send "!x"
-![::Send "+{Ins}"                       ; ALT + [                   -> SHIFT + INSERT
+![::Send "+{Ins}"                   ; ALT + [                   -> SHIFT + INSERT
 #HotIf
 
-;; --------------------------------------------------------------------------------------------------
+;; ====================================================================================
+;; VSCode
+;; ====================================================================================
 #HotIf WinActive("ahk_exe Code.exe")
-!e::Send "^+e"      ; goto file explorer panel
+!e::Send "^+e"                      ; goto file explorer panel
 #HotIf
