@@ -1,5 +1,4 @@
 ﻿TraySetIcon "vim_style_arrows.ico"
-THIS_FILENAME := "vim_style_arrows_v2"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
 zeit_tooltip("Hello AHK!")
@@ -104,7 +103,7 @@ zeit_reload(font:=FONT_MSYAHEI) {
     my_gui.Add("Text", "Center", "Sure to reload ")
     
     my_gui.SetFont("s16 bold italic", font)
-    my_gui.Add("Text", "x+0 BackgroundSilver", THIS_FILENAME)
+    my_gui.Add("Text", "x+0 BackgroundSilver", A_ScriptName)
 
     my_gui.SetFont("s16 norm", font)
     my_gui.Add("Text", "x+0", " ?")
