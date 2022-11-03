@@ -1,4 +1,8 @@
 ﻿TraySetIcon "vim_style_arrows.ico"
+THIS_FILENAME := "vim_style_arrows_v2"
+FONT_MSYAHEI := "Microsoft YaHei UI"
+
+zeit_tooltip("Hello AHK!")
 
 ;; ====================================================================================
 ;; Global mappings
@@ -55,6 +59,86 @@
 #HotIf
 
 #q::Send "^+{Esc}"                      ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
+^!r::{                                  ; Ctrl+Alt+R                -> Reload AHK
+    zeit_reload()
+}
+
+;; ====================================================================================
+;; My Functions
+;; ====================================================================================
+is_input(t_sleep:=50) {
+    Sleep t_sleep  ; give function time to get pos
+    if CaretGetPos(&x, &y) {
+        return true
+    } else {
+        return false
+    }
+}
+
+is_caps_on() {
+    if GetKeyState("CapsLock", "T")
+        return true
+    else
+        return false
+}
+
+swich_tab(my_hotkey){
+    if (InStr(my_hotkey, "+k")) {
+        if !is_input()
+            Send "^{Tab}"  ; next tab
+        else
+            SendInput "K"
+    } else if (InStr(my_hotkey, "+j")) {
+        if !is_input()
+            Send "^+{Tab}"  ; previouse tab
+        else
+            SendInput "J"
+    }
+}
+
+zeit_reload(font:=FONT_MSYAHEI) {
+    my_gui := Gui()
+    my_gui.OnEvent("Escape", func_cancel)
+
+    my_gui.SetFont("s16", font)
+    my_gui.Add("Text", "Center", "Sure to reload ")
+    
+    my_gui.SetFont("s16 bold italic", font)
+    my_gui.Add("Text", "x+0 BackgroundSilver", THIS_FILENAME)
+
+    my_gui.SetFont("s16 norm", font)
+    my_gui.Add("Text", "x+0", " ?")
+
+    my_gui.SetFont("s14", font)
+
+    my_gui.Add("Button", "xs+83 w100 Center", "&Yes (M-y)").OnEvent("Click", func_reload)
+    my_gui.Add("Button", "x+40 w100 Center", "&No (M-n)").OnEvent("Click", func_cancel)
+
+    func_reload(*) {
+        Reload
+    }
+
+    func_cancel(*) {
+        my_gui.Destroy()
+    }
+
+    my_gui.Show("AutoSize Center")
+    ; x := y := w := h := 19
+    ; my_gui.GetClientPos(&x, &y, &w, &h)
+    ; ToolTip(x . " " . y . " " . w . " " . h . " " . my_gui.MarginX)
+}
+
+;; --------------------------------------------------------------------------------
+;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
+zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI) {
+    my_gui := Gui()
+    my_gui.Opt("+AlwaysOnTop -Caption +ToolWindow")  ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
+    my_gui.SetFont("s16", font)
+    my_gui.Add("Text", "Center", msg)
+    my_gui.Show("AutoSize Center")
+    SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
+}
+;; --------------------------------------------------------------------------------
 
 ;; ====================================================================================
 ;; 音量调节 (Borrowed from https://www.cnblogs.com/hyaray/p/7507476.html)
@@ -107,51 +191,6 @@ hyf_SoundSetWaveVolume(mode, n)
     zeit_tooltip("音量 " . mode . " " . Sound_Now)
     Return
 }
-
-;; ====================================================================================
-;; My Functions
-;; ====================================================================================
-is_input(t_sleep:=50) {
-    Sleep t_sleep  ; give function time to get pos
-    if CaretGetPos(&x, &y) {
-        return true
-    } else {
-        return false
-    }
-}
-
-is_caps_on() {
-    if GetKeyState("CapsLock", "T")
-        return true
-    else
-        return false
-}
-
-swich_tab(my_hotkey){
-    if (InStr(my_hotkey, "+k")) {
-        if !is_input()
-            Send "^{Tab}"  ; next tab
-        else
-            SendInput "K"
-    } else if (InStr(my_hotkey, "+j")) {
-        if !is_input()
-            Send "^+{Tab}"  ; previouse tab
-        else
-            SendInput "J"
-    }
-}
-
-;; --------------------------------------------------------------------------------
-;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
-zeit_tooltip(msg, delay_ms:=600) {
-    my_gui := Gui()
-    my_gui.Opt("+AlwaysOnTop -Caption +ToolWindow")  ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
-    my_gui.SetFont("s24", "Arial")
-    my_text := my_gui.Add("Text", "Center", msg)
-    my_gui.Show("AutoSize Center")
-    SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
-}
-;; --------------------------------------------------------------------------------
 
 ;; ====================================================================================
 ;; Edge
