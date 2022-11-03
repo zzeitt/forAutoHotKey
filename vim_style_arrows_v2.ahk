@@ -45,7 +45,7 @@ zeit_tooltip("Hello AHK!")
 !p::Send "^v"                           ; ALT + p                   -> Paste
 
 #HotIf !WinActive("ahk_exe emacs.exe")
-!x::Send "^x"                           ; ALT + x                   -> Cut
+    !x::Send "^x"                           ; ALT + x                   -> Cut
 #HotIf
 
 !z::Send "^z"                           ; ALT + z                   -> Undo
@@ -54,8 +54,8 @@ zeit_tooltip("Hello AHK!")
 !/::Send "^f"                           ; ALT + /                   -> CTRL + F
 
 #HotIf !WinActive("ahk_exe msedge.exe")
-!g::Send "^{Home}"                      ; ALT + G                   -> CTRL + HOME
-!+g::Send "^{End}"                      ; ALT + SHIFT + G           -> CTRL + END
+    !g::Send "^{Home}"                      ; ALT + G                   -> CTRL + HOME
+    !+g::Send "^{End}"                      ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
 
 #q::Send "^+{Esc}"                      ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
@@ -187,7 +187,7 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; Edge
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe msedge.exe")
-!'::Send "{F10}"  ; Edge打开时的快捷键
+    !'::Send "{F10}"  ; Edge打开时的快捷键
 #HotIf
 
 ;; ====================================================================================
@@ -280,42 +280,42 @@ zotero_mode := "NORMAL"
 ;; SumtraPDF
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe SumatraPDF.exe")
-+k::
-+j::
-{
-    swich_tab(ThisHotKey)
-}
-!d::Send "{Down 9}"                 ; scroll half-page down
-!u::Send "{Up 9}"                   ; scroll half-page up
+    +k::
+    +j::
+    {
+        swich_tab(ThisHotKey)
+    }
+    !d::Send "{Down 9}"                 ; scroll half-page down
+    !u::Send "{Up 9}"                   ; scroll half-page up
 #HotIf
 
 ;; ====================================================================================
 ;; Explorer
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe explorer.exe")
-!e:: {
-    Send "^e"
-    Sleep 10
-    Send "{Esc}"
-}
-!':: {
-    Send "^a{Up}{Down}"
-}
-!u::Send "!{Up}"
-!r::Send "!{Right}"
+    !e:: {
+        Send "^e"
+        Sleep 10
+        Send "{Esc}"
+    }
+    !':: {
+        Send "^a{Up}{Down}"
+    }
+    !u::Send "!{Up}"
+    !r::Send "!{Right}"
 #HotIf
 
 ;; ====================================================================================
 ;; Emacs
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe emacs.exe")
-!x::Send "!x"
-![::Send "+{Ins}"                   ; ALT + [                   -> SHIFT + INSERT
+    !x::Send "!x"
+    ![::Send "+{Ins}"                   ; ALT + [                   -> SHIFT + INSERT
 #HotIf
 
 ;; ====================================================================================
 ;; VSCode
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe Code.exe")
-!e::Send "^+e"                      ; goto file explorer panel
+    !e::Send "^+e"                      ; goto file explorer panel
 #HotIf
