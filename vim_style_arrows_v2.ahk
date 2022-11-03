@@ -54,10 +54,10 @@
 !+g::Send "^{End}"                      ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
 
-#q::Send "^+{Esc}"              ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
+#q::Send "^+{Esc}"                      ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 
 ;; ====================================================================================
-;; 音量调节 (Copied from https://www.cnblogs.com/hyaray/p/7507476.html)
+;; 音量调节 (Borrowed from https://www.cnblogs.com/hyaray/p/7507476.html)
 ;; ====================================================================================
 !F3::
 {
@@ -74,9 +74,9 @@
     SoundSetMute -1
     mute_on_off := SoundGetMute()
     If mute_on_off
-        hyf_tooltip("静音  ON", 1, A_ScreenWidth, A_ScreenHeight)
+        zeit_tooltip("静音  ON")
     Else
-        hyf_tooltip("静音  OFF", 1, A_ScreenWidth, A_ScreenHeight)
+        zeit_tooltip("静音  OFF")
 }
 
 hyf_SoundSetWaveVolume(mode, n)
@@ -89,7 +89,7 @@ hyf_SoundSetWaveVolume(mode, n)
         If (Sound_Now > 100)
         {
             SoundSetVolume 100
-            hyf_tooltip("音量+  100", 1, A_ScreenWidth, A_ScreenHeight)
+            zeit_tooltip("音量 = 100")
             Return
         }
     }
@@ -99,25 +99,13 @@ hyf_SoundSetWaveVolume(mode, n)
         If (Sound_Now < 0)
         {
             SoundSetVolume 0
-            hyf_tooltip("音量-  0", 1, A_ScreenWidth, A_ScreenHeight)
+            zeit_tooltip("音量 = 0")
             Return
         }
     }
     SoundSetVolume Sound_Now
-    hyf_tooltip("音量" . mode . "  " . Sound_Now, 1, A_ScreenWidth, A_ScreenHeight)
+    zeit_tooltip("音量 " . mode . " " . Sound_Now)
     Return
-}
-
-hyf_tooltip(str, t := 1, x := "", y := "")  ;提示t秒并自动消失
-{
-    t *= 1000
-    ToolTip str, x, y
-    SetTimer hyf_removeToolTip, -t
-}
-
-hyf_removeToolTip() ;清除ToolTip
-{
-    ToolTip
 }
 
 ;; ====================================================================================
@@ -152,6 +140,18 @@ swich_tab(my_hotkey){
             SendInput "J"
     }
 }
+
+;; --------------------------------------------------------------------------------
+;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
+zeit_tooltip(msg, delay_ms:=600) {
+    my_gui := Gui()
+    my_gui.Opt("+AlwaysOnTop -Caption +ToolWindow")  ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
+    my_gui.SetFont("s24", "Arial")
+    my_text := my_gui.Add("Text", "Center", msg)
+    my_gui.Show("AutoSize Center")
+    SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
+}
+;; --------------------------------------------------------------------------------
 
 ;; ====================================================================================
 ;; Edge
