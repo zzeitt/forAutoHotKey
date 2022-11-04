@@ -1,4 +1,4 @@
-﻿TraySetIcon "vim_style_arrows.ico"
+TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
 ztToolTip("Hello AHK!")
@@ -215,6 +215,7 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 zotero_mode_insert := "Zotero: INSERT"
 zotero_mode_normal := "Zotero: NORMAL"
 zotero_mode := zotero_mode_normal
+zotero_first_active := true
 zotero_mode_win_title := "Zotero Mode"
 zoteroShowMode() {
     ztShowMode(zotero_mode, zotero_mode_win_title)
@@ -227,6 +228,10 @@ zoteroToggleModeWin() {
         zoteroShowMode()
 }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == zotero_mode_normal)
+    if WinActive("ahk_exe zotero.exe") and zotero_first_active {
+        zoteroShowMode()
+        zotero_first_active := false
+    }
     !e::Send "^+l"          ; focus library
     +k::
     +j::
@@ -357,6 +362,7 @@ zoteroToggleModeWin() {
 vscode_mode_insert := "VSCode: INSERT"
 vscode_mode_normal := "VSCode: NORMAL"
 vscode_mode := vscode_mode_normal
+vscode_first_active := true
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
     ztShowMode(vscode_mode, vscode_mode_win_title)
@@ -366,6 +372,10 @@ vscodeToggleModeWin() {
     ztToggleModeWin(vscode_mode_win_title, vscodeShowMode)
 }
 #HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == vscode_mode_normal)
+    if WinActive("ahk_exe Code.exe") and vscode_first_active {
+        vscodeShowMode()
+        vscode_first_active := false
+    }
     k:: Send "^{Up}"                                    ; scroll up
     u:: Send "{LCtrl Down}{Up 20}{LCtrl Up}"            ; scroll half-page up
     j:: Send "^{Down}"                                  ; scroll down
