@@ -110,8 +110,8 @@ zeit_reload(font:=FONT_MSYAHEI) {
 
     my_gui.SetFont("s14", font)
 
-    my_gui.Add("Button", "xs+83 w100 Center", "&Yes (M-y)").OnEvent("Click", func_reload)
-    my_gui.Add("Button", "x+40 w100 Center", "&No (M-n)").OnEvent("Click", func_cancel)
+    my_gui.Add("Button", "xs+83 w100 Center", "&Yes (y)").OnEvent("Click", func_reload)
+    my_gui.Add("Button", "x+40 w100 Center", "&No (n)").OnEvent("Click", func_cancel)
 
     func_reload(*) {
         Reload
