@@ -1,4 +1,4 @@
-﻿TraySetIcon "vim_style_arrows.ico"
+TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
 zeit_tooltip("Hello AHK!")
@@ -261,24 +261,20 @@ zotero_mode := "NORMAL"
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
-        WinActivate("ahk_exe zotero.exe")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
     }
     !n:: {
         global zotero_mode := "NORMAL"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
-        WinActivate("ahk_exe zotero.exe")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
     }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
     !n:: {
         global zotero_mode := "NORMAL"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
-        WinActivate("ahk_exe zotero.exe")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100")
-        WinActivate("ahk_exe zotero.exe")
+        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
     }
 #HotIf
 
