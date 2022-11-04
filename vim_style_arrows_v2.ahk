@@ -153,6 +153,13 @@ zeit_show_mode_win(mode, win_title) {
     zeit_tooltip(mode,-1,"Consolas",12,win_title,gui_args,show_args)
 }
 
+zeit_toggle_mode_win(win_title, show_mode_win_func) {
+    if WinExist(win_title)
+        WinClose(win_title)
+    else
+        show_mode_win_func()
+}
+
 ;; ====================================================================================
 ;; 音量调节 (Borrowed from https://www.cnblogs.com/hyaray/p/7507476.html)
 ;; ====================================================================================
@@ -346,6 +353,18 @@ zotero_toggle_mode_win() {
 ;; ====================================================================================
 ;; VSCode
 ;; ====================================================================================
+vscode_mode := "NORMAL"
+vscode_mode_win_title := "VSCode Mode"
+vscode_show_mode_win() {
+    zeit_show_mode_win(vscode_mode, vscode_mode_win_title)
+    WinActivate("ahk_exe Code.exe")
+}
+vscode_toggle_mode_win() {
+    zeit_toggle_mode_win(vscode_mode_win_title, vscode_show_mode_win)
+}
 #HotIf WinActive("ahk_exe Code.exe")
     !e::Send "^+e"                      ; goto file explorer panel
+    !q:: {
+        vscode_toggle_mode_win()
+    }
 #HotIf
