@@ -145,6 +145,14 @@ zeit_tooltip(
 }
 ;; --------------------------------------------------------------------------------
 
+zeit_show_mode_win(mode, win_title) {
+    x := A_ScreenWidth - 200
+    y := A_ScreenHeight - 160
+    gui_args := "+AlwaysOnTop +ToolWindow"
+    show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
+    zeit_tooltip(mode,-1,"Consolas",12,win_title,gui_args,show_args)
+}
+
 ;; ====================================================================================
 ;; 音量调节 (Borrowed from https://www.cnblogs.com/hyaray/p/7507476.html)
 ;; ====================================================================================
@@ -200,19 +208,15 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; ====================================================================================
 zotero_mode := "NORMAL"
 zotero_mode_win_title := "Zotero Mode"
-show_zotero_mode_win() {
-    x := A_ScreenWidth - 200
-    y := A_ScreenHeight - 160
-    gui_args := "+AlwaysOnTop +ToolWindow"
-    show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
-    zeit_tooltip(zotero_mode,-1,"Consolas",12,zotero_mode_win_title,gui_args,show_args)
+zotero_show_mode_win() {
+    zeit_show_mode_win(zotero_mode, zotero_mode_win_title)
     WinActivate("ahk_exe zotero.exe")
 }
-toggle_zotero_mode_win() {
+zotero_toggle_mode_win() {
     if WinExist(zotero_mode_win_title)
         WinClose(zotero_mode_win_title)
     else
-        show_zotero_mode_win()
+        zotero_show_mode_win()
 }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "NORMAL")
     !e::Send "^+l"          ; focus library
@@ -279,26 +283,26 @@ toggle_zotero_mode_win() {
     }
     !i:: {
         global zotero_mode := "INSERT"
-        show_zotero_mode_win()
+        zotero_show_mode_win()
     }
     !n:: {
         global zotero_mode := "NORMAL"
-        show_zotero_mode_win()
+        zotero_show_mode_win()
     }
     !q:: {
-        toggle_zotero_mode_win()
+        zotero_toggle_mode_win()
     }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
     !n:: {
         global zotero_mode := "NORMAL"
-        show_zotero_mode_win()
+        zotero_show_mode_win()
     }
     !i:: {
         global zotero_mode := "INSERT"
-        show_zotero_mode_win()
+        zotero_show_mode_win()
     }
     !q:: {
-        toggle_zotero_mode_win()
+        zotero_toggle_mode_win()
     }
 #HotIf
 
