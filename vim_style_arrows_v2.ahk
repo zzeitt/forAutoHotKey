@@ -1,4 +1,4 @@
-TraySetIcon "vim_style_arrows.ico"
+﻿TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
 ztToolTip("Hello AHK!")
@@ -295,6 +295,7 @@ zoteroToggleModeWin() {
             Send "+{F10}"
     }
     !i:: {
+        Click A_ScreenWidth//2, A_ScreenHeight//2
         global zotero_mode := zotero_mode_insert
         zoteroShowMode()
     }
@@ -388,6 +389,7 @@ vscodeToggleModeWin() {
 
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
+        Click A_ScreenWidth//2, A_ScreenHeight//2
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
     }
