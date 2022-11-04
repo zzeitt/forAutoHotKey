@@ -1,7 +1,7 @@
 ﻿TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
-zeit_tooltip("Hello AHK!")
+ztToolTip("Hello AHK!")
 
 ;; ====================================================================================
 ;; Global mappings
@@ -59,13 +59,13 @@ zeit_tooltip("Hello AHK!")
 
 #q::Send "^+{Esc}"                      ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
 ^!r::{                                  ; Ctrl+Alt+R                -> Reload AHK
-    zeit_reload()
+    ztReload()
 }
 
 ;; ====================================================================================
 ;; My Functions
 ;; ====================================================================================
-is_input(t_sleep:=50) {
+isInput(t_sleep:=50) {
     Sleep t_sleep  ; give function time to get pos
     if CaretGetPos(&x, &y) {
         return true
@@ -74,28 +74,28 @@ is_input(t_sleep:=50) {
     }
 }
 
-is_caps_on() {
+isCapsOn() {
     if GetKeyState("CapsLock", "T")
         return true
     else
         return false
 }
 
-swich_tab(my_hotkey){
+switchTab(my_hotkey){
     if (InStr(my_hotkey, "+k")) {
-        if !is_input()
+        if !isInput()
             Send "^{Tab}"  ; next tab
         else
             SendInput "K"
     } else if (InStr(my_hotkey, "+j")) {
-        if !is_input()
+        if !isInput()
             Send "^+{Tab}"  ; previouse tab
         else
             SendInput "J"
     }
 }
 
-zeit_reload(font:=FONT_MSYAHEI) {
+ztReload(font:=FONT_MSYAHEI) {
     my_gui := Gui()
     my_gui.OnEvent("Escape", func_cancel)
 
@@ -129,8 +129,8 @@ zeit_reload(font:=FONT_MSYAHEI) {
 
 ;; --------------------------------------------------------------------------------
 ;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
-zeit_tooltip(
-    msg, delay_ms:=600, font:=FONT_MSYAHEI, font_size:=16, title:="zeit_tooltip",
+ztToolTip(
+    msg, delay_ms:=600, font:=FONT_MSYAHEI, font_size:=16, title:="ztToolTip",
     gui_args:="+AlwaysOnTop -Caption +ToolWindow", show_args:="AutoSize Center") {
     if WinExist(title)
         WinClose(title)
@@ -145,15 +145,15 @@ zeit_tooltip(
 }
 ;; --------------------------------------------------------------------------------
 
-zeit_show_mode_win(mode, win_title) {
+ztShowMode(mode, win_title) {
     x := A_ScreenWidth - 200
     y := A_ScreenHeight - 160
     gui_args := "+AlwaysOnTop +ToolWindow"
     show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
-    zeit_tooltip(mode,-1,"Consolas",12,win_title,gui_args,show_args)
+    ztToolTip(mode,-1,"Consolas",12,win_title,gui_args,show_args)
 }
 
-zeit_toggle_mode_win(win_title, show_mode_win_func) {
+ztToggleModeWin(win_title, show_mode_win_func) {
     if WinExist(win_title)
         WinClose(win_title)
     else
@@ -174,10 +174,10 @@ zeit_toggle_mode_win(win_title, show_mode_win_func) {
 !F1:: {
     SoundSetMute -1
     mute_on_off := SoundGetMute()
-    If mute_on_off
-        zeit_tooltip("静音  ON")
-    Else
-        zeit_tooltip("静音  OFF")
+    if mute_on_off
+        ztToolTip("静音  ON")
+    else
+        ztToolTip("静音  OFF")
 }
 
 hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
@@ -187,20 +187,19 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
         Sound_Now := Round(Sound_Get) + n
         if (Sound_Now > 100) {
             SoundSetVolume 100
-            zeit_tooltip("音量 = 100")
-            Return
+            ztToolTip("音量 = 100")
+            return
         }
     } else {
         Sound_Now := Round(Sound_Get) - n
         If (Sound_Now < 0) {
             SoundSetVolume 0
-            zeit_tooltip("音量 = 0")
-            Return
+            ztToolTip("音量 = 0")
+            return
         }
     }
     SoundSetVolume Sound_Now
-    zeit_tooltip("音量 " . mode . " " . Sound_Now)
-    Return
+    ztToolTip("音量 " . mode . " " . Sound_Now)
 }
 
 ;; ====================================================================================
@@ -215,101 +214,101 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; ====================================================================================
 zotero_mode := "NORMAL"
 zotero_mode_win_title := "Zotero Mode"
-zotero_show_mode_win() {
-    zeit_show_mode_win(zotero_mode, zotero_mode_win_title)
+zoteroShowMode() {
+    ztShowMode(zotero_mode, zotero_mode_win_title)
     WinActivate("ahk_exe zotero.exe")
 }
-zotero_toggle_mode_win() {
+zoteroToggleModeWin() {
     if WinExist(zotero_mode_win_title)
         WinClose(zotero_mode_win_title)
     else
-        zotero_show_mode_win()
+        zoteroShowMode()
 }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "NORMAL")
     !e::Send "^+l"          ; focus library
     +k::
     +j::
     {
-        swich_tab(ThisHotKey)
+        switchTab(ThisHotKey)
     }
     +h::
     +l::
     {
         if InStr(ThisHotkey, "+h")
-            if !is_input()
+            if !isInput()
                 Send "!{Left}"
             else
                 SendInput "H"
         else if InStr(ThisHotKey, "+l")
-            if !is_input()
+            if !isInput()
                 Send "!{Right}"
             else
                 SendInput "L"
     }
     j:: {  ; scroll down
-        if !is_input()
+        if !isInput()
             Send "{Down}"
         else  ;; don't send original j/k to system, because j/k is hard-defined in zotero
-            if is_caps_on()
+            if isCapsOn()
                 SendInput "J"
             else
                 SendInput "j"
     }
     k:: { ; scroll up
-        if !is_input()
+        if !isInput()
             Send "{Up}"
         else
-            if is_caps_on()
+            if isCapsOn()
                 SendInput "K"
             else
                 SendInput "k"
     }
     ~h:: { ; left
-        if !is_input()
+        if !isInput()
             Send "{Left}"
     }
     ~l:: { ; right
-        if !is_input()
+        if !isInput()
             Send "{Right}"
     }
     ~u:: { ; scroll half-page up
-        if !is_input()
+        if !isInput()
             Send "{Up 9}"
     }
     ~d:: { ; scroll half-page down
-        if !is_input()
+        if !isInput()
             Send "{Down 9}"
     }
     ~/:: { ; find
-        if !is_input()
+        if !isInput()
             Send "^f"
     }
     ~a:: { ; SHIFT + F10
-        if !is_input()
+        if !isInput()
             Send "+{F10}"
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zotero_show_mode_win()
+        zoteroShowMode()
     }
     !n:: {
         global zotero_mode := "NORMAL"
-        zotero_show_mode_win()
+        zoteroShowMode()
     }
     !q:: {
-        zotero_toggle_mode_win()
+        zoteroToggleModeWin()
     }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
     !n:: {
         global zotero_mode := "NORMAL"
-        zotero_show_mode_win()
+        zoteroShowMode()
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zotero_show_mode_win()
+        zoteroShowMode()
     }
     !q:: {
-        zotero_toggle_mode_win()
+        zoteroToggleModeWin()
     }
 #HotIf
 
@@ -320,7 +319,7 @@ zotero_toggle_mode_win() {
     +k::
     +j::
     {
-        swich_tab(ThisHotKey)
+        switchTab(ThisHotKey)
     }
     !d::Send "{Down 9}"                 ; scroll half-page down
     !u::Send "{Up 9}"                   ; scroll half-page up
@@ -355,16 +354,16 @@ zotero_toggle_mode_win() {
 ;; ====================================================================================
 vscode_mode := "NORMAL"
 vscode_mode_win_title := "VSCode Mode"
-vscode_show_mode_win() {
-    zeit_show_mode_win(vscode_mode, vscode_mode_win_title)
+vscodeShowMode() {
+    ztShowMode(vscode_mode, vscode_mode_win_title)
     WinActivate("ahk_exe Code.exe")
 }
-vscode_toggle_mode_win() {
-    zeit_toggle_mode_win(vscode_mode_win_title, vscode_show_mode_win)
+vscodeToggleModeWin() {
+    ztToggleModeWin(vscode_mode_win_title, vscodeShowMode)
 }
 #HotIf WinActive("ahk_exe Code.exe")
     !e::Send "^+e"                      ; goto file explorer panel
     !q:: {
-        vscode_toggle_mode_win()
+        vscodeToggleModeWin()
     }
 #HotIf
