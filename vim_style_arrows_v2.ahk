@@ -131,7 +131,7 @@ ztReload(font:=FONT_MSYAHEI) {
 ;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
 ztToolTip(
     msg, delay_ms:=600, font:=FONT_MSYAHEI, font_size:=16, title:="ztToolTip",
-    gui_args:="+AlwaysOnTop -Caption +ToolWindow", show_args:="AutoSize Center") {
+    gui_args:="+AlwaysOnTop -Caption +ToolWindow", show_args:="AutoSize Center NoActivate") {
     if WinExist(title)
         WinClose(title)
     my_gui := Gui(gui_args, title)
