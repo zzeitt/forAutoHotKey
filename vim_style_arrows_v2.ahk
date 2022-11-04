@@ -1,4 +1,4 @@
-TraySetIcon "vim_style_arrows.ico"
+﻿TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
 zeit_tooltip("Hello AHK!")
@@ -199,6 +199,21 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; Zotero
 ;; ====================================================================================
 zotero_mode := "NORMAL"
+zotero_mode_win_title := "Zotero Mode"
+show_zotero_mode_win() {
+    x := A_ScreenWidth - 200
+    y := A_ScreenHeight - 160
+    gui_args := "+AlwaysOnTop +ToolWindow"
+    show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
+    zeit_tooltip(zotero_mode,-1,"Consolas",12,zotero_mode_win_title,gui_args,show_args)
+    WinActivate("ahk_exe zotero.exe")
+}
+toggle_zotero_mode_win() {
+    if WinExist(zotero_mode_win_title)
+        WinClose(zotero_mode_win_title)
+    else
+        show_zotero_mode_win()
+}
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "NORMAL")
     !e::Send "^+l"          ; focus library
     +k::
@@ -264,20 +279,26 @@ zotero_mode := "NORMAL"
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
+        show_zotero_mode_win()
     }
     !n:: {
         global zotero_mode := "NORMAL"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
+        show_zotero_mode_win()
+    }
+    !q:: {
+        toggle_zotero_mode_win()
     }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
     !n:: {
         global zotero_mode := "NORMAL"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
+        show_zotero_mode_win()
     }
     !i:: {
         global zotero_mode := "INSERT"
-        zeit_tooltip(zotero_mode,-1,,"xCenter y100 NoActivate")
+        show_zotero_mode_win()
+    }
+    !q:: {
+        toggle_zotero_mode_win()
     }
 #HotIf
 
