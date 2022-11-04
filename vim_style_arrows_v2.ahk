@@ -146,7 +146,7 @@ ztToolTip(
 ;; --------------------------------------------------------------------------------
 
 ztShowMode(mode, win_title) {
-    x := A_ScreenWidth - 200
+    x := A_ScreenWidth - 280
     y := A_ScreenHeight - 160
     gui_args := "+AlwaysOnTop +ToolWindow"
     show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
@@ -212,7 +212,9 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; ====================================================================================
 ;; Zotero
 ;; ====================================================================================
-zotero_mode := "NORMAL"
+zotero_mode_insert := "Zotero: INSERT"
+zotero_mode_normal := "Zotero: NORMAL"
+zotero_mode := zotero_mode_normal
 zotero_mode_win_title := "Zotero Mode"
 zoteroShowMode() {
     ztShowMode(zotero_mode, zotero_mode_win_title)
@@ -224,7 +226,7 @@ zoteroToggleModeWin() {
     else
         zoteroShowMode()
 }
-#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "NORMAL")
+#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == zotero_mode_normal)
     !e::Send "^+l"          ; focus library
     +k::
     +j::
@@ -288,23 +290,23 @@ zoteroToggleModeWin() {
             Send "+{F10}"
     }
     !i:: {
-        global zotero_mode := "INSERT"
+        global zotero_mode := zotero_mode_insert
         zoteroShowMode()
     }
     !n:: {
-        global zotero_mode := "NORMAL"
+        global zotero_mode := zotero_mode_normal
         zoteroShowMode()
     }
     !q:: {
         zoteroToggleModeWin()
     }
-#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == "INSERT")
+#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == zotero_mode_insert)
     !n:: {
-        global zotero_mode := "NORMAL"
+        global zotero_mode := zotero_mode_normal
         zoteroShowMode()
     }
     !i:: {
-        global zotero_mode := "INSERT"
+        global zotero_mode := zotero_mode_insert
         zoteroShowMode()
     }
     !q:: {
@@ -352,7 +354,9 @@ zoteroToggleModeWin() {
 ;; ====================================================================================
 ;; VSCode
 ;; ====================================================================================
-vscode_mode := "NORMAL"
+vscode_mode_insert := "VSCode: INSERT"
+vscode_mode_normal := "VSCode: NORMAL"
+vscode_mode := vscode_mode_normal
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
     ztShowMode(vscode_mode, vscode_mode_win_title)
@@ -361,7 +365,7 @@ vscodeShowMode() {
 vscodeToggleModeWin() {
     ztToggleModeWin(vscode_mode_win_title, vscodeShowMode)
 }
-#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == "NORMAL")
+#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == vscode_mode_normal)
     k:: Send "^{Up}"                                    ; scroll up
     u:: Send "{LCtrl Down}{Up 20}{LCtrl Up}"            ; scroll half-page up
     j:: Send "^{Down}"                                  ; scroll down
@@ -374,24 +378,24 @@ vscodeToggleModeWin() {
 
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
-        global vscode_mode := "INSERT"
+        global vscode_mode := vscode_mode_insert
         vscodeShowMode()
     }
     !n:: {
-        global vscode_mode := "NORMAL"
+        global vscode_mode := vscode_mode_normal
         vscodeShowMode()
     }
     !q:: {
         vscodeToggleModeWin()
     }
-#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == "INSERT")
+#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == vscode_mode_insert)
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
-        global vscode_mode := "INSERT"
+        global vscode_mode := vscode_mode_insert
         vscodeShowMode()
     }
     !n:: {
-        global vscode_mode := "NORMAL"
+        global vscode_mode := vscode_mode_normal
         vscodeShowMode()
     }
     !q:: {
