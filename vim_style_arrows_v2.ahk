@@ -129,16 +129,19 @@ zeit_reload(font:=FONT_MSYAHEI) {
 
 ;; --------------------------------------------------------------------------------
 ;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
-zeit_tooltip(msg, delay_ms:=600, font:=FONT_MSYAHEI, show_args:="AutoSize Center", title:="zeit_tooltip") {
+zeit_tooltip(
+    msg, delay_ms:=600, font:=FONT_MSYAHEI, font_size:=16, title:="zeit_tooltip",
+    gui_args:="+AlwaysOnTop -Caption +ToolWindow", show_args:="AutoSize Center") {
     if WinExist(title)
         WinClose(title)
-    my_gui := Gui("+AlwaysOnTop -Caption +ToolWindow", title)
+    my_gui := Gui(gui_args, title)
     ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
-    my_gui.SetFont("s16", font)
+    my_gui.SetFont("s" . font_size, font)
     my_gui.Add("Text", "Center", msg)
     my_gui.Show(show_args)
     if (delay_ms > 0)
         SetTimer(ObjBindMethod(my_gui, "Destroy"), -delay_ms)
+    return my_gui
 }
 ;; --------------------------------------------------------------------------------
 
