@@ -361,8 +361,39 @@ vscodeShowMode() {
 vscodeToggleModeWin() {
     ztToggleModeWin(vscode_mode_win_title, vscodeShowMode)
 }
-#HotIf WinActive("ahk_exe Code.exe")
-    !e::Send "^+e"                      ; goto file explorer panel
+#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == "NORMAL")
+    k:: Send "^{Up}"                                    ; scroll up
+    u:: Send "{LCtrl Down}{Up 20}{LCtrl Up}"            ; scroll half-page up
+    j:: Send "^{Down}"                                  ; scroll down
+    d:: Send "{LCtrl Down}{Down 20}{LCtrl Up}"          ; scroll half-page down
+    +j:: Send "!["                                      ; previous tab
+    +k:: Send "!]"                                      ; next tab
+    x:: Send "^w"                                       ; close tab
+    t:: Send "^t"                                       ; new tab
+    w:: Send "^s"                                       ; save
+
+    !e::Send "^+e"                                      ; goto file explorer panel
+    !i:: {
+        global vscode_mode := "INSERT"
+        vscodeShowMode()
+    }
+    !n:: {
+        global vscode_mode := "NORMAL"
+        vscodeShowMode()
+    }
+    !q:: {
+        vscodeToggleModeWin()
+    }
+#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == "INSERT")
+    !e::Send "^+e"                                      ; goto file explorer panel
+    !i:: {
+        global vscode_mode := "INSERT"
+        vscodeShowMode()
+    }
+    !n:: {
+        global vscode_mode := "NORMAL"
+        vscodeShowMode()
+    }
     !q:: {
         vscodeToggleModeWin()
     }
