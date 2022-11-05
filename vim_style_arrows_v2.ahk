@@ -71,6 +71,7 @@ ztToolTip("Hello AHK!")
     ztEdit()
 }
 
+
 ;; ====================================================================================
 ;; My Functions
 ;; ====================================================================================
@@ -249,6 +250,15 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; ====================================================================================
 ;; Zotero
 ;; ====================================================================================
+~#9:: {                                  ; WIN + 9                   -> run/min zotero
+    if !WinExist(zotero_title) {
+        Sleep 7000
+        zoteroShowMode() ; first open zotero
+    } else if !WinActive(zotero_title) {
+        Sleep 600
+        zoteroShowMode() ; reenter zotero
+    }
+}
 zotero_title := "ahk_exe zotero.exe"
 zotero_mode_insert := "Zotero: INSERT"
 zotero_mode_normal := "Zotero: NORMAL"
@@ -263,14 +273,13 @@ zoteroShowMode() {
 zoteroToggleModeWin() {
     ztToggleModeWin(zotero_mode_win_title, zoteroShowMode)
 }
-zoteroRegister() {
-    if WinActive(zotero_title) and zotero_first_active {
-        zoteroShowMode()
-        global zotero_first_active := false
-    }
+zoteroClose() {
+    if WinExist(zotero_mode_win_title)
+        WinClose(zotero_mode_win_title)
+    if WinExist(zotero_title)
+        WinClose(zotero_title)
 }
 #HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_normal)
-    zoteroRegister()
     !e::Send "^+l"          ; focus library
     +k::
     +j::
@@ -344,8 +353,10 @@ zoteroRegister() {
     !q:: {
         zoteroToggleModeWin()
     }
+    !8:: {
+        zoteroClose()
+    }
 #HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_insert)
-    zoteroRegister()
     !n:: {
         global zotero_mode := zotero_mode_normal
         zoteroShowMode()
@@ -356,6 +367,9 @@ zoteroRegister() {
     }
     !q:: {
         zoteroToggleModeWin()
+    }
+    !8:: {
+        zoteroClose()
     }
 #HotIf
 
@@ -399,11 +413,20 @@ zoteroRegister() {
 ;; ====================================================================================
 ;; VSCode
 ;; ====================================================================================
-vscode_title := "ahk_exe Code.exe"
+~#3:: {                                  ; WIN + 3                   -> run/min vscode
+    if !WinExist(vscode_title) {
+        Sleep 2500
+        vscodeShowMode() ; first open vscode
+    } else if !WinActive(vscode_title) {
+        Sleep 600
+        vscodeShowMode() ; reenter vscode
+    }
+}
+vscode_name := "Code.exe"
+vscode_title := Format("ahk_exe {1:s}", vscode_name)
 vscode_mode_insert := "VSCode: INSERT"
 vscode_mode_normal := "VSCode: NORMAL"
 vscode_mode := vscode_mode_insert
-vscode_first_active := true
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
     hwnd := WinActive(vscode_title)
@@ -413,14 +436,13 @@ vscodeShowMode() {
 vscodeToggleModeWin() {
     ztToggleModeWin(vscode_mode_win_title, vscodeShowMode)
 }
-vscodeRegister() {
-    if WinActive(vscode_title) and vscode_first_active {
-        vscodeShowMode()
-        global vscode_first_active := false
-    }
+vscodeClose() {
+    if WinExist(vscode_mode_win_title)
+        WinClose(vscode_mode_win_title)
+    if WinExist(vscode_title)
+        WinClose(vscode_title)
 }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
-    vscodeRegister()
     k:: Send "^{Up}"                                    ; scroll up
     u:: Send "{LCtrl Down}{Up 20}{LCtrl Up}"            ; scroll half-page up
     j:: Send "^{Down}"                                  ; scroll down
@@ -444,8 +466,10 @@ vscodeRegister() {
     !q:: {
         vscodeToggleModeWin()
     }
+    !8:: {
+        vscodeClose()
+    }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
-    vscodeRegister()
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
         global vscode_mode := vscode_mode_insert
@@ -457,5 +481,8 @@ vscodeRegister() {
     }
     !q:: {
         vscodeToggleModeWin()
+    }
+    !8:: {
+        vscodeClose()
     }
 #HotIf
