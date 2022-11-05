@@ -49,7 +49,7 @@ ztToolTip("Hello AHK!")
 !p::Send "^v"                           ; ALT + p                   -> Paste
 
 #HotIf !WinActive("ahk_exe emacs.exe")
-    !x::Send "^x"                           ; ALT + x                   -> Cut
+    !x::Send "^x"                       ; ALT + x                   -> Cut
 #HotIf
 
 !z::Send "^z"                           ; ALT + z                   -> Undo
@@ -58,13 +58,17 @@ ztToolTip("Hello AHK!")
 !/::Send "^f"                           ; ALT + /                   -> CTRL + F
 
 #HotIf !WinActive("ahk_exe msedge.exe")
-    !g::Send "^{Home}"                      ; ALT + G                   -> CTRL + HOME
-    !+g::Send "^{End}"                      ; ALT + SHIFT + G           -> CTRL + END
+    !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
+    !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
 
 #q::Send "^+{Esc}"                      ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
-^!r::{                                  ; Ctrl+Alt+R                -> Reload AHK
+^!r::{                                  ; CTRL + ALT + R            -> Reload AHK
     ztReload()
+}
+
+^!e::{                                  ; CTRL + ALT + E            -> Edit AHK
+    ztEdit()
 }
 
 ;; ====================================================================================
@@ -100,36 +104,62 @@ switchTab(my_hotkey){
     }
 }
 
-ztReload(font:=FONT_MSYAHEI) {
-    my_gui := Gui()
-    my_gui.OnEvent("Escape", func_cancel)
-
-    my_gui.SetFont("s16", font)
-    my_gui.Add("Text", "Center", "Sure to reload ")
-    
-    my_gui.SetFont("s16 bold italic", font)
-    my_gui.Add("Text", "x+0 BackgroundSilver", A_ScriptName)
-
-    my_gui.SetFont("s16 norm", font)
-    my_gui.Add("Text", "x+0", " ?")
-
-    my_gui.SetFont("s14", font)
-
-    my_gui.Add("Button", "xs+83 w100 Center", "&Yes (y)").OnEvent("Click", func_reload)
-    my_gui.Add("Button", "x+40 w100 Center", "&No (n)").OnEvent("Click", func_cancel)
-
-    func_reload(*) {
-        Reload
-    }
-
+ztDialog(
+    arr_q, func_yes, title:="ztDialog", btn_font:=FONT_MSYAHEI, btn_font_size:=14,
+    gui_args:="", show_args:="AutoSize Center") {
     func_cancel(*) {
         my_gui.Destroy()
     }
 
-    my_gui.Show("AutoSize Center")
-    ; x := y := w := h := 19
-    ; my_gui.GetClientPos(&x, &y, &w, &h)
-    ; ToolTip(x . " " . y . " " . w . " " . h . " " . my_gui.MarginX)
+    my_gui := Gui(gui_args, title)
+    my_gui.OnEvent("Escape", func_cancel)
+
+    for (q in arr_q) {
+        t := q[1]
+        f_style := q[2][1]
+        f_name := q[2][2]
+        t_style := q[2][3]
+        my_gui.SetFont(f_style, f_name)
+        my_gui.Add("Text", t_style, t)
+    }
+
+    my_gui.SetFont("norm s" btn_font_size, btn_font)
+    my_gui.Add("Button", "xs+83 w100 Center", "&Yes (y)").OnEvent("Click", func_yes)
+    my_gui.Add("Button", "x+40 w100 Center", "&No (n)").OnEvent("Click", func_cancel)
+
+    my_gui.Show(show_args)
+}
+
+ztEdit() {
+    title := "ztEdit"
+    font := FONT_MSYAHEI
+    font_size := 16
+    arr_q := [
+        ["Sure to edit ",    ["s" font_size, font, "Center"]],
+        [A_ScriptName,       ["bold italic s" font_size, font, "x+0 BackgroundSilver"]],
+        [" ?",               ["norm s" font_size, font, "x+0"]],
+    ]
+    func_yes(*) {
+        Edit
+        if WinExist(title)
+            WinClose(title)
+    }
+    ztDialog(arr_q, func_yes, title)
+}
+
+ztReload() {
+    title := "ztReload"
+    font := FONT_MSYAHEI
+    font_size := 16
+    arr_q := [
+        ["Sure to reload ", ["s" font_size, font, "Center"]],
+        [A_ScriptName,      ["bold italic s" font_size, font, "x+0 BackgroundSilver"]],
+        [" ?",              ["norm s" font_size, font, "x+0"]]
+    ]
+    func_yes(*) {
+        Reload
+    }
+    ztDialog(arr_q, func_yes, title)
 }
 
 ;; --------------------------------------------------------------------------------
