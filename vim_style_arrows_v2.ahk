@@ -1,4 +1,4 @@
-﻿;; ---------------------------------------------------------------------
+;; ---------------------------------------------------------------------
 ;; credit by @zeit
 ;; ---------------------------------------------------------------------
 
@@ -249,24 +249,28 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; ====================================================================================
 ;; Zotero
 ;; ====================================================================================
+zotero_title := "ahk_exe zotero.exe"
 zotero_mode_insert := "Zotero: INSERT"
 zotero_mode_normal := "Zotero: NORMAL"
 zotero_mode := zotero_mode_normal
 zotero_first_active := true
 zotero_mode_win_title := "Zotero Mode"
 zoteroShowMode() {
-    hwnd := WinActive("ahk_exe zotero.exe")
+    hwnd := WinActive(zotero_title)
     ztShowMode(zotero_mode, zotero_mode_win_title, hwnd)
-    WinActivate("ahk_exe zotero.exe")
+    WinActivate(zotero_title)
 }
 zoteroToggleModeWin() {
     ztToggleModeWin(zotero_mode_win_title, zoteroShowMode)
 }
-#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == zotero_mode_normal)
-    if WinActive("ahk_exe zotero.exe") and zotero_first_active {
+zoteroRegister() {
+    if WinActive(zotero_title) and zotero_first_active {
         zoteroShowMode()
-        zotero_first_active := false
+        global zotero_first_active := false
     }
+}
+#HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_normal)
+    zoteroRegister()
     !e::Send "^+l"          ; focus library
     +k::
     +j::
@@ -340,7 +344,8 @@ zoteroToggleModeWin() {
     !q:: {
         zoteroToggleModeWin()
     }
-#HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == zotero_mode_insert)
+#HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_insert)
+    zoteroRegister()
     !n:: {
         global zotero_mode := zotero_mode_normal
         zoteroShowMode()
@@ -394,24 +399,28 @@ zoteroToggleModeWin() {
 ;; ====================================================================================
 ;; VSCode
 ;; ====================================================================================
+vscode_title := "ahk_exe Code.exe"
 vscode_mode_insert := "VSCode: INSERT"
 vscode_mode_normal := "VSCode: NORMAL"
 vscode_mode := vscode_mode_insert
 vscode_first_active := true
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
-    hwnd := WinActive("ahk_exe Code.exe")
+    hwnd := WinActive(vscode_title)
     ztShowMode(vscode_mode, vscode_mode_win_title, hwnd)
-    WinActivate("ahk_exe Code.exe")
+    WinActivate(vscode_title)
 }
 vscodeToggleModeWin() {
     ztToggleModeWin(vscode_mode_win_title, vscodeShowMode)
 }
-#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == vscode_mode_normal)
-    if WinActive("ahk_exe Code.exe") and vscode_first_active {
+vscodeRegister() {
+    if WinActive(vscode_title) and vscode_first_active {
         vscodeShowMode()
-        vscode_first_active := false
+        global vscode_first_active := false
     }
+}
+#HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
+    vscodeRegister()
     k:: Send "^{Up}"                                    ; scroll up
     u:: Send "{LCtrl Down}{Up 20}{LCtrl Up}"            ; scroll half-page up
     j:: Send "^{Down}"                                  ; scroll down
@@ -421,6 +430,7 @@ vscodeToggleModeWin() {
     x:: Send "^w"                                       ; close tab
     t:: Send "^t"                                       ; new tab
     w:: Send "^s"                                       ; save
+    o:: Click A_ScreenWidth//2, A_ScreenHeight //2      ; click the centers
 
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
@@ -434,7 +444,8 @@ vscodeToggleModeWin() {
     !q:: {
         vscodeToggleModeWin()
     }
-#HotIf WinActive("ahk_exe Code.exe") and (vscode_mode == vscode_mode_insert)
+#HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
+    vscodeRegister()
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
         global vscode_mode := vscode_mode_insert
