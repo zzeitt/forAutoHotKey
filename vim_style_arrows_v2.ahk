@@ -1,4 +1,4 @@
-﻿TraySetIcon "vim_style_arrows.ico"
+TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
 ztToolTip("Hello AHK!")
@@ -130,10 +130,12 @@ ztReload(font:=FONT_MSYAHEI) {
 ;; --------------------------------------------------------------------------------
 ;; Borrowed from https://github.com/4strid/mouse-control.autohotkey
 ztToolTip(
-    msg, delay_ms:=600, font:=FONT_MSYAHEI, font_size:=16, title:="ztToolTip",
+    msg, delay_ms:=600, font:=FONT_MSYAHEI, font_size:=16, title:="ztToolTip", owner:="",
     gui_args:="+AlwaysOnTop -Caption +ToolWindow", show_args:="AutoSize Center NoActivate") {
     if WinExist(title)
         WinClose(title)
+    if (owner!="")
+        gui_args := Format("{1:s} +Owner{2:s}", gui_args, owner)
     my_gui := Gui(gui_args, title)
     ; https://lexikos.github.io/v2/docs/objects/Gui.htm#ExOSD
     my_gui.SetFont("s" . font_size, font)
@@ -145,19 +147,19 @@ ztToolTip(
 }
 ;; --------------------------------------------------------------------------------
 
-ztShowMode(mode, win_title) {
+ztShowMode(mode, win_title, hwnd_owner) {
     x := A_ScreenWidth - 280
     y := A_ScreenHeight - 160
-    gui_args := "+AlwaysOnTop +ToolWindow"
+    gui_args := "+ToolWindow"
     show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
-    ztToolTip(mode,-1,"Consolas",12,win_title,gui_args,show_args)
+    ztToolTip(mode,-1,"Consolas",12,win_title,hwnd_owner,gui_args,show_args)
 }
 
-ztToggleModeWin(win_title, show_mode_win_func) {
+ztToggleModeWin(win_title, func_showModeWin) {
     if WinExist(win_title)
         WinClose(win_title)
     else
-        show_mode_win_func()
+        func_showModeWin()
 }
 
 ;; ====================================================================================
@@ -218,14 +220,12 @@ zotero_mode := zotero_mode_normal
 zotero_first_active := true
 zotero_mode_win_title := "Zotero Mode"
 zoteroShowMode() {
-    ztShowMode(zotero_mode, zotero_mode_win_title)
+    hwnd := WinActive("ahk_exe zotero.exe")
+    ztShowMode(zotero_mode, zotero_mode_win_title, hwnd)
     WinActivate("ahk_exe zotero.exe")
 }
 zoteroToggleModeWin() {
-    if WinExist(zotero_mode_win_title)
-        WinClose(zotero_mode_win_title)
-    else
-        zoteroShowMode()
+    ztToggleModeWin(zotero_mode_win_title, zoteroShowMode)
 }
 #HotIf WinActive("ahk_exe zotero.exe") and (zotero_mode == zotero_mode_normal)
     if WinActive("ahk_exe zotero.exe") and zotero_first_active {
@@ -366,7 +366,8 @@ vscode_mode := vscode_mode_normal
 vscode_first_active := true
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
-    ztShowMode(vscode_mode, vscode_mode_win_title)
+    hwnd := WinActive("ahk_exe Code.exe")
+    ztShowMode(vscode_mode, vscode_mode_win_title, hwnd)
     WinActivate("ahk_exe Code.exe")
 }
 vscodeToggleModeWin() {
