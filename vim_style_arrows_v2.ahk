@@ -1,3 +1,8 @@
+﻿;; ---------------------------------------------------------------------
+;; credit by @zeit
+;; ---------------------------------------------------------------------
+
+
 TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
@@ -295,7 +300,6 @@ zoteroToggleModeWin() {
             Send "+{F10}"
     }
     !i:: {
-        Click A_ScreenWidth//2, A_ScreenHeight//2
         global zotero_mode := zotero_mode_insert
         zoteroShowMode()
     }
@@ -362,7 +366,7 @@ zoteroToggleModeWin() {
 ;; ====================================================================================
 vscode_mode_insert := "VSCode: INSERT"
 vscode_mode_normal := "VSCode: NORMAL"
-vscode_mode := vscode_mode_normal
+vscode_mode := vscode_mode_insert
 vscode_first_active := true
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
@@ -390,7 +394,6 @@ vscodeToggleModeWin() {
 
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
-        Click A_ScreenWidth//2, A_ScreenHeight//2
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
     }
