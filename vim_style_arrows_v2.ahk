@@ -453,6 +453,7 @@ vscodeClose() {
     t:: Send "^t"                                       ; new tab
     w:: Send "^s"                                       ; save
     o:: Click A_ScreenWidth//2, A_ScreenHeight //2      ; click the centers
+    /:: Send "^f"                                       ; find
 
     !e::Send "^+e"                                      ; goto file explorer panel
     !i:: {
