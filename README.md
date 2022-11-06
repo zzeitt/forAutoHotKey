@@ -1,9 +1,18 @@
-# My AutoHotKey Scripts
+# My AutoHotKey Script(s)
 
+## Warning
 
-### `vim_style_arrows_v2.ahk`
-<p align="left"><img src="vim_style_arrows.ico" alt="teaser" height=50px/></p>
+**DO NOT** run the script directly since there are so many predefined settings hard-coded inside the script.
 
-Borrowed from others, fused for my personal use.
+## About
+script name: `vim_style_arrows_v2.ahk`
+script icon: <p align="left"><img src="vim_style_arrows.ico" alt="teaser" height=50px/></p>
 
-Got addicted to vim-like keymappings. Especially `<kbd>J</kbd>`&`<kbd>K</kbd>` for swiching tabs.
+motivation: Got addicted to vim-like keymappings. Especially `J`&`K` for swiching tabs. Some codes are fused for my personal use.
+
+## Features
+
+### vim-style arrows
+global
+### vimium-style controls
+vscode, zotero
