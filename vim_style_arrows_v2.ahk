@@ -60,7 +60,7 @@ ztToolTip("Hello AHK!")
 !8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
 !/::Send "^f"                           ; ALT + /                   -> CTRL + F
 
-#HotIf !WinActive("ahk_exe msedge.exe")
+#HotIf !WinActive("ahk_exe msedge.exe") and !WinActive(vscode_title)
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
@@ -447,19 +447,22 @@ vscodeClose() {
         WinClose(vscode_title)
 }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
-    k:: Send "^{Up}"                                    ; scroll up
-    u:: Send "{LCtrl Down}{Up 20}{LCtrl Up}"            ; scroll half-page up
-    j:: Send "^{Down}"                                  ; scroll down
-    d:: Send "{LCtrl Down}{Down 20}{LCtrl Up}"          ; scroll half-page down
-    +j:: Send "!["                                      ; previous tab
-    +k:: Send "!]"                                      ; next tab
-    x:: Send "^w"                                       ; close tab
-    t:: Send "^n"                                       ; new tab
-    w:: Send "^s"                                       ; save
-    o:: Click A_ScreenWidth//2, A_ScreenHeight //2      ; click the centers
-    /:: Send "^f"                                       ; find
+    k::Send "^{Up}"                                     ; scroll up
+    u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"             ; scroll half-page up
+    j::Send "^{Down}"                                   ; scroll down
+    d::Send "{LCtrl Down}{Down 20}{LCtrl Up}"           ; scroll half-page down
+    +j::Send "!["                                       ; previous tab
+    +k::Send "!]"                                       ; next tab
+    x::Send "^w"                                        ; close tab
+    t::Send "^n"                                        ; new tab
+    w::Send "^s"                                        ; save
+    o::Click A_ScreenWidth//2, A_ScreenHeight //2       ; click the centers
+    /::Send "^f"                                        ; find
+    g::Send "^{Home}"                                   ; goto top
+    +g::Send "^{End}"                                   ; goto bottom
 
     !e::Send "^+e"                                      ; goto file explorer panel
+    !g::Send "^+g"                                      ; goto git panel
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
@@ -476,6 +479,7 @@ vscodeClose() {
     }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
     !e::Send "^+e"                                      ; goto file explorer panel
+    !g::Send "^+g"                                      ; goto git panel
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
