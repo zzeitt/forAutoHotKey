@@ -61,7 +61,7 @@ ztToolTip("Hello AHK!")
 !8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
 !/::Send "^f"                           ; ALT + /                   -> CTRL + F
 
-#HotIf !WinActive("ahk_exe msedge.exe") and !WinActive(vscode_title)
+#HotIf !WinActive("ahk_exe msedge.exe")
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
@@ -462,7 +462,7 @@ vscodeClose() {
     +g::Send "^{End}"                                   ; goto bottom
 
     !e::Send "^+e"                                      ; goto file explorer panel
-    !g::Send "^+g"                                      ; goto git panel
+    ^!g::Send "^+g"                                     ; goto git panel
     !o::Send "{End}{Enter}"                             ; new line below
     !+o::Send "{Home}{Enter}{Up}"                       ; new line above
     !,::Send "^!{Left}"                                 ; move editor to previous group
@@ -483,7 +483,7 @@ vscodeClose() {
     }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
     !e::Send "^+e"                                      ; goto file explorer panel
-    !g::Send "^+g"                                      ; goto git panel
+    ^!g::Send "^+g"                                     ; goto git panel
     !o::Send "{End}{Enter}"                             ; new line below
     !+o::Send "{Home}{Enter}{Up}"                       ; new line above
     !,::Send "^!{Left}"                                 ; move editor to previous group
