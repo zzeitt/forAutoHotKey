@@ -38,7 +38,7 @@ ztToolTip("Hello AHK!")
 !+BackSpace::Send "^{BS}"           ; ALT + SHIFT + BS   ->    CTRL + DELETE                    (Backspace one word)
 ^!BackSpace::Send "^{Right}^{BS}"   ; CTRL + ALT + BS    ->    CTRL+RIGHT+CTRL+DELETE           (Delete one word)
 
-!v::Send "{End}+{Home}"             ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
+!v::Send "{Home}+{End}"             ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
 !a::Send "^{Left}^+{Right}"         ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
 
 ;; --------------------------------------------------------------------------------------------------
@@ -447,28 +447,28 @@ vscodeClose() {
         WinClose(vscode_title)
 }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
-    k::Send "^{Up}"                                     ; scroll up
-    u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"             ; scroll half-page up
-    j::Send "^{Down}"                                   ; scroll down
-    d::Send "{LCtrl Down}{Down 20}{LCtrl Up}"           ; scroll half-page down
-    +j::Send "!["                                       ; previous tab
-    +k::Send "!]"                                       ; next tab
-    x::Send "^w"                                        ; close tab
-    t::Send "^n"                                        ; new tab
-    w::Send "^s"                                        ; save
-    o::Click A_ScreenWidth//2, A_ScreenHeight //2       ; click the centers
-    /::Send "^f"                                        ; find
-    g::Send "^{Home}"                                   ; goto top
-    +g::Send "^{End}"                                   ; goto bottom
+    k::Send "^{Up}"                                                         ; scroll up
+    u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"                                 ; scroll half-page up
+    j::Send "^{Down}"                                                       ; scroll down
+    d::Send "{LCtrl Down}{Down 20}{LCtrl Up}"                               ; scroll half-page down
+    +j::Send "!["                                                           ; previous tab
+    +k::Send "!]"                                                           ; next tab
+    x::Send "^w"                                                            ; close tab
+    t::Send "^n"                                                            ; new tab
+    w::Send "^s"                                                            ; save
+    o::Click A_ScreenWidth//2, A_ScreenHeight //2                           ; click the centers
+    /::Send "^f"                                                            ; find
+    g::Send "^{Home}"                                                       ; goto top
+    +g::Send "^{End}"                                                       ; goto bottom
 
-    !e::Send "^+e"                                      ; goto file explorer panel
-    ^!g::Send "^+g"                                     ; goto git panel
-    !o::Send "{End}{Enter}"                             ; new line below
-    !+o::Send "{Home}{Enter}{Up}"                       ; new line above
-    !,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"     ; move editor left
-    !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"     ; move editor right
-    !+,::Send "^!{Left}"                                                 ; move editor to previous group
-    !+.::Send "^!{Right}"                                                ; move editor to next group
+    !e::Send "^+e"                                                          ; goto file explorer panel
+    ^!g::Send "^+g"                                                         ; goto git panel
+    !o::Send "{End}{Enter}"                                                 ; new line below
+    !+o::Send "{Home}{Enter}{Up}"                                           ; new line above
+    !,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"         ; move editor left
+    !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"         ; move editor right
+    !+,::Send "^!{Left}"                                                    ; move editor to previous group
+    !+.::Send "^!{Right}"                                                   ; move editor to next group
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
@@ -484,14 +484,14 @@ vscodeClose() {
         vscodeClose()
     }
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
-    !e::Send "^+e"                                                      ; goto file explorer panel
-    ^!g::Send "^+g"                                                     ; goto git panel
-    !o::Send "{End}{Enter}"                                             ; new line below
-    !+o::Send "{Home}{Enter}{Up}"                                       ; new line above
-    !,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"     ; move editor left
-    !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"     ; move editor right
-    !+,::Send "^!{Left}"                                                 ; move editor to previous group
-    !+.::Send "^!{Right}"                                                ; move editor to next group
+    !e::Send "^+e"                                                          ; goto file explorer panel
+    ^!g::Send "^+g"                                                         ; goto git panel
+    !o::Send "{End}{Enter}"                                                 ; new line below
+    !+o::Send "{Home}{Enter}{Up}"                                           ; new line above
+    !,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"         ; move editor left
+    !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"         ; move editor right
+    !+,::Send "^!{Left}"                                                    ; move editor to previous group
+    !+.::Send "^!{Right}"                                                   ; move editor to next group
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
