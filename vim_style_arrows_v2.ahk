@@ -464,6 +464,7 @@ vscodeClose() {
     !e::Send "^+e"                                      ; goto file explorer panel
     !g::Send "^+g"                                      ; goto git panel
     !o::Send "{End}{Enter}"                             ; new line below
+    !+o::Send "{Home}{Enter}{Up}"                       ; new line above
     !,::Send "^!{Left}"                                 ; move editor to previous group
     !.::Send "^!{Right}"                                ; move editor to next group
     !i:: {
@@ -484,6 +485,7 @@ vscodeClose() {
     !e::Send "^+e"                                      ; goto file explorer panel
     !g::Send "^+g"                                      ; goto git panel
     !o::Send "{End}{Enter}"                             ; new line below
+    !+o::Send "{Home}{Enter}{Up}"                       ; new line above
     !,::Send "^!{Left}"                                 ; move editor to previous group
     !.::Send "^!{Right}"                                ; move editor to next group
     !i:: {
