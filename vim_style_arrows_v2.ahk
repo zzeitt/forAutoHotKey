@@ -463,6 +463,7 @@ vscodeClose() {
 
     !e::Send "^+e"                                      ; goto file explorer panel
     !g::Send "^+g"                                      ; goto git panel
+    !o::Send "{End}{Enter}"                             ; new line below
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
@@ -480,6 +481,7 @@ vscodeClose() {
 #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
     !e::Send "^+e"                                      ; goto file explorer panel
     !g::Send "^+g"                                      ; goto git panel
+    !o::Send "{End}{Enter}"                             ; new line below
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
