@@ -2,7 +2,7 @@
 ;; credit by @zeit
 ;; ---------------------------------------------------------------------
 
-
+A_MenuMaskKey := "vkE8"  ; Change the masking key to something unassigned such as vkE8.
 TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
 
