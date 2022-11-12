@@ -10,7 +10,7 @@ ztToolTip("Hello AHK!")
 
 ;; ====================================================================================
 ;; Global mappings
-;; ====================================================================================
+j;; ====================================================================================
 
 !h::Send "{Left}"                   ; ALT + h            ->    Left                             (Cursor left one character)
 !b::Send "^{Left}"                  ; ALT + b            ->    CTRL + Left                      (Cursor left per word)
@@ -39,7 +39,7 @@ ztToolTip("Hello AHK!")
 ^!BackSpace::Send "^{Right}^{BS}"   ; CTRL + ALT + BS    ->    CTRL+RIGHT+CTRL+DELETE           (Delete one word)
 
 !v::Send "{Home}+{End}"             ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
-!a::Send "^{Left}^+{Right}"         ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
+!a::Send "^{Right}^+{Left}"         ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
 
 ;; --------------------------------------------------------------------------------------------------
 ;; Modified by @zeit
