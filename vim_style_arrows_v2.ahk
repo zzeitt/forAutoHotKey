@@ -59,7 +59,6 @@ ztToolTip("Hello AHK!")
 !z::Send "^z"                           ; ALT + z                   -> Undo
 !;::Send "{Esc}"                        ; ALT + ;                   -> Esc
 !8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
-!/::Send "^f"                           ; ALT + /                   -> CTRL + F
 
 #HotIf !WinActive("ahk_exe msedge.exe")
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
