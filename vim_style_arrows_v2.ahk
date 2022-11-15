@@ -468,6 +468,7 @@ vscodeClose() {
     !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"         ; move editor right
     !+,::Send "^!{Left}"                                                    ; move editor to previous group
     !+.::Send "^!{Right}"                                                   ; move editor to next group
+    !f::Send "^f"                                                           ; find
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
@@ -491,6 +492,7 @@ vscodeClose() {
     !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"         ; move editor right
     !+,::Send "^!{Left}"                                                    ; move editor to previous group
     !+.::Send "^!{Right}"                                                   ; move editor to next group
+    !f::Send "^f"                                                           ; find
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
