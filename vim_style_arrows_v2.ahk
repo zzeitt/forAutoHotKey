@@ -469,6 +469,7 @@ vscodeClose() {
     !+,::Send "^!{Left}"                                                    ; move editor to previous group
     !+.::Send "^!{Right}"                                                   ; move editor to next group
     !f::Send "^f"                                                           ; find
+    !r::Send "^y"                                                           ; redo
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
@@ -493,6 +494,7 @@ vscodeClose() {
     !+,::Send "^!{Left}"                                                    ; move editor to previous group
     !+.::Send "^!{Right}"                                                   ; move editor to next group
     !f::Send "^f"                                                           ; find
+    !r::Send "^y"                                                           ; redo
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
