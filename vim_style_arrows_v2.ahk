@@ -470,6 +470,8 @@ vscodeClose() {
     !+.::Send "^!{Right}"                                                   ; move editor to next group
     !f::Send "^f"                                                           ; find
     !r::Send "^y"                                                           ; redo
+    !d::Send "{Down 18}"                                                    ; half page down
+    !u::Send "{Up 18}"                                                      ; half page up
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
@@ -495,6 +497,8 @@ vscodeClose() {
     !+.::Send "^!{Right}"                                                   ; move editor to next group
     !f::Send "^f"                                                           ; find
     !r::Send "^y"                                                           ; redo
+    !d::Send "{Down 18}"                                                    ; half page down
+    !u::Send "{Up 18}"                                                      ; half page up
     !i:: {
         global vscode_mode := vscode_mode_insert
         vscodeShowMode()
