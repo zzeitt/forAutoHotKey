@@ -450,8 +450,8 @@ vscodeClose() {
     u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"                                 ; scroll half-page up
     j::Send "^{Down}"                                                       ; scroll down
     d::Send "{LCtrl Down}{Down 20}{LCtrl Up}"                               ; scroll half-page down
-    +j::Send "!["                                                           ; previous tab
-    +k::Send "!]"                                                           ; next tab
+    +j::Send "!-"                                                           ; previous tab
+    +k::Send "!="                                                           ; next tab
     x::Send "^w"                                                            ; close tab
     t::Send "^n"                                                            ; new tab
     w::Send "^s"                                                            ; save
