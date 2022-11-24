@@ -418,7 +418,7 @@ zoteroClose() {
 ;; ====================================================================================
 ~#3:: {                                  ; WIN + 3                   -> run/min vscode
     if !WinExist(vscode_title) {
-        Sleep 2500
+        Sleep 7000
         vscodeShowMode() ; first open vscode
     } else if !WinActive(vscode_title) {
         Sleep 600
