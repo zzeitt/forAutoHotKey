@@ -345,6 +345,9 @@ zoteroClose() {
         if !isInput()
             Send "+{F10}"
     }
+    x::Send "^w"                                                            ; close tab
+
+
     !i:: {
         global zotero_mode := zotero_mode_insert
         zoteroShowMode()
