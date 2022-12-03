@@ -49,6 +49,8 @@ ztToolTip("Hello AHK!")
 !^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + m            -> Home + Down
 #+h::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
 #+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
+#^h::Send "#^{Left}"                    ; WIN + CTRL + h            -> WIN + CTRL + Left
+#^l::Send "#^{Right}"                   ; WIN + CTRL + l            -> WIN + CTRL + Right
 !y::Send "^c"                           ; ALT + y                   -> Copy
 !p::Send "^v"                           ; ALT + p                   -> Paste
 
