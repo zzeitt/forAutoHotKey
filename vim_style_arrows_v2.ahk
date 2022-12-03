@@ -12,34 +12,34 @@ ztToolTip("Hello AHK!")
 ;; Global mappings
 ;; ====================================================================================
 
-!h::Send "{Left}"                   ; ALT + h            ->    Left                             (Cursor left one character)
-!b::Send "^{Left}"                  ; ALT + b            ->    CTRL + Left                      (Cursor left per word)
-!+h::Send "+{Left}"                 ; ALT + SHIFT + h    ->    SHIFT + Left                     (Select one character)
-!+b::Send "+^{Left}"                ; ALT + SHIFT + b    ->    SHIFT + CTRL + Left              (Select per word)
+!h::Send "{Left}"                           ; ALT + h            ->    Left                             (Cursor left one character)
+!b::Send "^{Left}"                          ; ALT + b            ->    CTRL + Left                      (Cursor left per word)
+!+h::Send "+{Left}"                         ; ALT + SHIFT + h    ->    SHIFT + Left                     (Select one character)
+!+b::Send "+^{Left}"                        ; ALT + SHIFT + b    ->    SHIFT + CTRL + Left              (Select per word)
 
-!l::Send "{Right}"                  ; ALT + l            ->    Right                            (Cursor right one character)
-!w::Send "^{Right}"                 ; ALT + w            ->    CTRL + Right                     (Cursor right per word)
-!+l::Send "+{Right}"                ; ALT + SHIFT + l    ->    SHIFT + Right                    (Select one character)
-!+w::Send "+^{Right}"               ; ALT + SHIFT + W    ->    SHIFT + CTRL + Right             (Select per word)
+!l::Send "{Right}"                          ; ALT + l            ->    Right                            (Cursor right one character)
+!w::Send "^{Right}"                         ; ALT + w            ->    CTRL + Right                     (Cursor right per word)
+!+l::Send "+{Right}"                        ; ALT + SHIFT + l    ->    SHIFT + Right                    (Select one character)
+!+w::Send "+^{Right}"                       ; ALT + SHIFT + W    ->    SHIFT + CTRL + Right             (Select per word)
 
-!k::Send "{Up}"                     ; ALT + k            ->    Up                               (Cursor up line)
-!+k::Send "+{Up}"                   ; ALT + SHIFT + k    ->    SHIFT + Up                       (Select one line)
+!k::Send "{Up}"                             ; ALT + k            ->    Up                               (Cursor up line)
+!+k::Send "+{Up}"                           ; ALT + SHIFT + k    ->    SHIFT + Up                       (Select one line)
 
-!j::Send "{Down}"                   ; ALT + j            ->    Left                             (Cursor down line)
-!+j::Send "+{Down}"                 ; ALT + SHIFT + j    ->    SHIFT + Left                     (Select one line)
+!j::Send "{Down}"                           ; ALT + j            ->    Left                             (Cursor down line)
+!+j::Send "+{Down}"                         ; ALT + SHIFT + j    ->    SHIFT + Left                     (Select one line)
 
-!0::Send "{Home}"                   ; ALT + a            ->    Home                             (Cursor to beginning of line)
-!+0::Send "+{Home}"                 ; ALT + SHIFT + a    ->    SHIFT + Home                     (Select to beginning of line)
+!0::Send "{Home}"                           ; ALT + a            ->    Home                             (Cursor to beginning of line)
+!+0::Send "+{Home}"                         ; ALT + SHIFT + a    ->    SHIFT + Home                     (Select to beginning of line)
 
-!4::Send "{End}"                    ; ALT + f            ->    End                              (Cursor to end of line)
-!+4::Send "+{End}"                  ; ALT + SHIFT + f    ->    SHIFT + End                      (Select to end of line)
+!4::Send "{End}"                            ; ALT + f            ->    End                              (Cursor to end of line)
+!+4::Send "+{End}"                          ; ALT + SHIFT + f    ->    SHIFT + End                      (Select to end of line)
 
-!BackSpace::Send "{Del}"            ; ALT + m            ->    DEL                              (Delete one character)
-!+BackSpace::Send "^{BS}"           ; ALT + SHIFT + BS   ->    CTRL + DELETE                    (Backspace one word)
-^!BackSpace::Send "^{Right}^{BS}"   ; CTRL + ALT + BS    ->    CTRL+RIGHT+CTRL+DELETE           (Delete one word)
+!BackSpace::Send "{Del}"                    ; ALT + m            ->    DEL                              (Delete one character)
+!+BackSpace::Send "^{BS}"                   ; ALT + SHIFT + BS   ->    CTRL + DELETE                    (Backspace one word)
+^!BackSpace::Send "^{Right}^{Left}^{BS}"    ; CTRL + ALT + BS    ->    CTRL+RIGHT+CTRL+LEFT+CTRL+DELETE (Delete one word)
 
-!v::Send "{Home}+{End}"             ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
-!a::Send "^{Right}^+{Left}"         ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
+!v::Send "{Home}+{End}"                     ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
+!a::Send "^{Right}^+{Left}"                 ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
 
 ;; --------------------------------------------------------------------------------------------------
 ;; Modified by @zeit
