@@ -271,7 +271,7 @@ zotero_mode := zotero_mode_normal
 zotero_first_active := true ; actually doesn't work, reopen after close will lose mode_win
 zotero_mode_win_title := "Zotero Mode"
 zoteroShowMode() {
-    hwnd := WinActive(zotero_title)
+    hwnd := WinExist(zotero_title)
     ztShowMode(zotero_mode, zotero_mode_win_title, hwnd)
     WinActivate(zotero_title)
 }
@@ -423,7 +423,7 @@ zoteroClose() {
 ;; ====================================================================================
 ~#3:: {                                  ; WIN + 3                   -> run/min vscode
     if !WinExist(vscode_title) {
-        Sleep 48000
+        Sleep 10000
         vscodeShowMode() ; first open vscode
     } else if !WinActive(vscode_title) {
         Sleep 600
@@ -437,7 +437,7 @@ vscode_mode_normal := "VSCode: NORMAL"
 vscode_mode := vscode_mode_insert
 vscode_mode_win_title := "VSCode Mode"
 vscodeShowMode() {
-    hwnd := WinActive(vscode_title)
+    hwnd := WinExist(vscode_title)
     ztShowMode(vscode_mode, vscode_mode_win_title, hwnd)
     WinActivate(vscode_title)
 }
