@@ -218,9 +218,9 @@ ztToggleModeWin(win_title, func_showModeWin) {
     SoundSetMute -1
     mute_on_off := SoundGetMute()
     if mute_on_off
-        ztToolTip("静音  ON")
+        ztToolTip("静音  🔇")
     else
-        ztToolTip("静音  OFF")
+        ztToolTip("开启声音  🔉")
 }
 
 hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
