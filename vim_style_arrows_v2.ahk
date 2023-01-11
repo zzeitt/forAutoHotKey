@@ -36,7 +36,7 @@ ztToolTip("Hello AHK!")
 
 !BackSpace::Send "{Del}"                    ; ALT + m            ->    DEL                              (Delete one character)
 !+BackSpace::Send "^{BS}"                   ; ALT + SHIFT + BS   ->    CTRL + DELETE                    (Backspace one word)
-^!BackSpace::Send "^{Right}^{Left}^{BS}"    ; CTRL + ALT + BS    ->    CTRL+RIGHT+CTRL+LEFT+CTRL+DELETE (Delete one word)
+^!BackSpace::Send "^{Right}^{BS}"           ; CTRL + ALT + BS    ->    CTRL+RIGHT+CTRL+LEFT+CTRL+DELETE (Delete one word)
 
 !v::Send "{Home}+{End}"                     ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
 !a::Send "^{Right}^+{Left}"                 ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
