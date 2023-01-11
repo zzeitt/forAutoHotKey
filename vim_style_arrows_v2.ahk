@@ -41,6 +41,9 @@ ztToolTip("Hello AHK!")
 !v::Send "{Home}+{End}"                     ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
 !a::Send "^{Right}^+{Left}"                 ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
 
+#w::Send "#5"                               ; WIN + w            ->    WIN + 5                          (Toggle Wechat "微信")
+#y::Send "#6"                               ; WIN + y            ->    WIN + 6                          (Toggle "网易云")
+
 ;; --------------------------------------------------------------------------------------------------
 ;; Modified by @zeit
 !^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + n            -> Home + Left
