@@ -11,7 +11,7 @@ ztToolTip("Hello AHK!")
 ;; ====================================================================================
 ;; Global mappings
 ;; ====================================================================================
-
+;; ----------------------------- Text Editing -----------------------------------------
 !h::Send "{Left}"                           ; ALT + h            ->    Left                             (Cursor left one character)
 !b::Send "^{Left}"                          ; ALT + b            ->    CTRL + Left                      (Cursor left per word)
 !+h::Send "+{Left}"                         ; ALT + SHIFT + h    ->    SHIFT + Left                     (Select one character)
@@ -41,11 +41,26 @@ ztToolTip("Hello AHK!")
 !v::Send "{Home}+{End}"                     ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
 !a::Send "^{Right}^+{Left}"                 ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
 
+;; ----------------------------- Common User Access  ----------------------------------
+!y::Send "^c"                           ; ALT + y                   -> Copy
+!p::Send "^v"                           ; ALT + p                   -> Paste
+#HotIf !WinActive("ahk_exe emacs.exe")
+    !x::Send "^x"                       ; ALT + x                   -> Cut
+#HotIf
+!z::Send "^z"                           ; ALT + z                   -> Undo
+#HotIf !WinActive("ahk_exe msedge.exe")
+    !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
+    !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
+#HotIf
+
+;; ----------------------------- App Switching ----------------------------------------
 #w::Send "#5"                               ; WIN + w            ->    WIN + 5                          (Toggle Wechat "微信")
 #y::Send "#6"                               ; WIN + y            ->    WIN + 6                          (Toggle "网易云")
+#q::Send "^+{Esc}"                          ; WIN + q            ->    CTRL + SHIFT + ESC               (task manager)
+!;::Send "{Esc}"                            ; ALT + ;            ->    Esc
+!8::Send "{LAlt Down}{F4}{LAlt Up}"         ; Alt + 0            ->    Alt + F4
 
-;; --------------------------------------------------------------------------------------------------
-;; Modified by @zeit
+;; ----------------------------- Window Manipulation ----------------------------------
 !^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + n            -> Home + Left
 !^l::Send "{LWin Down}{Right}{LWin Up}" ; ALT + CTRL + m            -> Home + Right
 !^k::Send "{LWin Down}{Up}{LWin Up}"    ; ALT + CTRL + m            -> Home + Up
@@ -54,23 +69,8 @@ ztToolTip("Hello AHK!")
 #+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
 #^h::Send "#^{Left}"                    ; WIN + CTRL + h            -> WIN + CTRL + Left
 #^l::Send "#^{Right}"                   ; WIN + CTRL + l            -> WIN + CTRL + Right
-!y::Send "^c"                           ; ALT + y                   -> Copy
-!p::Send "^v"                           ; ALT + p                   -> Paste
 
-#HotIf !WinActive("ahk_exe emacs.exe")
-    !x::Send "^x"                       ; ALT + x                   -> Cut
-#HotIf
-
-!z::Send "^z"                           ; ALT + z                   -> Undo
-!;::Send "{Esc}"                        ; ALT + ;                   -> Esc
-!8::Send "{LAlt Down}{F4}{LAlt Up}"     ; Alt + 0                   -> Alt + F4
-
-#HotIf !WinActive("ahk_exe msedge.exe")
-    !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
-    !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
-#HotIf
-
-#q::Send "^+{Esc}"                      ; WIN + BACKSPACE           -> CTRL + SHIFT + ESC (task manager)
+;; ----------------------------- AutoHotKey  -----------------------------------------
 ^!r::{                                  ; CTRL + ALT + R            -> Reload AHK
     ztReload()
 }
