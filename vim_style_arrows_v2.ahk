@@ -517,8 +517,20 @@ vscodeClose() {
     +g::Send "^{End}"                                                       ; goto bottom
     ,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"          ; move editor left
     .::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"          ; move editor right
-    +,::Send "^!{Left}"                                                    ; move editor to previous group
-    +.::Send "^!{Right}"                                                   ; move editor to next group
+    +,::Send "^!{Left}"                                                     ; move editor to previous group
+    +.::Send "^!{Right}"                                                    ; move editor to next group
+    !h::{
+        MouseMove -5, 0, 100, "R"
+    }                                                                       ; move mouse left
+    !l::{
+        MouseMove 5, 0, 100, "R"
+    }                                                                       ; move mouse right
+    !k::{
+        MouseMove 0, -5, 100, "R"
+    }                                                                       ; move mouse up
+    !j::{
+        MouseMove 0, 5, 100, "R"
+    }                                                                       ; move mouse down
 
     !e::Send "^+e"                                                          ; goto file explorer panel
     ^!g::Send "^+g"                                                         ; goto git panel
