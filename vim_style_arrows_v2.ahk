@@ -64,7 +64,9 @@ ztToolTip("Hello AHK!")
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
-!+;::Send "^w"                          ; ALT + SHIFT + ;           -> CTRL + w                         (关闭页面)
+#HotIf !WinActive("ahk_exe emacs.exe")
+    !+;::Send "^w"                          ; ALT + SHIFT + ;           -> CTRL + w                         (关闭页面)
+#HotIf
 
 ;; ----------------------------- App Switching ----------------------------------------
 #w::Send "#5"                               ; WIN + w            ->    WIN + 5                          (Toggle Wechat "微信")
