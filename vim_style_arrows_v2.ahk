@@ -540,10 +540,6 @@ vscodeClose() {
     ^!g::Send "^+g"                                                         ; goto git panel
     !o::Send "{End}{Enter}"                                                 ; new line below
     !+o::Send "{Home}{Enter}{Up}"                                           ; new line above
-    !,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"         ; move editor left
-    !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"         ; move editor right
-    !+,::Send "^!{Left}"                                                    ; move editor to previous group
-    !+.::Send "^!{Right}"                                                   ; move editor to next group
     !f::Send "^f"                                                           ; find
     !r::Send "^y"                                                           ; redo
     !d::Send "{Down 18}"                                                    ; half page down
@@ -567,10 +563,6 @@ vscodeClose() {
     ^!g::Send "^+g"                                                         ; goto git panel
     !o::Send "{End}{Enter}"                                                 ; new line below
     !+o::Send "{Home}{Enter}{Up}"                                           ; new line above
-    !,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"         ; move editor left
-    !.::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"         ; move editor right
-    !+,::Send "^!{Left}"                                                    ; move editor to previous group
-    !+.::Send "^!{Right}"                                                   ; move editor to next group
     !f::Send "^f"                                                           ; find
     !r::Send "^y"                                                           ; redo
     !d::Send "{Down 18}"                                                    ; half page down
