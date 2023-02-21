@@ -56,6 +56,7 @@ ztToolTip("Hello AHK!")
 ;; ----------------------------- Common User Access  ----------------------------------
 !y::Send "^c"                           ; ALT + y                   -> Copy
 !p::Send "^v"                           ; ALT + p                   -> Paste
+!+a::Send "^a"                          ; ALT + SHIFT + a           -> Select all
 #HotIf !WinActive("ahk_exe emacs.exe")
     !x::Send "^x"                       ; ALT + x                   -> Cut
 #HotIf
