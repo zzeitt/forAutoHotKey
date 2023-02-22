@@ -252,9 +252,9 @@ ztToolTip(
 }
 ;; --------------------------------------------------------------------------------
 
-ztShowMode(mode, win_title, hwnd_owner) {
-    x := A_ScreenWidth - 180
-    y := A_ScreenHeight - 90
+ztShowMode(mode, win_title, hwnd_owner, margin_x:=340, margin_y:=150) {
+    x := A_ScreenWidth - margin_x
+    y := A_ScreenHeight - margin_y
     gui_args := "+ToolWindow"
     show_args := Format("AutoSize x{1:u} y{2:u} NoActivate", x, y)
     ztToolTip(mode,-1,"Consolas",12,win_title,hwnd_owner,gui_args,show_args)
