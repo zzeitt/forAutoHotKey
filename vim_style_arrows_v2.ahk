@@ -517,7 +517,7 @@ vscodeClose() {
     x::Send "^w"                                                            ; close tab
     t::Send "^n"                                                            ; new tab
     w::Send "^s"                                                            ; save
-    o::Click A_ScreenWidth//2, A_ScreenHeight //2                           ; click the centers
+    o::Click                                                                ; click
     /::Send "^f"                                                            ; find
     g::Send "^{Home}"                                                       ; goto top
     +g::Send "^{End}"                                                       ; goto bottom
