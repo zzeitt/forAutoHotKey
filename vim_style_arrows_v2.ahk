@@ -466,6 +466,32 @@ zoteroClose() {
 ; ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
 ; ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
 ;; ====================================================================================
+emacs_name := "emacs.exe"
+emacs_title := Format("ahk_exe {1:s}", emacs_name)
+emacs_term_title := "emacs ahk_class CASCADIA_HOSTING_WINDOW_CLASS ahk_exe WindowsTerminal.exe"
+emacsHideTerminal() {
+    title := "emacsHideTerminal"
+    font := FONT_MSYAHEI
+    font_size := 16
+    arr_q := [
+        ["Force hiding emacs terminal?",    ["s" font_size, font, "Center"]],
+    ]
+    func_yes(*) {
+        if WinExist(emacs_term_title)
+            WinHide(emacs_term_title)
+            WinClose(title)
+    }
+    ztDialog(arr_q, func_yes, title)
+}
+~#2:: {
+    if !WinExist(emacs_title) {
+        if WinWait(emacs_term_title, , 2)
+            WinHide
+        else
+            emacsHideTerminal()
+    }
+}
+
 #HotIf WinActive("ahk_exe emacs.exe")
     !x::Send "!x"
 #HotIf
