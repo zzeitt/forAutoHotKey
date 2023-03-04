@@ -468,7 +468,7 @@ zoteroClose() {
 ;; ====================================================================================
 emacs_name := "emacs.exe"
 emacs_title := Format("ahk_exe {1:s}", emacs_name)
-emacs_term_title := "emacs ahk_class CASCADIA_HOSTING_WINDOW_CLASS ahk_exe WindowsTerminal.exe"
+emacs_term_title := "emacs ahk_class CASCADIA_HOSTING_WINDOW_CLASS ahk_exe WindowsTerminal.exe" ; todo: fix: ztTHP failed
 emacsHideTerminal() {
     title := "emacsHideTerminal"
     font := FONT_MSYAHEI
@@ -609,4 +609,17 @@ vscodeClose() {
     !8:: {
         vscodeClose()
     }
+#HotIf
+
+;; ====================================================================================
+; ███████╗██╗  ██╗ ██████╗███████╗██╗     
+; ██╔════╝╚██╗██╔╝██╔════╝██╔════╝██║     
+; █████╗   ╚███╔╝ ██║     █████╗  ██║     
+; ██╔══╝   ██╔██╗ ██║     ██╔══╝  ██║     
+; ███████╗██╔╝ ██╗╚██████╗███████╗███████╗
+; ╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝╚══════╝
+;; ====================================================================================
+; excel
+#HotIf WinActive("ahk_exe EXCEL.EXE")
+    !s::Send "^s"
 #HotIf
