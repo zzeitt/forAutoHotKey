@@ -433,8 +433,10 @@ zoteroClose() {
     {
         switchTab(ThisHotKey)
     }
-    !d::Send "{Down 9}"                 ; scroll half-page down
-    !u::Send "{Up 9}"                   ; scroll half-page up
+    !=::Send "^{Tab}"                   ; 下一个tab
+    !-::Send "^+{Tab}"                  ; 上一个tab
+    d::Send "{Down 24}"                 ; scroll half-page down
+    u::Send "{Up 24}"                   ; scroll half-page up
 #HotIf
 
 ;; ====================================================================================
