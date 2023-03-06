@@ -402,6 +402,7 @@ zoteroClose() {
     !8:: {
         zoteroClose()
     }
+    !f::Send "^f"                                                           ; find
 #HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_insert)
     !n:: {
         global zotero_mode := zotero_mode_normal
@@ -417,6 +418,7 @@ zoteroClose() {
     !8:: {
         zoteroClose()
     }
+    !f::Send "^f"                                                           ; find
 #HotIf
 
 ;; ====================================================================================
