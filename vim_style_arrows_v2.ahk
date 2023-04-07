@@ -66,6 +66,10 @@ ztToolTip("Hello AHK!")
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
+#HotIf !WinActive(vscode_title)
+    !=::Send "^{Tab}"                   ; ALT + =                   -> CTRL + TAB
+    !-::Send "^+{Tab}"                  ; ALT + -                   -> CTRL + SHIFT + TAB
+#HotIf
 
 ;; ----------------------------- App Switching ----------------------------------------
 #w::Send "#5"                               ; WIN + w            ->    WIN + 5                          (Toggle Wechat "微信")
@@ -277,8 +281,6 @@ ztToggleModeWin(win_title, func_showModeWin) {
 edge_title := "ahk_exe msedge.exe"
 #HotIf WinActive(edge_title)
     !'::Send "^{F6}"    ; 回到页面聚焦
-    !=::Send "^{Tab}"   ; 下一个tab(避免进入edge://页面卡住)
-    !-::Send "^+{Tab}"  ; 上一个tab(避免进入edge://页面卡住)
     >!d::Send "!+b"     ; 聚焦至收藏夹栏第一项
     !t::Send "^t"       ; 新建标签页
     !r:: Send "{F5}"    ; 刷新
@@ -434,8 +436,6 @@ zoteroClose() {
     {
         switchTab(ThisHotKey)
     }
-    !=::Send "^{Tab}"                   ; 下一个tab
-    !-::Send "^+{Tab}"                  ; 上一个tab
     d::Send "{Down 24}"                 ; scroll half-page down
     u::Send "{Up 24}"                   ; scroll half-page up
 #HotIf
