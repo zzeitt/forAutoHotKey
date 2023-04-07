@@ -57,16 +57,14 @@ ztToolTip("Hello AHK!")
 !y::Send "^c"                           ; ALT + y                   -> Copy
 !p::Send "^v"                           ; ALT + p                   -> Paste
 !+a::Send "^a"                          ; ALT + SHIFT + a           -> Select all
-#HotIf !WinActive("ahk_exe emacs.exe")
-    !x::Send "^x"                       ; ALT + x                   -> Cut
-#HotIf
 !z::Send "^z"                           ; ALT + z                   -> Undo
-#HotIf !WinActive("ahk_exe msedge.exe")
+#HotIf !WinActive(emacs_title)
+    !x::Send "^x"                       ; ALT + x                   -> Cut
+    !+;::Send "^w"                      ; ALT + SHIFT + ;           -> CTRL + w                         (关闭页面)
+#HotIf
+#HotIf !WinActive(edge_title)
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
-#HotIf
-#HotIf !WinActive("ahk_exe emacs.exe")
-    !+;::Send "^w"                          ; ALT + SHIFT + ;           -> CTRL + w                         (关闭页面)
 #HotIf
 
 ;; ----------------------------- App Switching ----------------------------------------
@@ -77,10 +75,10 @@ ztToolTip("Hello AHK!")
 !8::Send "{LAlt Down}{F4}{LAlt Up}"         ; Alt + 0            ->    Alt + F4
 
 ;; ----------------------------- Window Manipulation ----------------------------------
-!^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + n            -> Home + Left
-!^l::Send "{LWin Down}{Right}{LWin Up}" ; ALT + CTRL + m            -> Home + Right
-!^k::Send "{LWin Down}{Up}{LWin Up}"    ; ALT + CTRL + m            -> Home + Up
-!^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + m            -> Home + Down
+!^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + h            -> Home + Left
+!^l::Send "{LWin Down}{Right}{LWin Up}" ; ALT + CTRL + l            -> Home + Right
+!^k::Send "{LWin Down}{Up}{LWin Up}"    ; ALT + CTRL + k            -> Home + Up
+!^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + j            -> Home + Down
 #+h::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
 #+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
 #^h::Send "#^{Left}"                    ; WIN + CTRL + h            -> WIN + CTRL + Left
@@ -276,7 +274,8 @@ ztToggleModeWin(win_title, func_showModeWin) {
 ; ███████╗██████╔╝╚██████╔╝███████╗
 ; ╚══════╝╚═════╝  ╚═════╝ ╚══════╝
 ;; ====================================================================================
-#HotIf WinActive("ahk_exe msedge.exe")
+edge_title := "ahk_exe msedge.exe"
+#HotIf WinActive(edge_title)
     !'::Send "^{F6}"    ; 回到页面聚焦
     !=::Send "^{Tab}"   ; 下一个tab(避免进入edge://页面卡住)
     !-::Send "^+{Tab}"  ; 上一个tab(避免进入edge://页面卡住)
@@ -451,12 +450,10 @@ zoteroClose() {
 ;; ====================================================================================
 #HotIf WinActive("ahk_exe explorer.exe")
     !e:: {
-        Send "^e"
-        Sleep 10
-        Send "{Esc}"
+        Send "!d{Tab}{Tab}"
     }
     !':: {
-        Send "^a{Up}{Down}"
+        Send "!d{Tab}{Tab}^a{Up}{Down}"
     }
     !u::Send "!{Up}"
     !r::Send "!{Right}"
