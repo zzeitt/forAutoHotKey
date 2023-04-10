@@ -1,4 +1,4 @@
-;; ---------------------------------------------------------------------
+﻿;; ---------------------------------------------------------------------
 ;
 ; ██╗   ██╗██╗██╗███╗   ███╗
 ; ██║   ██║██║██║████╗ ████║
@@ -136,6 +136,68 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
     }
     SoundSetVolume Sound_Now
     ztToolTip("音量 " . mode . " " . Sound_Now)
+}
+
+;; ----------------------------- 鼠标移动 ---------------------------------------------
+;; Partially borrowed from https://github.com/4strid/mouse-control.autohotkey
+mouse_mode := False
+VELOCITY_X := 0
+VELOCITY_Y := 0
+
+moveCursor() {
+    LEFT := 0
+    DOWN := 0
+    UP := 0
+    RIGHT := 0
+    
+    LEFT := LEFT - GetKeyState("h", "P")
+    DOWN := DOWN + GetKeyState("j", "P")
+    UP := UP - GetKeyState("k", "P")
+    RIGHT := RIGHT + GetKeyState("l", "P")
+    
+    if (mouse_mode == False) {
+        VELOCITY_X := 0
+        VELOCITY_Y := 0
+        SetTimer , 0
+    }
+    accelerate(velocity, pos, neg, RESISTANCE:=0.982, FORCE:=1.8) {
+        If (pos == 0 && neg == 0) {
+            Return 0
+        }
+        ; smooth deceleration :)
+        Else If (pos + neg == 0) {
+            Return velocity * 0.666
+        }
+        ; physicszzzzz
+        Else {
+            Return velocity * RESISTANCE + FORCE * (pos + neg)
+        }
+    }
+    
+    global VELOCITY_X := accelerate(VELOCITY_X, LEFT, RIGHT)
+    global VELOCITY_Y := accelerate(VELOCITY_Y, UP, DOWN)
+
+    RestoreDPI:=DllCall("SetThreadDpiAwarenessContext","ptr",-3,"ptr") ; enable per-monitor DPI awareness
+
+    MouseMove VELOCITY_X, VELOCITY_Y, 0, 'R'
+}
+
+#HotIf mouse_mode
+    h::
+    j::
+    k::
+    l::
+    {}
+    o::Click
+    a::Click "Right"
+#HotIf
+
+#o::{
+    global mouse_mode := !mouse_mode ; toggle mode
+    ztShowMode("Mouse Mode " . mouse_mode, "Mouse Mode", "")
+    if mouse_mode {
+        SetTimer MoveCursor, 16
+    }
 }
 
 ;; ====================================================================================
