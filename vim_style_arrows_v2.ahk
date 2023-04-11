@@ -202,6 +202,32 @@ moveCursor() {
     }
 }
 
+;; ----------------------------- 切换双拼  -----------------------------------------
+enable_double_pinyin := False
+setPinyin(enable_double_pinyin) {
+    RegWrite(
+    enable_double_pinyin, "REG_DWORD", 
+        "HKCU\SOFTWARE\Microsoft\InputMethod\Settings\CHS", 
+        "Enable Double Pinyin")
+    b_double_pinyin := RegRead(
+        "HKCU\SOFTWARE\Microsoft\InputMethod\Settings\CHS", 
+        "Enable Double Pinyin")
+    if b_double_pinyin {
+        ztToolTip("双拼  🍻")
+    } else {
+        ztToolTip("全拼  🍺")
+    }
+}
+
+#p::{
+    global enable_double_pinyin := !enable_double_pinyin
+    setPinyin(enable_double_pinyin)
+}
+#+p::{
+    global enable_double_pinyin := 1
+    setPinyin(enable_double_pinyin)
+}
+
 ;; ====================================================================================
 ; ███╗   ███╗██╗   ██╗    ███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
 ; ████╗ ████║╚██╗ ██╔╝    ██╔════╝██║   ██║████╗  ██║██╔════╝╚══██╔══╝██║██╔═══██╗████╗  ██║██╔════╝
