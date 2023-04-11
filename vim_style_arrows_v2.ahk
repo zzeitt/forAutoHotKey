@@ -12,6 +12,7 @@
 A_MenuMaskKey := "vkE8"  ; Change the masking key to something unassigned such as vkE8.
 TraySetIcon "vim_style_arrows.ico"
 FONT_MSYAHEI := "Microsoft YaHei UI"
+SetTitleMatchMode("RegEx")
 
 ztToolTip("Hello AHK!")
 
@@ -558,7 +559,7 @@ zoteroClose() {
 ;; ====================================================================================
 emacs_name := "emacs.exe"
 emacs_title := Format("ahk_exe {1:s}", emacs_name)
-emacs_term_title := "emacs ahk_class CASCADIA_HOSTING_WINDOW_CLASS ahk_exe WindowsTerminal.exe" ; todo: fix: ztTHP failed
+emacs_term_title := "emacs* ahk_class ConsoleWindowClass|CASCADIA_HOSTING_WINDOW_CLASS"
 emacsHideTerminal() {
     title := "emacsHideTerminal"
     font := FONT_MSYAHEI
