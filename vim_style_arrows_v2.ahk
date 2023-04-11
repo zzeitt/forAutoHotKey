@@ -194,9 +194,11 @@ moveCursor() {
 
 #o::{
     global mouse_mode := !mouse_mode ; toggle mode
-    ztShowMode("Mouse Mode " . mouse_mode, "Mouse Mode", "")
     if mouse_mode {
         SetTimer MoveCursor, 16
+        ztToolTip("开启鼠标控制  🖱️")
+    } else {
+        ztToolTip("关闭鼠标控制  💟")
     }
 }
 
