@@ -539,7 +539,8 @@ zoteroClose() {
 ; ███████╗██╔╝ ██╗██║     ███████╗╚██████╔╝██║  ██║███████╗██║  ██║
 ; ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 ;; ====================================================================================
-#HotIf WinActive("ahk_exe explorer.exe")
+explorer_title := "ahk_exe explorer.exe"
+#HotIf WinActive(explorer_title)
     !e::Send "!d{Tab}{Tab}"
     !'::Send "!d{Tab}{Tab}^a{Up}{Down}"
     !t::Send "^t"
@@ -547,6 +548,12 @@ zoteroClose() {
     ![::Send "!{Left}"
     !]::Send "!{Right}"
     !+[::Send "!{Up}"
+    #HotIf WinActive(explorer_title) and WinExist("ahk_class #32768")
+        j::Send "{Down}"
+        k::Send "{Up}"
+        h::Send "{Left}"
+        l::Send "{Right}"
+    #HotIf
 #HotIf
 
 ;; ====================================================================================
@@ -583,7 +590,7 @@ emacsHideTerminal() {
     }
 }
 
-#HotIf WinActive("ahk_exe emacs.exe")
+#HotIf WinActive(emacs_title)
     !x::Send "!x"
 #HotIf
 
