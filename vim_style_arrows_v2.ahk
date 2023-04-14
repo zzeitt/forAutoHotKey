@@ -151,15 +151,27 @@ moveCursor() {
     UP := 0
     RIGHT := 0
     
-    LEFT := LEFT - GetKeyState("h", "P")
-    DOWN := DOWN + GetKeyState("j", "P")
-    UP := UP - GetKeyState("k", "P")
-    RIGHT := RIGHT + GetKeyState("l", "P")
+    h_pressed := GetKeyState("h", "P")
+    j_pressed := GetKeyState("j", "P")
+    k_pressed := GetKeyState("k", "P")
+    l_pressed := GetKeyState("l", "P")
+    LEFT := LEFT - h_pressed
+    DOWN := DOWN + j_pressed
+    UP := UP - k_pressed
+    RIGHT := RIGHT + l_pressed
+    if j_pressed {
+        changeCursor("vim_mouse_j.cur")
+    } else if k_pressed {
+        changeCursor("vim_mouse_k.cur")
+    } else {
+        changeCursor("vim_mouse_idle.cur")
+    }
     
     if (mouse_mode == False) {
         VELOCITY_X := 0
         VELOCITY_Y := 0
         SetTimer , 0
+        restoreCursors()
     }
     accelerate(velocity, pos, neg, RESISTANCE:=0.982, FORCE:=1.8) {
         If (pos == 0 && neg == 0) {
@@ -183,6 +195,19 @@ moveCursor() {
     MouseMove VELOCITY_X, VELOCITY_Y, 0, 'R'
 }
 
+changeCursor(file:="vim_mouse_j.cur", cx:=48, cy:=48) {
+    cursor_handle := DllCall( "LoadCursorFromFile", "Str",file)
+    arr_cursors := [32512,32513,32514,32515,32516,32640,32641,32642,32643,32644,32645,32646,32648,32649,32650,32651]
+    for (cursor in arr_cursors) {
+        DllCall( "SetSystemCursor", "UInt",cursor_handle, "Int",cursor)
+    }
+}
+
+restoreCursors() {
+	SPI_SETCURSORS := 0x57
+	DllCall( "SystemParametersInfo", "UInt",SPI_SETCURSORS, "UInt",0, "UInt",0, "UInt",0 )
+}
+
 #HotIf mouse_mode
     h::
     j::
@@ -191,6 +216,8 @@ moveCursor() {
     {}
     o::Click
     a::Click "Right"
+    ; MButton::changeCursor()
+    ; MButton Up::restoreCursors()
 #HotIf
 
 #o::{
@@ -198,8 +225,10 @@ moveCursor() {
     if mouse_mode {
         SetTimer MoveCursor, 16
         ztToolTip("开启鼠标控制  🖱️")
+        changeCursor("vim_mouse_idle.cur")
     } else {
         ztToolTip("关闭鼠标控制  💟")
+        restoreCursors()
     }
 }
 
