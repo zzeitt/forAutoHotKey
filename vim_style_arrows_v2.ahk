@@ -570,14 +570,14 @@ zoteroClose() {
 ;; ====================================================================================
 explorer_title := "ahk_exe explorer.exe"
 #HotIf WinActive(explorer_title)
-    !e::Send "!d{Tab}{Tab}"
-    !'::Send "!d{Tab}{Tab}^a{Up}{Down}"
-    !t::Send "^t"
-    !r::Send "{F5}"
-    ![::Send "!{Left}"
-    !]::Send "!{Right}"
-    !+[::Send "!{Up}"
-    #HotIf WinActive(explorer_title) and WinExist("ahk_class #32768")
+    !e::Send "!d{Tab}{Tab}"                 ; 聚焦侧边栏
+    !'::Send "!d{Tab}{Tab}^a{Up}{Down}"     ; 聚焦文件区域
+    !t::Send "^t"                           ; 新建标签页
+    !r::Send "{F5}"                         ; 刷新
+    ![::Send "!{Left}"                      ; 后退
+    !]::Send "!{Right}"                     ; 前进
+    !+[::Send "!{Up}"                       ; 向上一级
+    #HotIf WinActive(explorer_title) and WinExist("ahk_class #32768") ; 右键菜单栏模式
         j::Send "{Down}"
         k::Send "{Up}"
         h::Send "{Left}"
