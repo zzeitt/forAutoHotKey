@@ -194,7 +194,7 @@ moveCursor() {
     MouseMove VELOCITY_X, VELOCITY_Y, 0, 'R'
 }
 
-changeCursor(file:="vim_mouse_j.cur", cx:=48, cy:=48) {
+changeCursor(file:="vim_mouse_j.cur") {
     cursor_handle := DllCall( "LoadCursorFromFile", "Str",file)
     arr_cursors := [32512,32513,32514,32515,32516,32640,32641,32642,32643,32644,32645,32646,32648,32649,32650,32651]
     for (cursor in arr_cursors) {
@@ -225,6 +225,7 @@ restoreCursors() {
         SetTimer MoveCursor, 16
         ztToolTip("开启鼠标控制  🖱️")
         changeCursor("vim_mouse_idle.cur")
+        MouseMove A_ScreenWidth/2, A_ScreenHeight/2
     } else {
         ztToolTip("关闭鼠标控制  💟")
         restoreCursors()
