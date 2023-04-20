@@ -225,7 +225,7 @@ restoreCursors() {
         SetTimer MoveCursor, 16
         ztToolTip("开启鼠标控制  🖱️")
         changeCursor("vim_mouse_idle.cur")
-        MouseMove A_ScreenWidth/2, A_ScreenHeight/2
+        ; MouseMove A_ScreenWidth/2, A_ScreenHeight/2
     } else {
         ztToolTip("关闭鼠标控制  💟")
         restoreCursors()
