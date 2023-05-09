@@ -753,6 +753,7 @@ vscodeClose() {
 ;; ====================================================================================
 ; excel & ppt
 GroupAdd("WPX", "ahk_exe EXCEL.EXE")
+GroupAdd("WPX", "ahk_exe WINWORD.EXE")
 GroupAdd("WPX", "ahk_exe POWERPNT.EXE")
 #HotIf WinActive("ahk_group WPX")
     !s::Send "^s"
