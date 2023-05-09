@@ -45,11 +45,11 @@ ztToolTip("Hello AHK!")
 !j::Send "{Down}"                           ; ALT + j            ->    Left                             (Cursor down line)
 !+j::Send "+{Down}"                         ; ALT + SHIFT + j    ->    SHIFT + Left                     (Select one line)
 
-!0::Send "{Home}"                           ; ALT + a            ->    Home                             (Cursor to beginning of line)
-!+0::Send "+{Home}"                         ; ALT + SHIFT + a    ->    SHIFT + Home                     (Select to beginning of line)
+!0::Send "{Home}"                           ; ALT + 0            ->    Home                             (Cursor to beginning of line)
+!+0::Send "+{Home}"                         ; ALT + SHIFT + 0    ->    SHIFT + Home                     (Select to beginning of line)
 
-!4::Send "{End}"                            ; ALT + f            ->    End                              (Cursor to end of line)
-!+4::Send "+{End}"                          ; ALT + SHIFT + f    ->    SHIFT + End                      (Select to end of line)
+!4::Send "{End}"                            ; ALT + 4            ->    End                              (Cursor to end of line)
+!+4::Send "+{End}"                          ; ALT + SHIFT + 4    ->    SHIFT + End                      (Select to end of line)
 
 !BackSpace::Send "{Del}"                    ; ALT + m            ->    DEL                              (Delete one character)
 !+BackSpace::Send "^{BS}"                   ; ALT + SHIFT + BS   ->    CTRL + DELETE                    (Backspace one word)
@@ -563,6 +563,7 @@ zoteroClose() {
     }
     d::Send "{Down 24}"                 ; scroll half-page down
     u::Send "{Up 24}"                   ; scroll half-page up
+    !f::Send "^f"
 #HotIf
 
 ;; ====================================================================================
