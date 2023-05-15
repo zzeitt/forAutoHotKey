@@ -212,6 +212,16 @@ restoreCursors() {
 	DllCall( "SystemParametersInfo", "UInt",SPI_SETCURSORS, "UInt",0, "UInt",0, "UInt",0 )
 }
 
+enterMouseMode() {
+    ztToolTip("开启鼠标控制  🖱️")
+    changeCursor()
+}
+
+quitMouseMode() {
+    ztToolTip("关闭鼠标控制  💟")
+    restoreCursors()
+}
+
 #HotIf mouse_mode
     h::
     j::
@@ -220,6 +230,11 @@ restoreCursors() {
     {}
     o::Click
     a::Click "Right"
+    q::{
+        global mouse_mode := False ; quit
+        quitMouseMode()
+    }
+
     ; MButton::changeCursor()
     ; MButton Up::restoreCursors()
 #HotIf
@@ -228,12 +243,10 @@ restoreCursors() {
     global mouse_mode := !mouse_mode ; toggle mode
     if mouse_mode {
         SetTimer MoveCursor, 16
-        ztToolTip("开启鼠标控制  🖱️")
-        changeCursor()
+        enterMouseMode()
         ; MouseMove A_ScreenWidth/2, A_ScreenHeight/2
     } else {
-        ztToolTip("关闭鼠标控制  💟")
-        restoreCursors()
+        quitMouseMode()
     }
 }
 
