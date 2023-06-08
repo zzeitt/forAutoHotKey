@@ -7,6 +7,7 @@
 ;   ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝
 ;; credit by @zeit
 ;; ---------------------------------------------------------------------
+#Requires AutoHotkey v2.0-beta
 
 A_MenuMaskKey := "vkE8"  ; Change the masking key to something unassigned such as vkE8.
 PATH_ASSETS := "assets/"
