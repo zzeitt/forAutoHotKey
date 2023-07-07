@@ -595,6 +595,11 @@ explorer_title := "ahk_exe explorer.exe"
     !e::Send "!d{Tab}{Tab}"                 ; 聚焦侧边栏
     !'::Send "!d{Tab}{Tab}^a{Up}{Down}"     ; 聚焦文件区域
     !t::Send "^t"                           ; 新建标签页
+    !m::{                                   ; 打开右键菜单 "Shift+F10"
+        Sleep 180 ; 关键，magic
+        Send "+{F10}"
+        return
+    }
     !r::Send "{F5}"                         ; 刷新
     ![::Send "!{Left}"                      ; 后退
     !]::Send "!{Right}"                     ; 前进
