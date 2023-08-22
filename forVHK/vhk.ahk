@@ -1,4 +1,4 @@
-;; ---------------------------------------------------------------------
+﻿;; ---------------------------------------------------------------------
 ; ██╗   ██╗██╗  ██╗██╗  ██╗
 ; ██║   ██║██║  ██║██║ ██╔╝
 ; ██║   ██║███████║█████╔╝ 
@@ -91,8 +91,6 @@ ztToolTip("Hello AHK!")
 !^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + j            -> Home + Down
 #+h::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
 #+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
-#^h::Send "#^{Left}"                    ; WIN + CTRL + h            -> WIN + CTRL + Left
-#^l::Send "#^{Right}"                   ; WIN + CTRL + l            -> WIN + CTRL + Right
 #[::Send "#z"                           ; WIN + [                   -> WIN + z
 
 ;; ----------------------------- AutoHotKey  -----------------------------------------
