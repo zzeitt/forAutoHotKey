@@ -93,6 +93,7 @@ ztToolTip("Hello AHK!")
 #+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
 #^h::Send "#^{Left}"                    ; WIN + CTRL + h            -> WIN + CTRL + Left
 #^l::Send "#^{Right}"                   ; WIN + CTRL + l            -> WIN + CTRL + Right
+#[::Send "#z"                           ; WIN + [                   -> WIN + z
 
 ;; ----------------------------- AutoHotKey  -----------------------------------------
 ^!r::{                                  ; CTRL + ALT + R            -> Reload AHK
@@ -457,6 +458,7 @@ edge_title := "ahk_exe msedge.exe"
     ![::Send "!{Left}"  ; 后退
     !]::Send "!{Right}" ; 前进
     !+y::Send "^+y"	    ; 打开集锦
+    !s::Send "^d"       ; 收藏
 #HotIf
 
 ;; ====================================================================================
