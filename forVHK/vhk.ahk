@@ -1,4 +1,4 @@
-;; ---------------------------------------------------------------------
+﻿;; ---------------------------------------------------------------------
 ; ██╗   ██╗██╗  ██╗██╗  ██╗
 ; ██║   ██║██║  ██║██║ ██╔╝
 ; ██║   ██║███████║█████╔╝ 
@@ -275,6 +275,37 @@ setPinyin(enable_double_pinyin) {
 #+p::{
     global enable_double_pinyin := 1
     setPinyin(enable_double_pinyin)
+}
+
+;; ---------------------------- 旋转屏幕 -------------------------------------------
+#^Up::ChangeScreenOrientation(0)
+#^Right::ChangeScreenOrientation(90)
+#^Down::ChangeScreenOrientation(180)
+#^Left::ChangeScreenOrientation(270)
+
+ChangeScreenOrientation(Orientation := 'Landscape') {
+    static DMDO_DEFAULT := 0, DMDO_90 := 1, DMDO_180 := 2, DMDO_270 := 3
+         , DEVMODE := '', dimension1 := 0, dimension2 := 0, dmSize := 220
+    if !DEVMODE {
+        NumPut('Short', dmSize, DEVMODE := Buffer(dmSize, 0), 68)
+        DllCall('EnumDisplaySettings', 'Ptr', 0, 'Int', -1, 'Ptr', DEVMODE)
+        n0 := NumGet(DEVMODE, 172, 'UInt')
+        n1 := NumGet(DEVMODE, 176, 'UInt')
+        Loop 2 {
+            dimension%A_Index% := n%(n0 > n1) ^ (A_Index = 1)%
+                                | n%(n0 < n1) ^ (A_Index = 1)% << 32
+        }
+    }
+    switch Orientation, false {
+        case 'Landscape'          ,   0: i := 1, orientation := DMDO_DEFAULT
+        case 'Portrait'           ,  90: i := 2, orientation := DMDO_90
+        case 'Landscape (flipped)', 180: i := 1, orientation := DMDO_180
+        case 'Portrait (flipped)' , 270: i := 2, orientation := DMDO_270
+        default:                         i := 1, orientation := DMDO_DEFAULT
+    }
+    NumPut('Int'  , orientation , DEVMODE,  84)
+    NumPut('Int64', dimension%i%, DEVMODE, 172)
+    DllCall('ChangeDisplaySettings', 'Ptr', DEVMODE, 'UInt', 0)
 }
 
 ;; ====================================================================================
