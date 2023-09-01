@@ -8,7 +8,7 @@
 ;; credit by @zeit
 ;; ---------------------------------------------------------------------
 #Requires AutoHotkey v2.0-beta
-
+-
 A_MenuMaskKey := "vkE8"  ; Change the masking key to something unassigned such as vkE8.
 PATH_ASSETS := "assets/"
 TraySetIcon(PATH_ASSETS . "vhk.ico")
@@ -450,14 +450,14 @@ ztToggleModeWin(win_title, func_showModeWin) {
 ;; ====================================================================================
 edge_title := "ahk_exe msedge.exe"
 #HotIf WinActive(edge_title)
-    !'::Send "^{F6}"    ; 回到页面聚焦
-    >!d::Send "!+b"     ; 聚焦至收藏夹栏第一项
-    !t::Send "^t"       ; 新建标签页
-    !r::Send "{F5}"     ; 刷新
-    ![::Send "!{Left}"  ; 后退
-    !]::Send "!{Right}" ; 前进
-    !+y::Send "^+y"	    ; 打开集锦
-    !s::Send "^d"       ; 收藏
+    !'::Send "^{F6}{Esc}"    ; 回到页面聚焦
+    >!d::Send "!+b"          ; 聚焦至收藏夹栏第一项
+    !t::Send "^t"            ; 新建标签页
+    !r::Send "{F5}"          ; 刷新
+    ![::Send "!{Left}"       ; 后退
+    !]::Send "!{Right}"      ; 前进
+    !+y::Send "^+y"          ; 打开集锦
+    !s::Send "^d"            ; 收藏
 #HotIf
 
 ;; ====================================================================================
