@@ -812,3 +812,5 @@ GroupAdd("WPX", "ahk_exe POWERPNT.EXE")
 #HotIf WinActive("ahk_group WPX")
     !s::Send "^s"
 #HotIf
+
+#^!z:: ztToolTip("love you!")
