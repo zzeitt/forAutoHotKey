@@ -110,6 +110,13 @@ ztToolTip("Hello AHK!")
 !F2:: {
     hyf_SoundSetWaveVolume("-", 5)
 }
+!+F3:: {
+    hyf_SoundSetWaveVolume("+", 1)
+}
+
+!+F2:: {
+    hyf_SoundSetWaveVolume("-", 1)
+}
 
 !F1:: {
     SoundSetMute -1
