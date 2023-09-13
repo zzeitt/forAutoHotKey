@@ -445,6 +445,27 @@ ztToggleModeWin(win_title, func_showModeWin) {
         func_showModeWin()
 }
 
+;; --------------------------------------------------------------------------------
+;; Borrowed from https://zhuanlan.zhihu.com/p/425951648
+ztSwitchIME(lang:="en") {
+    if (lang == "en") {
+        lang_id := 0
+        lang_msg := "English Input"
+    } else if (lang == "ch") {
+        lang_id := 1025
+        lang_msg := "中文输入"
+    }
+
+    DetectHiddenWindows True
+    hWnd := winGetID("A")
+    tmp := SendMessage(
+        0x283,                  ; WM_IME_CONTROL
+        0x002,                  ; IMC_SETCONVERSIONMODE
+        lang_id,                ; 0->english, 1025->中文
+        ,                       ; Control
+        "ahk_id " DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hWnd, "Uint"))
+    ztToolTip(lang_msg)
+}
 
 ;; ====================================================================================
 ; ███████╗██████╗  ██████╗ ███████╗
@@ -687,6 +708,10 @@ emacsHideTerminal() {
 
 #HotIf WinActive(emacs_title)
     !x::Send "!x"
+    !;:: {
+        Send "{Esc}"
+        ztSwitchIME("en") ; 英文输入
+    }
 #HotIf
 
 ;; ====================================================================================
