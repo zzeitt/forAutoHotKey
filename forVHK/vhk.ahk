@@ -490,6 +490,11 @@ edge_title := "ahk_exe msedge.exe"
     !]::Send "!{Right}"      ; 前进
     !+y::Send "^+y"          ; 打开集锦
     !s::Send "^d"            ; 收藏
+    !+i::{                   ; Quickey搜索bookmark
+        Send "!i"
+        Sleep 400
+        Send "/b "
+    }
 #HotIf
 
 ;; ====================================================================================
