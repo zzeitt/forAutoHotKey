@@ -534,72 +534,8 @@ zoteroClose() {
     if WinExist(zotero_title)
         WinClose(zotero_title)
 }
-#HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_normal)
+#HotIf WinActive(zotero_title)
     !e::Send "^+l"          ; focus library
-    +k::
-    +j::
-    {
-        switchTab(ThisHotKey)
-    }
-    +h::
-    +l::
-    {
-        if InStr(ThisHotkey, "+h")
-            if !isInput()
-                Send "!{Left}"
-            else
-                SendInput "H"
-        else if InStr(ThisHotKey, "+l")
-            if !isInput()
-                Send "!{Right}"
-            else
-                SendInput "L"
-    }
-    j:: {  ; scroll down
-        if !isInput()
-            Send "{Down}"
-        else  ;; don't send original j/k to system, because j/k is hard-defined in zotero
-            if isCapsOn()
-                SendInput "J"
-            else
-                SendInput "j"
-    }
-    k:: { ; scroll up
-        if !isInput()
-            Send "{Up}"
-        else
-            if isCapsOn()
-                SendInput "K"
-            else
-                SendInput "k"
-    }
-    ~h:: { ; left
-        if !isInput()
-            Send "{Left}"
-    }
-    ~l:: { ; right
-        if !isInput()
-            Send "{Right}"
-    }
-    ~u:: { ; scroll half-page up
-        if !isInput()
-            Send "{Up 9}"
-    }
-    ~d:: { ; scroll half-page down
-        if !isInput()
-            Send "{Down 9}"
-    }
-    ~/:: { ; find
-        if !isInput()
-            Send "^f"
-    }
-    ~a:: { ; SHIFT + F10
-        if !isInput()
-            Send "+{F10}"
-    }
-    x::Send "^w"                                                            ; close tab
-
-
     !i:: {
         global zotero_mode := zotero_mode_insert
         zoteroShowMode()
