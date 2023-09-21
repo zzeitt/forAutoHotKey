@@ -745,37 +745,7 @@ vscodeClose() {
     if WinExist(vscode_title)
         WinClose(vscode_title)
 }
-#HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
-    k::Send "^{Up}"                                                         ; scroll up
-    u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"                                 ; scroll half-page up
-    j::Send "^{Down}"                                                       ; scroll down
-    d::Send "{LCtrl Down}{Down 20}{LCtrl Up}"                               ; scroll half-page down
-    +j::Send "!-"                                                           ; previous tab
-    +k::Send "!="                                                           ; next tab
-    x::Send "^w"                                                            ; close tab
-    t::Send "^n"                                                            ; new tab
-    w::Send "^s"                                                            ; save
-    o::Click                                                                ; click
-    /::Send "^f"                                                            ; find
-    g::Send "^{Home}"                                                       ; goto top
-    +g::Send "^{End}"                                                       ; goto bottom
-    ,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"          ; move editor left
-    .::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"          ; move editor right
-    +,::Send "^!{Left}"                                                     ; move editor to previous group
-    +.::Send "^!{Right}"                                                    ; move editor to next group
-    !h::{
-        MouseMove -5, 0, 100, "R"
-    }                                                                       ; move mouse left
-    !l::{
-        MouseMove 5, 0, 100, "R"
-    }                                                                       ; move mouse right
-    !k::{
-        MouseMove 0, -5, 100, "R"
-    }                                                                       ; move mouse up
-    !j::{
-        MouseMove 0, 5, 100, "R"
-    }                                                                       ; move mouse down
-
+#HotIf WinActive(vscode_title)
     !e::Send "^+e"                                                          ; goto file explorer panel
     ^!g::Send "^+g"                                                         ; goto git panel
     !o::Send "{End}{Enter}"                                                 ; new line below
@@ -798,29 +768,37 @@ vscodeClose() {
     !8:: {
         vscodeClose()
     }
-#HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_insert)
-    !e::Send "^+e"                                                          ; goto file explorer panel
-    ^!g::Send "^+g"                                                         ; goto git panel
-    !o::Send "{End}{Enter}"                                                 ; new line below
-    !+o::Send "{Home}{Enter}{Up}"                                           ; new line above
-    !f::Send "^f"                                                           ; find
-    !r::Send "^y"                                                           ; redo
-    !d::Send "{Down 18}"                                                    ; half page down
-    !u::Send "{Up 18}"                                                      ; half page up
-    !i:: {
-        global vscode_mode := vscode_mode_insert
-        vscodeShowMode()
-    }
-    !n:: {
-        global vscode_mode := vscode_mode_normal
-        vscodeShowMode()
-    }
-    !q:: {
-        vscodeToggleModeWin()
-    }
-    !8:: {
-        vscodeClose()
-    }
+    #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
+        k::Send "^{Up}"                                                         ; scroll up
+        u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"                                 ; scroll half-page up
+        j::Send "^{Down}"                                                       ; scroll down
+        d::Send "{LCtrl Down}{Down 20}{LCtrl Up}"                               ; scroll half-page down
+        +j::Send "!-"                                                           ; previous tab
+        +k::Send "!="                                                           ; next tab
+        x::Send "^w"                                                            ; close tab
+        t::Send "^n"                                                            ; new tab
+        w::Send "^s"                                                            ; save
+        o::Click                                                                ; click
+        /::Send "^f"                                                            ; find
+        g::Send "^{Home}"                                                       ; goto top
+        +g::Send "^{End}"                                                       ; goto bottom
+        ,::Send "{LCtrl Down}{LShift Down}{PgUp}{LCtrl Up}{LShift Up}"          ; move editor left
+        .::Send "{LCtrl Down}{LShift Down}{PgDn}{LCtrl Up}{LShift Up}"          ; move editor right
+        +,::Send "^!{Left}"                                                     ; move editor to previous group
+        +.::Send "^!{Right}"                                                    ; move editor to next group
+        !h::{
+            MouseMove -5, 0, 100, "R"
+        }                                                                       ; move mouse left
+        !l::{
+            MouseMove 5, 0, 100, "R"
+        }                                                                       ; move mouse right
+        !k::{
+            MouseMove 0, -5, 100, "R"
+        }                                                                       ; move mouse up
+        !j::{
+            MouseMove 0, 5, 100, "R"
+        }                                                                       ; move mouse down
+    #HotIf
 #HotIf
 
 ;; ====================================================================================
