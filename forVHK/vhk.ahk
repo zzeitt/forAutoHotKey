@@ -493,6 +493,7 @@ edge_title := "ahk_exe msedge.exe"
     !+i::{                   ; Quickey搜索bookmark
         Send "!i"
         Sleep 400
+        ztSwitchIME("en")
         Send "/b "
     }
 #HotIf
