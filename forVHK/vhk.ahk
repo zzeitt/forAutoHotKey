@@ -707,6 +707,9 @@ emacsHideTerminal() {
         Send "{Esc}"
         ztSwitchIME("en") ; 英文输入
     }
+    ~!+,:: {
+        ztSwitchIME("en") ; insert template时切换英文
+    }
 #HotIf
 
 ;; ====================================================================================
