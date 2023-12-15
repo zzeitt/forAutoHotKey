@@ -32,18 +32,48 @@ ztToolTip("Hello AHK!")
 !h::Send "{Left}"                           ; ALT + h            ->    Left                             (Cursor left one character)
 !b::Send "^{Left}"                          ; ALT + b            ->    CTRL + Left                      (Cursor left per word)
 !+h::Send "+{Left}"                         ; ALT + SHIFT + h    ->    SHIFT + Left                     (Select one character)
+~Space & h::{                               ; Shift + Space + h
+  If (GetKeyState("Shift", "P")) {
+    Send "+{Left}"
+  }
+}
 !+b::Send "+^{Left}"                        ; ALT + SHIFT + b    ->    SHIFT + CTRL + Left              (Select per word)
 
 !l::Send "{Right}"                          ; ALT + l            ->    Right                            (Cursor right one character)
 !w::Send "^{Right}"                         ; ALT + w            ->    CTRL + Right                     (Cursor right per word)
 !+l::Send "+{Right}"                        ; ALT + SHIFT + l    ->    SHIFT + Right                    (Select one character)
+~Space & l::{                               ; Shift + Space + l
+  If (GetKeyState("Shift", "P")) {
+    Send "+{Right}"
+  }
+}
 !+w::Send "+^{Right}"                       ; ALT + SHIFT + W    ->    SHIFT + CTRL + Right             (Select per word)
 
 !k::Send "{Up}"                             ; ALT + k            ->    Up                               (Cursor up line)
 !+k::Send "+{Up}"                           ; ALT + SHIFT + k    ->    SHIFT + Up                       (Select one line)
+~Space & k::{                               ; Shift + Space + k
+  If (GetKeyState("Shift", "P")) {
+    Send "+{Up}"
+  }
+}
+~Space & u::{                               ; Shift + Space + u
+  If (GetKeyState("Shift", "P")) {
+    Send "!+u"
+  }
+}
 
 !j::Send "{Down}"                           ; ALT + j            ->    Left                             (Cursor down line)
 !+j::Send "+{Down}"                         ; ALT + SHIFT + j    ->    SHIFT + Left                     (Select one line)
+~Space & j::{                               ; Shift + Space + j
+  If (GetKeyState("Shift", "P")) {
+    Send "+{Down}"
+  }
+}
+~Space & d::{                               ; Shift + Space + d
+  If (GetKeyState("Shift", "P")) {
+    Send "!+d"
+  }
+}
 
 !0::Send "{Home}"                           ; ALT + 0            ->    Home                             (Cursor to beginning of line)
 !+0::Send "+{Home}"                         ; ALT + SHIFT + 0    ->    SHIFT + Home                     (Select to beginning of line)
