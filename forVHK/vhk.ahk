@@ -488,6 +488,8 @@ edge_title := "ahk_exe msedge.exe"
     !r::Send "{F5}"          ; 刷新
     ![::Send "!{Left}"       ; 后退
     !]::Send "!{Right}"      ; 前进
+    !+-::Send "^+{PgUp}"     ; 左移标签
+    !+=::Send "^+{PgDn}"     ; 右移标签
     !+y::Send "^+y"          ; 打开集锦
     !s::Send "^d"            ; 收藏
     !+i::{                   ; Quickey搜索bookmark
