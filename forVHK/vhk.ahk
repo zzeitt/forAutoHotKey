@@ -526,7 +526,6 @@ edge_title := "ahk_exe msedge.exe"
 #HotIf WinActive(edge_title)
     !'::Send "^{F6}{Esc}"    ; 回到页面聚焦
     >!d::Send "!+b"          ; 聚焦至收藏夹栏第一项
-    ~Space & d::Send "!d"    ; Space + d -> Alt + d
     !t::Send "^t"            ; 新建标签页
     !r::Send "{F5}"          ; 刷新
     ![::Send "!{Left}"       ; 后退
