@@ -859,6 +859,11 @@ vscodeClose() {
     !8:: {
         vscodeClose()
     }
+    #HotIf GetKeyState("Shift", "P")
+        ~Space & [::Send "!+["
+        ~Space & ]::Send "!+]"
+    #HotIf
+
     #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
         k::Send "^{Up}"                                                         ; scroll up
         u::Send "{LCtrl Down}{Up 20}{LCtrl Up}"                                 ; scroll half-page up
