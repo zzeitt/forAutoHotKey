@@ -191,6 +191,18 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
     ztToolTip("音量 " . mode . " " . Sound_Now)
 }
 
+;; Adapted from https://www.autohotkey.com/docs/v2/lib/_HotIf.htm#ExVolume
+GroupAdd("TaskBar", "ahk_class Shell_SecondaryTrayWnd")
+GroupAdd("TaskBar", "ahk_class Shell_TrayWnd")
+#HotIf MouseIsOver("ahk_group TaskBar")
+WheelUp::Send "{Volume_Up}"
+WheelDown::Send "{Volume_Down}"
+
+MouseIsOver(WinTitle) {
+    MouseGetPos ,, &Win
+    return WinExist(WinTitle " ahk_id " Win)
+}
+
 ;; ----------------------------- 鼠标移动 ---------------------------------------------
 ;; Partially borrowed from https://github.com/4strid/mouse-control.autohotkey
 mouse_mode := False
