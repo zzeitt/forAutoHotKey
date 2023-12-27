@@ -116,6 +116,10 @@ ztToolTip("Hello AHK!")
 #HotIf !WinActive(vscode_title)
     !=::Send "^{Tab}"                   ; ALT + =                   -> CTRL + TAB
     !-::Send "^+{Tab}"                  ; ALT + -                   -> CTRL + SHIFT + TAB
+    #HotIf !isEditCursor()
+        Space & =::Send "^{Tab}"
+        Space & -::Send "^+{Tab}"
+    #HotIf
 #HotIf
 
 ;; ----------------------------- App Switching ----------------------------------------
@@ -390,6 +394,13 @@ isInput(t_sleep:=50) {
     }
 }
 
+isEditCursor() {
+    if (A_Cursor == "IBeam")
+        return true
+    else
+        return false
+}
+
 isCapsOn() {
     if GetKeyState("CapsLock", "T")
         return true
@@ -552,6 +563,26 @@ edge_title := "ahk_exe msedge.exe"
         ztSwitchIME("en")
         Send "/b "
     }
+    #HotIf !isEditCursor()
+        Space & '::Send "^{F6}{Esc}"    ; 回到页面聚焦
+        Space & t::Send "^t"            ; 新建标签页
+        Space & r::Send "{F5}"          ; 刷新
+        Space & [::Send "!{Left}"       ; 后退
+        Space & ]::Send "!{Right}"      ; 前进
+        Space & s::Send "^d"            ; 收藏
+        Space & d::Send "!d"            ; 搜索栏
+        #HotIf GetKeyState("Shift", "P")
+            Space & -::Send "^+{PgUp}"      ; 左移标签
+            Space & =::Send "^+{PgDn}"      ; 右移标签
+            Space & y::Send "^+y"           ; 打开集锦
+            Space & i::{                   ; Quickey搜索bookmark
+                    Send "!i"
+                    Sleep 400
+                    ztSwitchIME("en")
+                    Send "/b "
+            }
+        #HotIf
+    #HotIf
 #HotIf
 
 ;; ====================================================================================
