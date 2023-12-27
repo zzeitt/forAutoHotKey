@@ -922,8 +922,10 @@ GroupAdd("WPX", "ahk_exe POWERPNT.EXE")
 ;  ╚══╝╚══╝ ╚═╝╚═╝  ╚═══╝       ╚═╝   ╚══════╝╚═╝  ╚═╝╚═╝     ╚═╝
 ;; ====================================================================================
 ; Windows Terminal
-winterm_title := "ahk_exe Windows Terminal.exe"
+winterm_title := "ahk_exe WindowsTerminal.exe"
 #HotIf WinActive(winterm_title)
+    !p::Send "+{Insert}"
+    ^v::Send "^v"
 #HotIf
 
 ;; ====================================================================================
