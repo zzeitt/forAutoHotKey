@@ -605,7 +605,7 @@ edge_title := "ahk_exe msedge.exe"
 zotero_title := "ahk_exe zotero.exe"
 zotero_mode_insert := "Zotero: INSERT"
 zotero_mode_normal := "Zotero: NORMAL"
-zotero_mode := zotero_mode_normal
+zotero_mode := zotero_mode_insert
 zotero_first_active := true ; actually doesn't work, reopen after close will lose mode_win
 zotero_mode_win_title := "Zotero Mode"
 zoteroShowMode() {
