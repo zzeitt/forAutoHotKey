@@ -31,61 +31,20 @@ ztToolTip("Hello AHK!")
 ;; ----------------------------- Text Editing -----------------------------------------
 !h::Send "{Left}"                           ; ALT + h            ->    Left                             (Cursor left one character)
 !+h::Send "+{Left}"                         ; ALT + SHIFT + h    ->    SHIFT + Left                     (Select one character)
-~Space & h::{                               ; Shift + Space + h
-  If (GetKeyState("Shift", "P")) {
-    Send "+{Left}"
-  } else {
-    Send "{Left}"
-  }
-}
-
 !l::Send "{Right}"                          ; ALT + l            ->    Right                            (Cursor right one character)
 !+l::Send "+{Right}"                        ; ALT + SHIFT + l    ->    SHIFT + Right                    (Select one character)
-~Space & l::{                               ; Shift + Space + l
-  If (GetKeyState("Shift", "P")) {
-    Send "+{Right}"
-  } else {
-    Send "{Right}"
-  }
-}
 
 !k::Send "{Up}"                             ; ALT + k            ->    Up                               (Cursor up line)
 !+k::Send "+{Up}"                           ; ALT + SHIFT + k    ->    SHIFT + Up                       (Select one line)
-~Space & k::{                               ; Shift + Space + k
-  If (GetKeyState("Shift", "P")) {
-    Send "+{Up}"
-  } else {
-    Send "{Up}"
-  }
-}
 
 !j::Send "{Down}"                           ; ALT + j            ->    Down                             (Cursor down line)
 !+j::Send "+{Down}"                         ; ALT + SHIFT + j    ->    SHIFT + Left                     (Select one line)
-~Space & j::{                               ; Shift + Space + j
-  If (GetKeyState("Shift", "P")) {
-    Send "+{Down}"
-  } else {
-    Send "{Down}"
-  }
-}
 
 !b::Send "^{Left}"                          ; ALT + b            ->    CTRL + Left                      (Cursor left per word)
 !+b::Send "+^{Left}"                        ; ALT + SHIFT + b    ->    SHIFT + CTRL + Left              (Select per word)
 
 !w::Send "^{Right}"                         ; ALT + w            ->    CTRL + Right                     (Cursor right per word)
 !+w::Send "+^{Right}"                       ; ALT + SHIFT + W    ->    SHIFT + CTRL + Right             (Select per word)
-
-~Space & u::{                               ; Shift + Space + u
-  If (GetKeyState("Shift", "P")) {
-    Send "!+u"
-  }
-}
-
-~Space & d::{                               ; Shift + Space + d
-  If (GetKeyState("Shift", "P")) {
-    Send "!+d"
-  }
-}
 
 !0::Send "{Home}"                           ; ALT + 0            ->    Home                             (Cursor to beginning of line)
 !+0::Send "+{Home}"                         ; ALT + SHIFT + 0    ->    SHIFT + Home                     (Select to beginning of line)
@@ -99,6 +58,25 @@ ztToolTip("Hello AHK!")
 
 !v::Send "{Home}+{End}"                     ; ALT + v            ->    END + SHIFT + HOME               (Select current line)
 !a::Send "^{Right}^+{Left}"                 ; ALT + a            ->    CTRL+RIGHT+CTRL+SHIFT+LEFT       (Select current word)
+
+;; Space -> Alt
+; Space::Send "{Space}"
+#Hotif !isEditCursor() and WinActive(edge_title)
+    ~Space & h::Send "{Left}"
+    ~Space & l::Send "{Right}"
+    ~Space & k::Send "{Up}"
+    ~Space & j::Send "{Down}"
+    ~Space & =::Send "^{Tab}"
+    ~Space & -::Send "^+{Tab}"
+    #HotIf !isEditCursor() and WinActive(edge_title) and GetKeyState("Shift", "P")
+        ~Space & h::Send "+{Left}"
+        ~Space & l::Send "+{Right}"
+        ~Space & k::Send "+{Up}"
+        ~Space & j::Send "+{Down}"
+        ~Space & u::Send "!+u"
+        ~Space & d::Send "!+d"
+    #HotIf
+#HotIf
 
 ;; ----------------------------- Common User Access  ----------------------------------
 !y::Send "^c"                           ; ALT + y                   -> Copy
@@ -116,10 +94,6 @@ ztToolTip("Hello AHK!")
 #HotIf !WinActive(vscode_title)
     !=::Send "^{Tab}"                   ; ALT + =                   -> CTRL + TAB
     !-::Send "^+{Tab}"                  ; ALT + -                   -> CTRL + SHIFT + TAB
-    #HotIf !isEditCursor()
-        Space & =::Send "^{Tab}"
-        Space & -::Send "^+{Tab}"
-    #HotIf
 #HotIf
 
 ;; ----------------------------- App Switching ----------------------------------------
@@ -563,15 +537,15 @@ edge_title := "ahk_exe msedge.exe"
         ztSwitchIME("en")
         Send "/b "
     }
-    #HotIf !isEditCursor()
-        Space & '::Send "^{F6}{Esc}"    ; 回到页面聚焦
-        Space & t::Send "^t"            ; 新建标签页
-        Space & r::Send "{F5}"          ; 刷新
-        Space & [::Send "!{Left}"       ; 后退
-        Space & ]::Send "!{Right}"      ; 前进
-        Space & s::Send "^d"            ; 收藏
-        Space & d::Send "!d"            ; 搜索栏
-        #HotIf GetKeyState("Shift", "P")
+    #HotIf WinActive(edge_title) and !isEditCursor()
+        ~Space & '::Send "^{F6}{Esc}"    ; 回到页面聚焦
+        ~Space & t::Send "^t"            ; 新建标签页
+        ~Space & r::Send "{F5}"          ; 刷新
+        ~Space & [::Send "!{Left}"       ; 后退
+        ~Space & ]::Send "!{Right}"      ; 前进
+        ~Space & s::Send "^d"            ; 收藏
+        ~Space & d::Send "!d"            ; 搜索栏
+        #HotIf WinActive(edge_title) and !isEditCursor() and GetKeyState("Shift", "P")
             Space & -::Send "^+{PgUp}"      ; 左移标签
             Space & =::Send "^+{PgDn}"      ; 右移标签
             Space & y::Send "^+y"           ; 打开集锦
@@ -583,7 +557,7 @@ edge_title := "ahk_exe msedge.exe"
             }
         #HotIf
     #HotIf
-#HotIf
+; #HotIf
 
 ;; ====================================================================================
 ; ███████╗ ██████╗ ████████╗███████╗██████╗  ██████╗ 
@@ -859,9 +833,11 @@ vscodeClose() {
     !8:: {
         vscodeClose()
     }
-    #HotIf GetKeyState("Shift", "P")
+    #HotIf WinActive(vscode_title) and GetKeyState("Shift", "P")
         ~Space & [::Send "!+["
         ~Space & ]::Send "!+]"
+        ~Space & u::Send "+!u"
+        ~Space & d::Send "+!d"
     #HotIf
 
     #HotIf WinActive(vscode_title) and (vscode_mode == vscode_mode_normal)
