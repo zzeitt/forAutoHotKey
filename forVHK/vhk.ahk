@@ -555,6 +555,7 @@ edge_title := "ahk_exe msedge.exe"
                     ztSwitchIME("en")
                     Send "/b "
             }
+            Space & `;::Send "^w"
         #HotIf
     #HotIf
 ; #HotIf
