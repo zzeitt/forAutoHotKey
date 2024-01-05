@@ -902,6 +902,12 @@ winterm_title := "ahk_exe WindowsTerminal.exe"
 #HotIf WinActive(winterm_title)
     !p::Send "+{Insert}"
     ^v::Send "^v"
+    #HotIf WinActive(winterm_title) and GetKeyState("Shift", "P")
+        ~Space & [::Send "!+["
+        ~Space & ]::Send "!+]"
+        ~Space & u::Send "+!u"
+        ~Space & d::Send "+!d"
+    #HotIf
 #HotIf
 
 ;; ====================================================================================
