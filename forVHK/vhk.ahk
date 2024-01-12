@@ -748,20 +748,22 @@ emacsHideTerminal() {
         ["Force hiding emacs terminal?",    ["s" font_size, font, "Center"]],
     ]
     func_yes(*) {
-        if WinExist(emacs_term_title)
+        if WinExist(emacs_term_title) {
             WinHide(emacs_term_title)
             WinClose(emacs_hide_term_title)
+        }
     }
     ztDialog(arr_q, func_yes, emacs_hide_term_title)
 }
 ~#2:: {
     if !WinExist(emacs_title) {
-        if WinWait(emacs_term_title, , 2)
+        if WinWait(emacs_term_title, , 2) {
             WinHide
-        else
+        } else {
             emacsHideTerminal()
             Sleep 3000
             WinActivate(emacs_hide_term_title)
+        }
     }
 }
 
