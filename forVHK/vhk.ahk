@@ -740,8 +740,8 @@ explorer_title := "ahk_exe explorer.exe"
 emacs_name := "emacs.exe"
 emacs_title := Format("ahk_exe {1:s}", emacs_name)
 emacs_term_title := "emacs* ahk_class ConsoleWindowClass|CASCADIA_HOSTING_WINDOW_CLASS"
+emacs_hide_term_title := "emacsHideTerminal"
 emacsHideTerminal() {
-    title := "emacsHideTerminal"
     font := FONT_MSYAHEI
     font_size := 16
     arr_q := [
@@ -750,9 +750,9 @@ emacsHideTerminal() {
     func_yes(*) {
         if WinExist(emacs_term_title)
             WinHide(emacs_term_title)
-            WinClose(title)
+            WinClose(emacs_hide_term_title)
     }
-    ztDialog(arr_q, func_yes, title)
+    ztDialog(arr_q, func_yes, emacs_hide_term_title)
 }
 ~#2:: {
     if !WinExist(emacs_title) {
@@ -760,6 +760,8 @@ emacsHideTerminal() {
             WinHide
         else
             emacsHideTerminal()
+            Sleep 3000
+            WinActivate(emacs_hide_term_title)
     }
 }
 
