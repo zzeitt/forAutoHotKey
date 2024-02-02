@@ -757,13 +757,14 @@ emacsHideTerminal() {
 }
 ~#2:: {
     if !WinExist(emacs_title) {
-        if WinWait(emacs_term_title, , 2) {
+        if WinWait(emacs_term_title, , ,) {
             WinHide
-        } else {
-            emacsHideTerminal()
-            Sleep 3000
-            WinActivate(emacs_hide_term_title)
         }
+    ;     } else {
+    ;         emacsHideTerminal()
+    ;         Sleep 3000
+    ;         WinActivate(emacs_hide_term_title)
+    ;     }
     }
 }
 
