@@ -83,7 +83,7 @@ ztToolTip("Hello AHK!")
 !p::Send "^v"                           ; ALT + p                   -> Paste
 !+a::Send "^a"                          ; ALT + SHIFT + a           -> Select all
 !z::Send "^z"                           ; ALT + z                   -> Undo
-#HotIf !WinActive(emacs_title)
+#HotIf !WinActive(emacs_title) and !WinActive(winterm_title) and !WinActive(etx_title)
     !x::Send "^x"                       ; ALT + x                   -> Cut
     !+;::Send "^w"                      ; ALT + SHIFT + ;           -> CTRL + w                         (关闭页面)
 #HotIf
@@ -905,6 +905,13 @@ GroupAdd("WPX", "ahk_exe POWERPNT.EXE")
 ;; ====================================================================================
 ; Windows Terminal
 winterm_title := "ahk_exe WindowsTerminal.exe"
+~#4:: {
+    if !WinExist(winterm_title) {
+        if WinWait(winterm_title, , ,) {
+            WinActivate(winterm_title)
+        }
+    }
+}
 #HotIf WinActive(winterm_title)
     !p::Send "+{Insert}"
     ^v::Send "^v"
@@ -915,6 +922,21 @@ winterm_title := "ahk_exe WindowsTerminal.exe"
         ~Space & u::Send "+!u"
         ~Space & d::Send "+!d"
     #HotIf
+#HotIf
+
+
+;; ====================================================================================
+; ███████╗████████╗██╗  ██╗
+; ██╔════╝╚══██╔══╝╚██╗██╔╝
+; █████╗     ██║    ╚███╔╝ 
+; ██╔══╝     ██║    ██╔██╗ 
+; ███████╗   ██║   ██╔╝ ██╗
+; ╚══════╝   ╚═╝   ╚═╝  ╚═╝
+;; ====================================================================================
+; ETX
+etx_title := "ahk_exe etxc.exe"
+#HotIf WinActive(etx_title)
+    !x::Send "!x"
 #HotIf
 
 ;; ====================================================================================
