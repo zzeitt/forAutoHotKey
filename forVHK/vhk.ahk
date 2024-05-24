@@ -352,7 +352,11 @@ ChangeScreenOrientation(Orientation:='Landscape', MonNumber:=3) {
 !1::Send "{Media_Play_Pause}"
 
 ;; ------------------------------ 打开输入法设置 -------------------------------------------
-#+i::Run "ms-settings:regionlanguage-chsime-pinyin-udp"
+#+i::{
+  Run "ms-settings:regionlanguage-chsime-pinyin-udp"
+  Sleep 400
+  Send "{Tab 3}"
+}
 
 ;; ====================================================================================
 ; ███╗   ███╗██╗   ██╗    ███████╗██╗   ██╗███╗   ██╗ ██████╗████████╗██╗ ██████╗ ███╗   ██╗███████╗
