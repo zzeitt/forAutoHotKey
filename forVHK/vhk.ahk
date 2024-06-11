@@ -97,7 +97,6 @@ ztToolTip("Hello AHK!")
 #HotIf
 
 ;; ----------------------------- App Switching ----------------------------------------
-#w::Send "#5"                               ; WIN + w            ->    WIN + 5                          (Toggle Wechat "微信")
 #y::Send "#6"                               ; WIN + y            ->    WIN + 6                          (Toggle "网易云")
 #q::Send "^+{Esc}"                          ; WIN + q            ->    CTRL + SHIFT + ESC               (task manager)
 !;::Send "{Esc}"                            ; ALT + ;            ->    Esc
@@ -945,6 +944,33 @@ etx_title := "ahk_exe etxc.exe"
 #HotIf WinActive(etx_title)
     !x::Send "!x"
 #HotIf
+
+
+;; ====================================================================================
+; ██╗    ██╗███████╗ ██████╗██╗  ██╗ █████╗ ████████╗
+; ██║    ██║██╔════╝██╔════╝██║  ██║██╔══██╗╚══██╔══╝
+; ██║ █╗ ██║█████╗  ██║     ███████║███████║   ██║   
+; ██║███╗██║██╔══╝  ██║     ██╔══██║██╔══██║   ██║   
+; ╚███╔███╔╝███████╗╚██████╗██║  ██║██║  ██║   ██║   
+;  ╚══╝╚══╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
+;; ====================================================================================
+; WeChat
+wechat_name := "WeChat.exe"
+wechat_title := "ahk_exe WeChat.exe"
+wechat_login_title := "ahk_class WeChatLoginWndForPC"
+; #w:: {
+;     if WinExist(wechat_title) {
+;         if WinExist(wechat_login_title) {
+;             Send "#5"
+;         } else {
+;             Send "^[" ; WIN + w -> Ctrl + [  (Toggle Wechat "微信")
+;         }
+;     } else {
+;         Send "#5"
+;     }
+; }
+#w::Send "^[" ; WIN + w -> Ctrl + [  (Toggle Wechat "微信")
+
 
 ;; ====================================================================================
 ; ███╗   ███╗██╗███████╗ ██████╗
