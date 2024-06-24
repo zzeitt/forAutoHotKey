@@ -536,7 +536,7 @@ edge_title := "ahk_exe msedge.exe"
     !+-::Send "^+{PgUp}"     ; 左移标签
     !+=::Send "^+{PgDn}"     ; 右移标签
     !+y::Send "^+y"          ; 打开集锦
-    !s::Send "^d"            ; 收藏
+    !s::Send "^+d"           ; 收藏
     !+i::{                   ; Quickey搜索bookmark
         Send "!i"
         Sleep 400
