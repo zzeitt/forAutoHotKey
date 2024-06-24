@@ -905,8 +905,7 @@ GroupAdd("WPX", ppt_title)
     !d::Send "{PgDn}"
     !u::Send "{PgUp}"
     #HotIf WinActive(excel_title)
-        Enter::Send "{F2}"
-        !Enter::Send "{Enter}"
+        !i::Send "{F2}"
     #HotIf
 #HotIf
 
