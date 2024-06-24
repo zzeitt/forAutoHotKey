@@ -894,11 +894,20 @@ vscodeClose() {
 ;  ╚══╝╚══╝ ╚═╝     ╚═╝  ╚═╝
 ;; ====================================================================================
 ; excel & ppt
-GroupAdd("WPX", "ahk_exe EXCEL.EXE")
-GroupAdd("WPX", "ahk_exe WINWORD.EXE")
-GroupAdd("WPX", "ahk_exe POWERPNT.EXE")
+excel_title := "ahk_exe EXCEL.EXE"
+word_title := "ahk_exe WINWORD.EXE"
+ppt_title := "ahk_exe POWERPNT.EXE"
+GroupAdd("WPX", excel_title)
+GroupAdd("WPX", word_title)
+GroupAdd("WPX", ppt_title)
 #HotIf WinActive("ahk_group WPX")
     !s::Send "^s"
+    !d::Send "{PgDn}"
+    !u::Send "{PgUp}"
+    #HotIf WinActive(excel_title)
+        Enter::Send "{F2}"
+        !Enter::Send "{Enter}"
+    #HotIf
 #HotIf
 
 ;; ====================================================================================
