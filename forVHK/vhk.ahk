@@ -621,6 +621,8 @@ zoteroClose() {
         zoteroClose()
     }
     !f::Send "^f"                                                           ; find
+    !o::Send "!{Left}"
+    !+o::Send "!{Right}"
     #HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_normal)
         +k::
         +j::
