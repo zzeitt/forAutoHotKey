@@ -981,6 +981,9 @@ wechat_login_title := "ahk_class WeChatLoginWndForPC"
 ;     }
 ; }
 #w::Send "^[" ; WIN + w -> Ctrl + [  (Toggle Wechat "微信")
+#HotIf WinActive(wechat_title)
+    !f::Send "^f" ; Search
+#HotIf
 
 
 ;; ====================================================================================
