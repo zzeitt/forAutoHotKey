@@ -171,14 +171,21 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 ;; Adapted from https://www.autohotkey.com/docs/v2/lib/_HotIf.htm#ExVolume
 GroupAdd("TaskBar", "ahk_class Shell_SecondaryTrayWnd")
 GroupAdd("TaskBar", "ahk_class Shell_TrayWnd")
-#HotIf MouseIsOver("ahk_group TaskBar")
-WheelUp::Send "{Volume_Up}"
-WheelDown::Send "{Volume_Down}"
+#HotIf isMouseOver("ahk_group TaskBar")
+    WheelUp::Send "{Volume_Up}"
+    WheelDown::Send "{Volume_Down}"
+    LButton:: {
+        ;; Adapted from https://stackoverflow.com/a/20551554/8561448
+        ztToolTip(A_TimeSincePriorHotkey)
+        if(A_PriorHotkey = A_ThisHotkey && A_TimeSincePriorHotkey < 500) {
+            Send "{Media_Next}"
+        } else {
+            Send "{Media_Play_Pause}"
+        }
+    }
+    RButton::Send "{Media_Prev}"
+#HotIf
 
-MouseIsOver(WinTitle) {
-    MouseGetPos ,, &Win
-    return WinExist(WinTitle " ahk_id " Win)
-}
 
 ;; ----------------------------- 鼠标移动 ---------------------------------------------
 ;; Partially borrowed from https://github.com/4strid/mouse-control.autohotkey
@@ -400,6 +407,11 @@ switchTab(my_hotkey){
         else
             SendInput "J"
     }
+}
+
+isMouseOver(WinTitle) {
+    MouseGetPos ,, &Win
+    return WinExist(WinTitle " ahk_id " Win)
 }
 
 ztDialog(
