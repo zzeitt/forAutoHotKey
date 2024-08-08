@@ -172,18 +172,28 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
 GroupAdd("TaskBar", "ahk_class Shell_SecondaryTrayWnd")
 GroupAdd("TaskBar", "ahk_class Shell_TrayWnd")
 #HotIf isMouseOver("ahk_group TaskBar")
-    WheelUp::Send "{Volume_Up}"
-    WheelDown::Send "{Volume_Down}"
+    WheelUp::{
+        Send "{Volume_Up}"
+        ztToolTip(Format("{:d}%", SoundGetVolume()))
+    }
+    WheelDown::{
+        Send "{Volume_Down}"
+        ztToolTip(Format("{:d}%", SoundGetVolume()))
+    }
     LButton:: {
         ;; Adapted from https://stackoverflow.com/a/20551554/8561448
-        ztToolTip(A_TimeSincePriorHotkey)
         if(A_PriorHotkey = A_ThisHotkey && A_TimeSincePriorHotkey < 500) {
             Send "{Media_Next}"
+            ztToolTip("下一首")
         } else {
             Send "{Media_Play_Pause}"
+            ztToolTip("暂停/继续")
         }
     }
-    RButton::Send "{Media_Prev}"
+    RButton::{
+        Send "{Media_Prev}"
+        ztToolTip("下一首")
+    }
 #HotIf
 
 
@@ -353,9 +363,18 @@ ChangeScreenOrientation(Orientation:='Landscape', MonNumber:=3) {
 }
 
 ;; ------------------------------ 媒体播放 -------------------------------------------
-!3::Send "{Media_Next}"
-!2::Send "{Media_Prev}"
-!1::Send "{Media_Play_Pause}"
+!3::{
+    Send "{Media_Next}"
+    ztToolTip("下一首")
+}
+!2::{
+    Send "{Media_Prev}"
+    ztToolTip("上一首")
+}
+!1::{
+Send "{Media_Play_Pause}"
+    ztToolTip("暂停/继续")
+}
 
 ;; ------------------------------ 打开输入法设置 -------------------------------------------
 #+i::{
