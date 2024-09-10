@@ -1,13 +1,19 @@
-﻿;; ---------------------------------------------------------------------
+﻿;; ====================================================================================
+;
 ; ██╗   ██╗██╗  ██╗██╗  ██╗
 ; ██║   ██║██║  ██║██║ ██╔╝
 ; ██║   ██║███████║█████╔╝ 
 ; ╚██╗ ██╔╝██╔══██║██╔═██╗ 
 ;  ╚████╔╝ ██║  ██║██║  ██╗
 ;   ╚═══╝  ╚═╝  ╚═╝╚═╝  ╚═╝
-;; credit by @zeit
-;; ---------------------------------------------------------------------
-#Requires AutoHotkey v2.0-beta
+;
+;; Author:       zeit
+;; Version:      1.0.0
+;; Description:  Use vim-like key bindings in Windows environment.
+;; Changelog:
+;;   2024.09.10: Initialzied version number.
+;; ====================================================================================
+#Requires AutoHotkey v2.0+
 A_MenuMaskKey := "vkE8"  ; Change the masking key to something unassigned such as vkE8.
 PATH_ASSETS := "assets/"
 TraySetIcon(PATH_ASSETS . "vhk.ico")
@@ -28,6 +34,7 @@ ztToolTip("Hello AHK!")
 ; ╚██████╔╝███████╗╚██████╔╝██████╔╝██║  ██║███████╗    ██║ ╚═╝ ██║██║  ██║██║     ██║     ██║██║ ╚████║╚██████╔╝
 ;  ╚═════╝ ╚══════╝ ╚═════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝    ╚═╝     ╚═╝╚═╝  ╚═╝╚═╝     ╚═╝     ╚═╝╚═╝  ╚═══╝ ╚═════╝ 
 ;; ====================================================================================
+; global
 ;; ----------------------------- Text Editing -----------------------------------------
 !h::Send "{Left}"                           ; ALT + h            ->    Left                             (Cursor left one character)
 !+h::Send "+{Left}"                         ; ALT + SHIFT + h    ->    SHIFT + Left                     (Select one character)
@@ -107,9 +114,27 @@ ztToolTip("Hello AHK!")
 !^l::Send "{LWin Down}{Right}{LWin Up}" ; ALT + CTRL + l            -> Home + Right
 !^k::Send "{LWin Down}{Up}{LWin Up}"    ; ALT + CTRL + k            -> Home + Up
 !^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + j            -> Home + Down
-#+h::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
-#+l::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
+#+,::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
+#+.::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
 #[::Send "#z"                           ; WIN + [                   -> WIN + z
+#+-::{
+    ztResizeCurrentWindow(-0.05)        ; Shrink the window
+}
+#+=::{
+    ztResizeCurrentWindow(+0.05)        ; Enlarge the window
+}
+#+k::{
+    ztMoveCurrentWindow(0,-15)          ; Move up the window
+}
+#+j::{
+    ztMoveCurrentWindow(0,15)           ; Move down the window
+}
+#+h::{
+    ztMoveCurrentWindow(-15,0)          ; Move up the window
+}
+#+l::{
+    ztMoveCurrentWindow(15,0)           ; Move down the window
+}
 
 ;; ----------------------------- AutoHotKey  -----------------------------------------
 ^!r::{                                  ; CTRL + ALT + R            -> Reload AHK
@@ -180,20 +205,20 @@ GroupAdd("TaskBar", "ahk_class Shell_TrayWnd")
         Send "{Volume_Down}"
         ztToolTip(Format("{:d}%", SoundGetVolume()))
     }
-    LButton:: {
-        ;; Adapted from https://stackoverflow.com/a/20551554/8561448
-        if(A_PriorHotkey = A_ThisHotkey && A_TimeSincePriorHotkey < 500) {
-            Send "{Media_Next}"
-            ztToolTip("下一首")
-        } else {
-            Send "{Media_Play_Pause}"
-            ztToolTip("暂停/继续")
-        }
-    }
-    RButton::{
-        Send "{Media_Prev}"
-        ztToolTip("下一首")
-    }
+    ;; LButton:: {
+    ;;     ;; Adapted from https://stackoverflow.com/a/20551554/8561448
+    ;;     if(A_PriorHotkey = A_ThisHotkey && A_TimeSincePriorHotkey < 500) {
+    ;;         Send "{Media_Next}"
+    ;;         ztToolTip("下一首")
+    ;;     } else {
+    ;;         Send "{Media_Play_Pause}"
+    ;;         ztToolTip("暂停/继续")
+    ;;     }
+    ;; }
+    ;; RButton::{
+    ;;     Send "{Media_Prev}"
+    ;;     ztToolTip("下一首")
+    ;; }
 #HotIf
 
 
@@ -391,6 +416,7 @@ Send "{Media_Play_Pause}"
 ; ██║ ╚═╝ ██║   ██║       ██║     ╚██████╔╝██║ ╚████║╚██████╗   ██║   ██║╚██████╔╝██║ ╚████║███████║
 ; ╚═╝     ╚═╝   ╚═╝       ╚═╝      ╚═════╝ ╚═╝  ╚═══╝ ╚═════╝   ╚═╝   ╚═╝ ╚═════╝ ╚═╝  ╚═══╝╚══════╝
 ;; ====================================================================================
+; functions
 isInput(t_sleep:=50) {
     Sleep t_sleep  ; give function time to get pos
     if CaretGetPos(&x, &y) {
@@ -547,6 +573,20 @@ ztSwitchIME(lang:="en") {
         "ahk_id " DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hWnd, "Uint"))
     ztToolTip(lang_msg)
 }
+;; --------------------------------------------------------------------------------
+ztResizeCurrentWindow(zoom) {
+    if (zoom < 1.0) {
+        id := WinExist("A")
+        WinGetPos(&x, &y, &w, &h, id)
+        WinMove(,,(1+zoom)*w, (1+zoom)*h)
+    }
+}
+
+ztMoveCurrentWindow(dx, dy) {
+    id := WinExist("A")
+    WinGetPos(&x, &y, &w, &h, id)
+    WinMove(x+dx,y+dy,,,id)
+}
 
 ;; ====================================================================================
 ; ███████╗██████╗  ██████╗ ███████╗
@@ -556,6 +596,7 @@ ztSwitchIME(lang:="en") {
 ; ███████╗██████╔╝╚██████╔╝███████╗
 ; ╚══════╝╚═════╝  ╚═════╝ ╚══════╝
 ;; ====================================================================================
+; edge
 edge_title := "ahk_exe msedge.exe"
 #HotIf WinActive(edge_title)
     !'::Send "^{F6}{Esc}"    ; 回到页面聚焦
@@ -606,6 +647,7 @@ edge_title := "ahk_exe msedge.exe"
 ; ███████╗╚██████╔╝   ██║   ███████╗██║  ██║╚██████╔╝
 ; ╚══════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝ 
 ;; ====================================================================================
+; zotero
 ~#9:: {                                  ; WIN + 9                   -> run/min zotero
     if !WinExist(zotero_title) {
         Sleep 7000
@@ -728,6 +770,7 @@ zoteroClose() {
 ; ███████║╚██████╔╝██║ ╚═╝ ██║   ██║   ██║  ██║██║  ██║    ██║     ██████╔╝██║     
 ; ╚══════╝ ╚═════╝ ╚═╝     ╚═╝   ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝    ╚═╝     ╚═════╝ ╚═╝     
 ;; ====================================================================================
+; sumtra pdf
 #HotIf WinActive("ahk_exe SumatraPDF.exe")
     +k::
     +j::
@@ -747,6 +790,7 @@ zoteroClose() {
 ; ███████╗██╔╝ ██╗██║     ███████╗╚██████╔╝██║  ██║███████╗██║  ██║
 ; ╚══════╝╚═╝  ╚═╝╚═╝     ╚══════╝ ╚═════╝ ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝
 ;; ====================================================================================
+; explorer
 explorer_title := "ahk_exe explorer.exe"
 #HotIf WinActive(explorer_title)
     !e::Send "!d{Tab}{Tab}"                 ; 聚焦侧边栏
@@ -777,6 +821,7 @@ explorer_title := "ahk_exe explorer.exe"
 ; ███████╗██║ ╚═╝ ██║██║  ██║╚██████╗███████║
 ; ╚══════╝╚═╝     ╚═╝╚═╝  ╚═╝ ╚═════╝╚══════╝
 ;; ====================================================================================
+; emacs
 emacs_name := "emacs.exe"
 emacs_title := Format("ahk_exe {1:s}", emacs_name)
 emacs_term_title := "emacs* ahk_class ConsoleWindowClass|CASCADIA_HOSTING_WINDOW_CLASS"
@@ -827,6 +872,7 @@ emacsHideTerminal() {
 ;  ╚████╔╝ ███████║╚██████╗╚██████╔╝██████╔╝███████╗
 ;   ╚═══╝  ╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
 ;; ====================================================================================
+; vscode
 ~#3:: {                                  ; WIN + 3                   -> run/min vscode
     if !WinExist(vscode_title) {
         Sleep 10000
@@ -1029,4 +1075,5 @@ wechat_login_title := "ahk_class WeChatLoginWndForPC"
 ; ██║ ╚═╝ ██║██║███████║╚██████╗
 ; ╚═╝     ╚═╝╚═╝╚══════╝ ╚═════╝
 ;; ====================================================================================
+; miscellaneous
 #^!z:: ztToolTip("love you!")
