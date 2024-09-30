@@ -162,6 +162,15 @@ ztToolTip("Hello AHK!")
     hyf_SoundSetWaveVolume("-", 1)
 }
 
+#HotIf !WinActive(explorer_title) and !WinActive("ahk_group WPX")
+~F3:: {
+01    hyf_SoundSetWaveVolume("+", 1)
+}
+~F2:: {
+    hyf_SoundSetWaveVolume("-", 1)
+}
+#HotIf
+
 !F1:: {
     SoundSetMute -1
     mute_on_off := SoundGetMute()
@@ -589,16 +598,19 @@ ztMoveCurrentWindow(dx, dy) {
 }
 
 ;; ====================================================================================
-; ███████╗██████╗  ██████╗ ███████╗
-; ██╔════╝██╔══██╗██╔════╝ ██╔════╝
-; █████╗  ██║  ██║██║  ███╗█████╗  
-; ██╔══╝  ██║  ██║██║   ██║██╔══╝  
-; ███████╗██████╔╝╚██████╔╝███████╗
-; ╚══════╝╚═════╝  ╚═════╝ ╚══════╝
+; ███████╗██████╗  ██████╗ ███████╗       ██╗       ███████╗██╗██████╗ ███████╗███████╗ ██████╗ ██╗  ██╗
+; ██╔════╝██╔══██╗██╔════╝ ██╔════╝       ██║       ██╔════╝██║██╔══██╗██╔════╝██╔════╝██╔═══██╗╚██╗██╔╝
+; █████╗  ██║  ██║██║  ███╗█████╗      ████████╗    █████╗  ██║██████╔╝█████╗  █████╗  ██║   ██║ ╚███╔╝ 
+; ██╔══╝  ██║  ██║██║   ██║██╔══╝      ██╔═██╔═╝    ██╔══╝  ██║██╔══██╗██╔══╝  ██╔══╝  ██║   ██║ ██╔██╗ 
+; ███████╗██████╔╝╚██████╔╝███████╗    ██████║      ██║     ██║██║  ██║███████╗██║     ╚██████╔╝██╔╝ ██╗
+; ╚══════╝╚═════╝  ╚═════╝ ╚══════╝    ╚═════╝      ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝
 ;; ====================================================================================
-; edge
+; edge & firefox
 edge_title := "ahk_exe msedge.exe"
-#HotIf WinActive(edge_title)
+firefox_title := "ahk_exe firefox.exe"
+GroupAdd("BROWSER", edge_title)
+GroupAdd("BROWSER", firefox_title)
+#HotIf WinActive("ahk_group BROWSER")
     !'::Send "^{F6}{Esc}"    ; 回到页面聚焦
     >!d::Send "!+b"          ; 聚焦至收藏夹栏第一项
     !t::Send "^t"            ; 新建标签页
@@ -845,11 +857,15 @@ emacsHideTerminal() {
         if WinWait(emacs_term_title, , ,) {
             WinHide
         }
+    ; Deprecated functions used to hide extra emacs_term.
     ;     } else {
     ;         emacsHideTerminal()
     ;         Sleep 3000
     ;         WinActivate(emacs_hide_term_title)
     ;     }
+        if WinWait(emacs_title, , ,) {
+            WinActivate(emacs_title)
+        }
     }
 }
 
