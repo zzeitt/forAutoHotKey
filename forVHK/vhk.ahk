@@ -164,7 +164,7 @@ ztToolTip("Hello AHK!")
 
 #HotIf !WinActive(explorer_title) and !WinActive("ahk_group WPX")
 ~F3:: {
-01    hyf_SoundSetWaveVolume("+", 1)
+    hyf_SoundSetWaveVolume("+", 1)
 }
 ~F2:: {
     hyf_SoundSetWaveVolume("-", 1)
@@ -804,6 +804,14 @@ zoteroClose() {
 ;; ====================================================================================
 ; explorer
 explorer_title := "ahk_exe explorer.exe"
+
+#HotIf WinExist(explorer_title)
+#e:: Send "#1"
+#+e:: {
+    Send "#+1"
+}
+#HotIf
+
 #HotIf WinActive(explorer_title)
     !e::Send "!d{Tab}{Tab}"                 ; 聚焦侧边栏
     !'::Send "!d{Tab}{Tab}^a{Up}{Down}"     ; 聚焦文件区域
