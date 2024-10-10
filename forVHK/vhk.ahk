@@ -68,14 +68,14 @@ ztToolTip("Hello AHK!")
 
 ;; Space -> Alt
 ; Space::Send "{Space}"
-#Hotif !isEditCursor() and WinActive(edge_title)
+#Hotif !isEditCursor() and WinActive("ahk_group BROWSER")
     ~Space & h::Send "{Left}"
     ~Space & l::Send "{Right}"
     ~Space & k::Send "{Up}"
     ~Space & j::Send "{Down}"
     ~Space & =::Send "^{Tab}"
     ~Space & -::Send "^+{Tab}"
-    #HotIf !isEditCursor() and WinActive(edge_title) and GetKeyState("Shift", "P")
+    #HotIf !isEditCursor() and WinActive("ahk_group BROWSER") and GetKeyState("Shift", "P")
         ~Space & h::Send "+{Left}"
         ~Space & l::Send "+{Right}"
         ~Space & k::Send "+{Up}"
@@ -94,7 +94,7 @@ ztToolTip("Hello AHK!")
     !x::Send "^x"                       ; ALT + x                   -> Cut
     !+;::Send "^w"                      ; ALT + SHIFT + ;           -> CTRL + w                         (关闭页面)
 #HotIf
-#HotIf !WinActive(edge_title)
+#HotIf !WinActive("ahk_group BROWSER")
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
@@ -146,6 +146,8 @@ ztToolTip("Hello AHK!")
 }
 
 ;; ----------------------------- 音量调节  -----------------------------------------
+;; *********************************************************
+;; @warning Will be deprecated soon.
 ;; Borrowed from https://www.cnblogs.com/hyaray/p/7507476.html
 !F3:: {
     hyf_SoundSetWaveVolume("+", 5)
@@ -160,24 +162,6 @@ ztToolTip("Hello AHK!")
 
 !+F2:: {
     hyf_SoundSetWaveVolume("-", 1)
-}
-
-#HotIf !WinActive(explorer_title) and !WinActive("ahk_group WPX")
-~F3:: {
-    hyf_SoundSetWaveVolume("+", 1)
-}
-~F2:: {
-    hyf_SoundSetWaveVolume("-", 1)
-}
-#HotIf
-
-!F1:: {
-    SoundSetMute -1
-    mute_on_off := SoundGetMute()
-    if mute_on_off
-        ztToolTip("静音  🔇")
-    else
-        ztToolTip("开启声音  🔉")
 }
 
 hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
@@ -200,6 +184,27 @@ hyf_SoundSetWaveVolume(mode, n) { ;mode为"+"或"-"
     }
     SoundSetVolume Sound_Now
     ztToolTip("音量 " . mode . " " . Sound_Now)
+}
+;; *********************************************************
+
+#HotIf !WinActive(explorer_title) and !WinActive("ahk_group WPX") and !WinActive("ahk_group BROWSER")
+~F3:: {
+    Send "{Volume_Up}"
+    ztToolTip(Format("{:d}%", SoundGetVolume()))
+}
+~F2:: {
+    Send "{Volume_Down}"
+    ztToolTip(Format("{:d}%", SoundGetVolume()))
+}
+#HotIf
+
+!F1:: {
+    SoundSetMute -1
+    mute_on_off := SoundGetMute()
+    if mute_on_off
+        ztToolTip("静音  🔇")
+    else
+        ztToolTip("开启声音  🔉")
 }
 
 ;; Adapted from https://www.autohotkey.com/docs/v2/lib/_HotIf.htm#ExVolume
@@ -605,7 +610,7 @@ ztMoveCurrentWindow(dx, dy) {
 ; ███████╗██████╔╝╚██████╔╝███████╗    ██████║      ██║     ██║██║  ██║███████╗██║     ╚██████╔╝██╔╝ ██╗
 ; ╚══════╝╚═════╝  ╚═════╝ ╚══════╝    ╚═════╝      ╚═╝     ╚═╝╚═╝  ╚═╝╚══════╝╚═╝      ╚═════╝ ╚═╝  ╚═╝
 ;; ====================================================================================
-; edge & firefox
+; edge & firefox, i.e. BROWSER
 edge_title := "ahk_exe msedge.exe"
 firefox_title := "ahk_exe firefox.exe"
 GroupAdd("BROWSER", edge_title)
@@ -628,7 +633,9 @@ GroupAdd("BROWSER", firefox_title)
         ztSwitchIME("en")
         Send "/b "
     }
-    #HotIf WinActive(edge_title) and !isEditCursor()
+    F3:: Send "{Volume_Up}"
+    F2:: Send "{Volume_Down}"
+    #HotIf WinActive("ahk_group BROWSER") and !isEditCursor()
         ~Space & '::Send "^{F6}{Esc}"    ; 回到页面聚焦
         ~Space & t::Send "^t"            ; 新建标签页
         ~Space & r::Send "{F5}"          ; 刷新
@@ -636,7 +643,7 @@ GroupAdd("BROWSER", firefox_title)
         ~Space & ]::Send "!{Right}"      ; 前进
         ~Space & s::Send "^d"            ; 收藏
         ~Space & d::Send "!d"            ; 搜索栏
-        #HotIf WinActive(edge_title) and !isEditCursor() and GetKeyState("Shift", "P")
+        #HotIf WinActive("ahk_group BROWSER") and !isEditCursor() and GetKeyState("Shift", "P")
             Space & -::Send "^+{PgUp}"      ; 左移标签
             Space & =::Send "^+{PgDn}"      ; 右移标签
             Space & y::Send "^+y"           ; 打开集锦
