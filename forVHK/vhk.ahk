@@ -1047,7 +1047,7 @@ winterm_title := "ahk_exe WindowsTerminal.exe"
     !+l::Send "+{Right}"                   ; ALT + SHIFT + l    ->    CRLT+SHIFT+Right
     !+j::Send "+{Down}"
     !+k::Send "+{Up}"
-    !+BackSpace::Send "{Esc}{BackSpace}"   ; ALT + SHIFT + BS   ->    BackSpace Word
+    !+BackSpace::Send "!{Del}"             ; ALT + SHIFT + BS   ->    BackSpace Word
     #HotIf WinActive(winterm_title) and GetKeyState("Shift", "P")
         ~Space & [::Send "!+["
         ~Space & ]::Send "!+]"
