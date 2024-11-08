@@ -667,21 +667,27 @@ GroupAdd("BROWSER", firefox_title)
 ; ╚══════╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝  ╚═╝ ╚═════╝ 
 ;; ====================================================================================
 ; zotero
-~#9:: {                                  ; WIN + 9                   -> run/min zotero
-    if !WinExist(zotero_title) {
-        Sleep 7000
-        zoteroShowMode() ; first open zotero
-    } else if !WinActive(zotero_title) {
-        Sleep 600
-        zoteroShowMode() ; reenter zotero
-    }
-}
+
 zotero_title := "ahk_exe zotero.exe"
 zotero_mode_insert := "Zotero: INSERT"
 zotero_mode_normal := "Zotero: NORMAL"
 zotero_mode := zotero_mode_insert
 zotero_first_active := true ; actually doesn't work, reopen after close will lose mode_win
 zotero_mode_win_title := "Zotero Mode"
+
+#HotIf !WinExist(zotero_title)
+~#9:: {
+    Sleep 7000
+    zoteroShowMode() ; first time open zotero
+}
+#HotIf
+
+#HotIf WinExist(zotero_title)
+~#9:: {
+    WinActivate(zotero_title)
+}
+#HotIf
+
 zoteroShowMode() {
     hwnd := WinExist(zotero_title)
     ztShowMode(zotero_mode, zotero_mode_win_title, hwnd)
