@@ -997,24 +997,27 @@ vscodeClose() {
 #HotIf
 
 ;; ====================================================================================
-; ██╗    ██╗██████╗ ██╗  ██╗
-; ██║    ██║██╔══██╗╚██╗██╔╝
-; ██║ █╗ ██║██████╔╝ ╚███╔╝ 
-; ██║███╗██║██╔═══╝  ██╔██╗ 
-; ╚███╔███╔╝██║     ██╔╝ ██╗
-;  ╚══╝╚══╝ ╚═╝     ╚═╝  ╚═╝
+; ██╗    ██╗██████╗ ██╗  ██╗███████╗
+; ██║    ██║██╔══██╗╚██╗██╔╝██╔════╝
+; ██║ █╗ ██║██████╔╝ ╚███╔╝ █████╗  
+; ██║███╗██║██╔═══╝  ██╔██╗ ██╔══╝  
+; ╚███╔███╔╝██║     ██╔╝ ██╗███████╗
+;  ╚══╝╚══╝ ╚═╝     ╚═╝  ╚═╝╚══════╝
 ;; ====================================================================================
-; excel & ppt
+; excel & ppt & ...
 excel_title := "ahk_exe EXCEL.EXE"
 word_title := "ahk_exe WINWORD.EXE"
 ppt_title := "ahk_exe POWERPNT.EXE"
+outlook_title := "ahk_exe OUTLOOK.EXE"
 GroupAdd("WPX", excel_title)
 GroupAdd("WPX", word_title)
 GroupAdd("WPX", ppt_title)
+GroupAdd("WPX", outlook_title)
 #HotIf WinActive("ahk_group WPX")
     !s::Send "^s"
     !d::Send "{PgDn}"
     !u::Send "{PgUp}"
+    !f::Send "^e"
     #HotIf WinActive(excel_title)
         !i::Send "{F2}"
     #HotIf
