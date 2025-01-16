@@ -24,7 +24,7 @@ PATH_MOUSE_IDLE := PATH_ASSETS . "mouse_idle.cur"
 
 SetTitleMatchMode("RegEx")
 
-ztToolTip("Hello AHK!")
+ztToolTip("Hello VHK!")
 
 ;; ====================================================================================
 ;  ██████╗ ██╗      ██████╗ ██████╗  █████╗ ██╗         ███╗   ███╗ █████╗ ██████╗ ██████╗ ██╗███╗   ██╗ ██████╗ 
@@ -703,7 +703,9 @@ zoteroClose() {
         WinClose(zotero_title)
 }
 #HotIf WinActive(zotero_title)
-    !e::Send "^+l"          ; focus library
+    !e::Send "^e"           ; toggle left sidebar
+    !+e::Send "^+l"         ; focus library
+    !+'::Send "^+'"         ; toggle right sidebar
     !i:: {
         global zotero_mode := zotero_mode_insert
         zoteroShowMode()
@@ -1054,6 +1056,7 @@ winterm_title := "ahk_exe WindowsTerminal.exe"
     !+j::Send "+{Down}"
     !+k::Send "+{Up}"
     !+BackSpace::Send "!{Del}"             ; ALT + SHIFT + BS   ->    BackSpace Word
+    !a::Send "^_"                          ; ALT + a            ->    Let terminal configures
     #HotIf WinActive(winterm_title) and GetKeyState("Shift", "P")
         ~Space & [::Send "!+["
         ~Space & ]::Send "!+]"
