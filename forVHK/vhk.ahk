@@ -877,18 +877,9 @@ emacsHideTerminal() {
 }
 ~#2:: {
     if !WinExist(emacs_title) {
-        if WinWait(emacs_term_title, , ,) {
-            WinHide
-        }
-    ; Deprecated functions used to hide extra emacs_term.
-    ;     } else {
-    ;         emacsHideTerminal()
-    ;         Sleep 3000
-    ;         WinActivate(emacs_hide_term_title)
-    ;     }
-        if WinWait(emacs_title, , ,) {
-            WinActivate(emacs_title)
-        }
+        WinHide(WinWait(emacs_term_title, , ,))
+        WinActivate(WinWait(emacs_title, , ,))
+        ztSwitchIME("en") ; 初始化英文输入
     }
 }
 
@@ -1043,9 +1034,8 @@ GroupAdd("WPX", outlook_title)
 winterm_title := "ahk_exe WindowsTerminal.exe"
 ~#4:: {
     if !WinExist(winterm_title) {
-        if WinWait(winterm_title, , ,) {
-            WinActivate(winterm_title)
-        }
+        WinActivate(WinWait(winterm_title, , ,))
+        ztSwitchIME("en") ; 初始化英文输入
     }
 }
 #HotIf WinActive(winterm_title)
