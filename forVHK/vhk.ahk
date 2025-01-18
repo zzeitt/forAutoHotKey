@@ -578,7 +578,7 @@ ztSwitchIME(lang:="en") {
     }
 
     DetectHiddenWindows True
-    hWnd := winGetID("A")
+    hWnd := WinGetID("A")
     tmp := SendMessage(
         0x283,                  ; WM_IME_CONTROL
         0x002,                  ; IMC_SETCONVERSIONMODE
@@ -879,6 +879,7 @@ emacsHideTerminal() {
     if !WinExist(emacs_title) {
         WinHide(WinWait(emacs_term_title, , ,))
         WinActivate(WinWait(emacs_title, , ,))
+        Sleep 400
         ztSwitchIME("en") ; 初始化英文输入
     }
 }
@@ -1035,6 +1036,7 @@ winterm_title := "ahk_exe WindowsTerminal.exe"
 ~#4:: {
     if !WinExist(winterm_title) {
         WinActivate(WinWait(winterm_title, , ,))
+        Sleep 400
         ztSwitchIME("en") ; 初始化英文输入
     }
 }
