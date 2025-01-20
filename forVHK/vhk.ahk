@@ -112,7 +112,7 @@ ztToolTip("Hello VHK!")
 ;; ----------------------------- Window Manipulation ----------------------------------
 !^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + h            -> Home + Left
 !^l::Send "{LWin Down}{Right}{LWin Up}" ; ALT + CTRL + l            -> Home + Right
-!^k::Send "{LWin Down}{Up}{LWin Up}"    ; ALT + CTRL + k            -> Home + Up
+!^k::WinMaximize "A"                    ; ALT + CTRL + k            -> Home + Up
 !^j::Send "{LWin Down}{Down}{LWin Up}"  ; ALT + CTRL + j            -> Home + Down
 #+,::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
 #+.::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
