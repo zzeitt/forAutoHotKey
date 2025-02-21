@@ -706,6 +706,7 @@ zoteroClose() {
     !e::Send "^e"           ; toggle left sidebar
     !+e::Send "^+l"         ; focus library
     !+'::Send "^+'"         ; toggle right sidebar
+    !+y::Send "^+c"         ; copy bibliography
     !i:: {
         global zotero_mode := zotero_mode_insert
         zoteroShowMode()
@@ -904,15 +905,15 @@ emacsHideTerminal() {
 ;   ╚═══╝  ╚══════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚══════╝
 ;; ====================================================================================
 ; vscode
-~#3:: {                                  ; WIN + 3                   -> run/min vscode
-    if !WinExist(vscode_title) {
-        Sleep 10000
-        vscodeShowMode() ; first open vscode
-    } else if !WinActive(vscode_title) {
-        Sleep 600
-        vscodeShowMode() ; reenter vscode
-    }
-}
+; ~#3:: {                                  ; WIN + 3                   -> run/min vscode
+;     if !WinExist(vscode_title) {
+;         Sleep 10000
+;         vscodeShowMode() ; first open vscode
+;     } else if !WinActive(vscode_title) {
+;         Sleep 600
+;         vscodeShowMode() ; reenter vscode
+;     }
+; }
 vscode_name := "Code.exe"
 vscode_title := Format("ahk_exe {1:s}", vscode_name)
 vscode_mode_insert := "VSCode: INSERT"
@@ -1021,6 +1022,11 @@ GroupAdd("WPX", outlook_title)
     #HotIf WinActive(excel_title)
         !i::Send "{F2}"
     #HotIf
+#HotIf
+
+#HotIf WinActive(outlook_title)
+    ^j::Send "^+1" ;; Done & Move (need to be configured on Outlook, mapped to "C-S-1")
+    ^k::Send "^+2" ;; Read (need to be configured on Outlook, mapped to "C-S-2")
 #HotIf
 
 ;; ====================================================================================
