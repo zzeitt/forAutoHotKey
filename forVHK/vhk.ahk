@@ -370,7 +370,8 @@ setPinyin(enable_double_pinyin) {
 }
 
 ;; ---------------------------- 旋转屏幕 -------------------------------------------
-#^r::ChangeScreenOrientation("Clockwise", 3)
+#>^r::ChangeScreenOrientation("Clockwise", 3)
+#<^r::ChangeScreenOrientation("Clockwise", 2)
 
 ChangeScreenOrientation(Orientation:='Landscape', MonNumber:=3) {
     static DMDO_DEFAULT := 0, DMDO_90 := 1, DMDO_180 := 2, DMDO_270 := 3, dmSize := 220
@@ -627,6 +628,9 @@ GroupAdd("BROWSER", firefox_title)
     !+y::Send "^+y"          ; 打开集锦
     !s::Send "^+d"           ; 收藏
     !+'::Send "{F12}"        ; 开发者模式
+    !+u:: Send "!d{^}"
+    !+f:: Send "!d{*}"
+    !+p:: Send "!d{%}"
     !+i::{                   ; Quickey搜索bookmark
         Send "!i"
         Sleep 400
@@ -656,7 +660,7 @@ GroupAdd("BROWSER", firefox_title)
             Space & `;::Send "^w"
         #HotIf
     #HotIf
-; #HotIf
+#HotIf
 
 ;; ====================================================================================
 ; ███████╗ ██████╗ ████████╗███████╗██████╗  ██████╗ 
@@ -1025,8 +1029,8 @@ GroupAdd("WPX", outlook_title)
 #HotIf
 
 #HotIf WinActive(outlook_title)
-    ^j::Send "^+1" ;; Done & Move (need to be configured on Outlook, mapped to "C-S-1")
-    ^k::Send "^+2" ;; Read (need to be configured on Outlook, mapped to "C-S-2")
+    !+m::Send "^+1" ;; Done & Move (need to be configured on Outlook, mapped to "C-S-1")
+    !m::Send "^+2" ;; Read (need to be configured on Outlook, mapped to "C-S-2")
 #HotIf
 
 ;; ====================================================================================
@@ -1117,8 +1121,9 @@ wechat_login_title := "ahk_class WeChatLoginWndForPC"
 ;; ====================================================================================
 ; ; FocusTimer
 #f:: {
-    focus_duration := InputBox("Enter Duration", "FocusTimer", "w200 h100", 45).value
-    Run "ms-clock://createfocustimer?skipBreaks=false&displayMode=aot&force=true&duration=" . focus_duration
+    ask_focus_box := InputBox("Enter Duration", "FocusTimer", "w200 h100", 45)
+    if ask_focus_box.Result = "OK"
+        Run "ms-clock://createfocustimer?skipBreaks=false&displayMode=aot&force=true&duration=" . ask_focus_box.value
 }
 #+f:: {
     Run "ms-clock://pausefocustimer"
@@ -1126,7 +1131,6 @@ wechat_login_title := "ahk_class WeChatLoginWndForPC"
 #^f:: {
     Run "ms-clock://resetfocustimer"
 }
-
 
 
 ;; ====================================================================================
