@@ -235,8 +235,96 @@ GroupAdd("TaskBar", "ahk_class Shell_TrayWnd")
     ;; }
 #HotIf
 
+;; ----------------------------- 切换双拼  -----------------------------------------
+enable_double_pinyin := False
+setPinyin(enable_double_pinyin) {
+    RegWrite(
+    enable_double_pinyin, "REG_DWORD", 
+        "HKCU\SOFTWARE\Microsoft\InputMethod\Settings\CHS", 
+        "Enable Double Pinyin")
+    b_double_pinyin := RegRead(
+        "HKCU\SOFTWARE\Microsoft\InputMethod\Settings\CHS", 
+        "Enable Double Pinyin")
+    if b_double_pinyin {
+        ztToolTip("双拼  🍻")
+    } else {
+        ztToolTip("全拼  🍺")
+    }
+}
 
+#p::{
+    global enable_double_pinyin := !enable_double_pinyin
+    setPinyin(enable_double_pinyin)
+}
+#+p::{
+    global enable_double_pinyin := 1
+    setPinyin(enable_double_pinyin)
+}
+
+;; ---------------------------- 旋转屏幕 -------------------------------------------
+#>^r::ChangeScreenOrientation("Clockwise", 3)
+#<^r::ChangeScreenOrientation("Clockwise", 2)
+
+ChangeScreenOrientation(Orientation:='Landscape', MonNumber:=3) {
+    static DMDO_DEFAULT := 0, DMDO_90 := 1, DMDO_180 := 2, DMDO_270 := 3, dmSize := 220
+    NumPut('Short', dmSize, DEVMODE := Buffer(dmSize, 0), 68)
+    display := '\\.\DISPLAY' MonNumber
+    DllCall('EnumDisplaySettings', 'Str', display, 'Int', -1, 'Ptr', DEVMODE)
+    n0 := NumGet(DEVMODE, 172, 'UInt')
+    n1 := NumGet(DEVMODE, 176, 'UInt')
+    b := n0 < n1
+    dimension1 := n% b% | n%!b% << 32
+    dimension2 := n%!b% | n% b% << 32
+    currentOrientation := NumGet(DEVMODE, 84, 'Int')
+    switch Orientation, false {
+        case 'Clockwise':
+            Orientation := (--currentOrientation) < DMDO_DEFAULT ? DMDO_270 : currentOrientation
+            i := (Orientation&1) + 1
+        case 'CClockwise', 'CounterClockwise':
+            Orientation := (++currentOrientation) > DMDO_270 ? DMDO_DEFAULT : currentOrientation
+            i := (Orientation&1) + 1
+        case 'Landscape'          ,   0: i := 1, orientation := DMDO_DEFAULT
+        case 'Portrait'           ,  90: i := 2, orientation := DMDO_90
+        case 'Landscape (flipped)', 180: i := 1, orientation := DMDO_180
+        case 'Portrait (flipped)' , 270: i := 2, orientation := DMDO_270
+        default:                         i := 1, orientation := DMDO_DEFAULT
+    }
+    NumPut('Int'  , orientation , DEVMODE,  84)
+    NumPut('Int64', dimension%i%, DEVMODE, 172)
+    DllCall('ChangeDisplaySettingsEx', 'Str', display, 'Ptr', DEVMODE, 'Ptr', 0, 'Int', 0, 'Int', 0)
+}
+
+;; ------------------------------ 媒体播放 -------------------------------------------
+!3::{
+    Send "{Media_Next}"
+    ztToolTip("下一首")
+}
+!2::{
+    Send "{Media_Prev}"
+    ztToolTip("上一首")
+}
+!1::{
+Send "{Media_Play_Pause}"
+    ztToolTip("暂停/继续")
+}
+
+;; ------------------------------ 打开输入法设置 -------------------------------------------
+#^i::{
+  Run "ms-settings:regionlanguage-chsime-pinyin-udp"
+  Sleep 400
+  Send "{Tab 3}"
+}
+
+;; ====================================================================================
+; ███╗   ███╗ ██████╗ ██╗   ██╗███████╗███████╗███╗   ███╗ ██████╗ ██████╗ ███████╗
+; ████╗ ████║██╔═══██╗██║   ██║██╔════╝██╔════╝████╗ ████║██╔═══██╗██╔══██╗██╔════╝
+; ██╔████╔██║██║   ██║██║   ██║███████╗█████╗  ██╔████╔██║██║   ██║██║  ██║█████╗  
+; ██║╚██╔╝██║██║   ██║██║   ██║╚════██║██╔══╝  ██║╚██╔╝██║██║   ██║██║  ██║██╔══╝  
+; ██║ ╚═╝ ██║╚██████╔╝╚██████╔╝███████║███████╗██║ ╚═╝ ██║╚██████╔╝██████╔╝███████╗
+; ╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚══════╝╚══════╝╚═╝     ╚═╝ ╚═════╝ ╚═════╝ ╚══════╝
+;; ====================================================================================
 ;; ----------------------------- 鼠标移动 ---------------------------------------------
+;; Mouse Mode (mosemode)
 ;; Partially borrowed from https://github.com/4strid/mouse-control.autohotkey
 mouse_mode := False
 VELOCITY_X := 0
@@ -327,6 +415,8 @@ quitMouseMode() {
         global mouse_mode := False ; quit
         quitMouseMode()
     }
+    !j::Click "WheelUp"
+    !k::Click "WheelDown"
 
     ; MButton::changeCursor()
     ; MButton Up::restoreCursors()
@@ -341,86 +431,6 @@ quitMouseMode() {
     } else {
         quitMouseMode()
     }
-}
-
-;; ----------------------------- 切换双拼  -----------------------------------------
-enable_double_pinyin := False
-setPinyin(enable_double_pinyin) {
-    RegWrite(
-    enable_double_pinyin, "REG_DWORD", 
-        "HKCU\SOFTWARE\Microsoft\InputMethod\Settings\CHS", 
-        "Enable Double Pinyin")
-    b_double_pinyin := RegRead(
-        "HKCU\SOFTWARE\Microsoft\InputMethod\Settings\CHS", 
-        "Enable Double Pinyin")
-    if b_double_pinyin {
-        ztToolTip("双拼  🍻")
-    } else {
-        ztToolTip("全拼  🍺")
-    }
-}
-
-#p::{
-    global enable_double_pinyin := !enable_double_pinyin
-    setPinyin(enable_double_pinyin)
-}
-#+p::{
-    global enable_double_pinyin := 1
-    setPinyin(enable_double_pinyin)
-}
-
-;; ---------------------------- 旋转屏幕 -------------------------------------------
-#>^r::ChangeScreenOrientation("Clockwise", 3)
-#<^r::ChangeScreenOrientation("Clockwise", 2)
-
-ChangeScreenOrientation(Orientation:='Landscape', MonNumber:=3) {
-    static DMDO_DEFAULT := 0, DMDO_90 := 1, DMDO_180 := 2, DMDO_270 := 3, dmSize := 220
-    NumPut('Short', dmSize, DEVMODE := Buffer(dmSize, 0), 68)
-    display := '\\.\DISPLAY' MonNumber
-    DllCall('EnumDisplaySettings', 'Str', display, 'Int', -1, 'Ptr', DEVMODE)
-    n0 := NumGet(DEVMODE, 172, 'UInt')
-    n1 := NumGet(DEVMODE, 176, 'UInt')
-    b := n0 < n1
-    dimension1 := n% b% | n%!b% << 32
-    dimension2 := n%!b% | n% b% << 32
-    currentOrientation := NumGet(DEVMODE, 84, 'Int')
-    switch Orientation, false {
-        case 'Clockwise':
-            Orientation := (--currentOrientation) < DMDO_DEFAULT ? DMDO_270 : currentOrientation
-            i := (Orientation&1) + 1
-        case 'CClockwise', 'CounterClockwise':
-            Orientation := (++currentOrientation) > DMDO_270 ? DMDO_DEFAULT : currentOrientation
-            i := (Orientation&1) + 1
-        case 'Landscape'          ,   0: i := 1, orientation := DMDO_DEFAULT
-        case 'Portrait'           ,  90: i := 2, orientation := DMDO_90
-        case 'Landscape (flipped)', 180: i := 1, orientation := DMDO_180
-        case 'Portrait (flipped)' , 270: i := 2, orientation := DMDO_270
-        default:                         i := 1, orientation := DMDO_DEFAULT
-    }
-    NumPut('Int'  , orientation , DEVMODE,  84)
-    NumPut('Int64', dimension%i%, DEVMODE, 172)
-    DllCall('ChangeDisplaySettingsEx', 'Str', display, 'Ptr', DEVMODE, 'Ptr', 0, 'Int', 0, 'Int', 0)
-}
-
-;; ------------------------------ 媒体播放 -------------------------------------------
-!3::{
-    Send "{Media_Next}"
-    ztToolTip("下一首")
-}
-!2::{
-    Send "{Media_Prev}"
-    ztToolTip("上一首")
-}
-!1::{
-Send "{Media_Play_Pause}"
-    ztToolTip("暂停/继续")
-}
-
-;; ------------------------------ 打开输入法设置 -------------------------------------------
-#^i::{
-  Run "ms-settings:regionlanguage-chsime-pinyin-udp"
-  Sleep 400
-  Send "{Tab 3}"
 }
 
 ;; ====================================================================================
