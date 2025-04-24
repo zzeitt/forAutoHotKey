@@ -738,6 +738,10 @@ zoteroClose() {
     !f::Send "^f"                                                           ; find
     !o::Send "!{Left}"
     !+o::Send "!{Right}"
+    !t:: {
+        Send "{Tab 7}" ;; switch to tag section
+        Send "{Enter}"
+    }
     #HotIf WinActive(zotero_title) and (zotero_mode == zotero_mode_normal)
         +k::
         +j::
