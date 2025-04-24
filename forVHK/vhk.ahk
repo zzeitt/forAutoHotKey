@@ -1053,27 +1053,46 @@ GroupAdd("WPX", outlook_title)
 ;; ====================================================================================
 ; Windows Terminal
 winterm_title := "ahk_exe WindowsTerminal.exe"
+winterm_mode_insert := "Winterm: INSERT"
+winterm_mode_mark := "Winterm: MARK"
+winterm_mode := winterm_mode_insert
+winterm_mode_win_title := "Winterm Mode"
 ~#4:: {
     if !WinExist(winterm_title) {
         WinActivate(WinWait(winterm_title, , ,))
-        Sleep 400
-        ztSwitchIME("en") ; 初始化英文输入
+        ; Sleep 400
+        ; ztSwitchIME("en") ; 初始化英文输入
+        ;; 上述功能已从Terminal内部设置
     }
 }
 #HotIf WinActive(winterm_title)
     !p::Send "+{Insert}"
     ^v::Send "^v"
-    !+h::Send "+{Left}"                    ; ALT + SHIFT + h    ->    CRLT+SHIFT+Left
-    !+l::Send "+{Right}"                   ; ALT + SHIFT + l    ->    CRLT+SHIFT+Right
-    !+j::Send "+{Down}"
-    !+k::Send "+{Up}"
     !+BackSpace::Send "!{Del}"             ; ALT + SHIFT + BS   ->    BackSpace Word
     !a::Send "^_"                          ; ALT + a            ->    Let terminal configures
-    #HotIf WinActive(winterm_title) and GetKeyState("Shift", "P")
-        ~Space & [::Send "!+["
-        ~Space & ]::Send "!+]"
-        ~Space & u::Send "+!u"
-        ~Space & d::Send "+!d"
+    ; #HotIf WinActive(winterm_title) and GetKeyState("Shift", "P")
+    ;     ~Space & [::Send "!+["
+    ;     ~Space & ]::Send "!+]"
+    ;     ~Space & u::Send "+!u"
+    ;     ~Space & d::Send "+!d"
+    ; #HotIf
+    ~!+m::{
+        global winterm_mode := winterm_mode_mark ; enable mark mode
+    }
+    #HotIf WinActive(winterm_title) and (winterm_mode == winterm_mode_mark)
+        ;; 支持Windows Terminal标记模式（Mark Mode）
+        h::Send "{Left}"
+        j::Send "{Down}"
+        k::Send "{Up}"
+        l::Send "{Right}"
+        +h::Send "+{Left}"
+        +j::Send "+{Down}"
+        +k::Send "+{Up}"
+        +l::Send "+{Right}"
+        y::Send "^c"
+        Esc::{
+            global winterm_mode := winterm_mode_insert ; disable mark mode
+        }
     #HotIf
 #HotIf
 
