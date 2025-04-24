@@ -1089,12 +1089,25 @@ winterm_mode_win_title := "Winterm Mode"
         j::Send "{Down}"
         k::Send "{Up}"
         l::Send "{Right}"
+        b::Send "^{Left}"
+        e::Send "^{Right}"
+        w::Send "^{Right}"
+        0::Send "{Home}"
+        4::Send "{End}"
         +h::Send "+{Left}"
         +j::Send "+{Down}"
         +k::Send "+{Up}"
         +l::Send "+{Right}"
+        +b::Send "^+{Left}"
+        +w::Send "^+{Right}"
+        +0::Send "+{Home}"
+        +4::Send "+{End}"
         y::Send "^c"
-        Esc::{
+        !;::{
+            Send "^+m"
+            global winterm_mode := winterm_mode_insert ; disable mark mode
+        }
+        ~*Esc::{
             global winterm_mode := winterm_mode_insert ; disable mark mode
         }
     #HotIf
