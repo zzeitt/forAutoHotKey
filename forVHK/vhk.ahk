@@ -98,7 +98,7 @@ ztToolTip("Hello VHK!")
     !g::Send "^{Home}"                  ; ALT + G                   -> CTRL + HOME
     !+g::Send "^{End}"                  ; ALT + SHIFT + G           -> CTRL + END
 #HotIf
-#HotIf !WinActive(vscode_title)
+#HotIf !WinActive(vscode_title) and !WinActive(winterm_title)
     !=::Send "^{Tab}"                   ; ALT + =                   -> CTRL + TAB
     !-::Send "^+{Tab}"                  ; ALT + -                   -> CTRL + SHIFT + TAB
 #HotIf
@@ -108,6 +108,51 @@ ztToolTip("Hello VHK!")
 #q::Send "^+{Esc}"                          ; WIN + q            ->    CTRL + SHIFT + ESC               (task manager)
 !;::Send "{Esc}"                            ; ALT + ;            ->    Esc
 !8::Send "{LAlt Down}{F4}{LAlt Up}"         ; Alt + 0            ->    Alt + F4
+#;::{
+    ;; Borrowed from https://superuser.com/a/1768047/1660522
+    static LastRun := 0
+    static QuickPress := 0
+
+    Now := A_TickCount
+
+    if (Now - LastRun < 400)
+        QuickPress++
+    else
+        QuickPress := 0
+
+    OutputDebug '`n`nNow: ' Now ' LastRun: ' LastRun ' QuickPress: ' QuickPress '`n'
+
+
+
+    OldClass := WinGetClass("A")
+    ActiveProcessName := WinGetProcessName("A")
+    WinClassCount := WinGetCount("ahk_exe " ActiveProcessName)
+    ActiveId := WinGetID("A")
+    OutputDebug 'Current:    ' ActiveId '/' OldClass '/' ActiveProcessName '/' WinGetTitle("ahk_id" ActiveId) "`n"
+
+    if (WinClassCount = 1)
+        Return
+
+    ToSkip := QuickPress
+    OutputDebug 'Will skip ' ToSkip ' of ' WinClassCount '`n'
+
+    ids := WinGetList("ahk_exe " ActiveProcessName)
+    for SiblingId in ids {
+        if (WinGetClass("ahk_id" SiblingId) != OldClass)
+            continue
+
+        OutputDebug 'Found:      ' SiblingId '/' WinGetClass("ahk_id" SiblingId) '/' WinGetProcessName("ahk_id" SiblingId) '/' WinGetTitle("ahk_id" SiblingId) '`n'
+
+        if (SiblingId != ActiveId && ToSkip-- <=0) {
+            OutputDebug 'Switch to:  ' SiblingId '/' WinGetClass("ahk_id" SiblingId) '/' WinGetProcessName("ahk_id" SiblingId) '/' WinGetTitle("ahk_id" SiblingId) '`n'
+            WinActivate("ahk_id" SiblingId)
+            break
+        }
+    }
+
+
+    LastRun := A_TickCount
+}
 
 ;; ----------------------------- Window Manipulation ----------------------------------
 !^h::Send "{LWin Down}{Left}{LWin Up}"  ; ALT + CTRL + h            -> Home + Left
@@ -315,6 +360,9 @@ Send "{Media_Play_Pause}"
   Send "{Tab 3}"
 }
 
+;; ------------------------------ 打开win11 widget -------------------------------------------
+#`::Send "#^{Backspace}"
+
 ;; ====================================================================================
 ; ███╗   ███╗ ██████╗ ██╗   ██╗███████╗███████╗███╗   ███╗ ██████╗ ██████╗ ███████╗
 ; ████╗ ████║██╔═══██╗██║   ██║██╔════╝██╔════╝████╗ ████║██╔═══██╗██╔══██╗██╔════╝
@@ -359,15 +407,15 @@ moveCursor() {
         restoreCursors()
     }
     accelerate(velocity, pos, neg, RESISTANCE:=0.982, FORCE:=1.8) {
-        If (pos == 0 && neg == 0) {
+        if (pos == 0 && neg == 0) {
             Return 0
         }
         ; smooth deceleration :)
-        Else If (pos + neg == 0) {
+        else if (pos + neg == 0) {
             Return velocity * 0.666
         }
         ; physicszzzzz
-        Else {
+        else {
             Return velocity * RESISTANCE + FORCE * (pos + neg)
         }
     }
@@ -425,9 +473,8 @@ quitMouseMode() {
 #o::{
     global mouse_mode := !mouse_mode ; toggle mode
     if mouse_mode {
-        SetTimer MoveCursor, 16
+        SetTimer moveCursor, 16
         enterMouseMode()
-        ; MouseMove A_ScreenWidth/2, A_ScreenHeight/2
     } else {
         quitMouseMode()
     }
@@ -578,6 +625,7 @@ ztToggleModeWin(win_title, func_showModeWin) {
 }
 
 ;; --------------------------------------------------------------------------------
+;; IME related
 ;; Borrowed from https://zhuanlan.zhihu.com/p/425951648
 ztSwitchIME(lang:="en") {
     if (lang == "en") {
@@ -598,6 +646,49 @@ ztSwitchIME(lang:="en") {
         "ahk_id " DllCall("imm32\ImmGetDefaultIMEWnd", "Uint", hWnd, "Uint"))
     ztToolTip(lang_msg)
 }
+
+;===========================================================================
+; Borrowed from: https://github.com/k-ayaki/IMEv2.ahk/blob/master/IMEv2.ahk
+; IME 入力モード (どの IMEでも共通っぽい)
+;   DEC  HEX    BIN
+;     0 (0x00  0000 0000) かな    半英数
+;     3 (0x03  0000 0011)         半ｶﾅ
+;     8 (0x08  0000 1000)         全英数
+;     9 (0x09  0000 1001)         ひらがな
+;    11 (0x0B  0000 1011)         全カタカナ
+;    16 (0x10  0001 0000) ローマ字半英数
+;    19 (0x13  0001 0011)         半ｶﾅ
+;    24 (0x18  0001 1000)         全英数
+;    25 (0x19  0001 1001)         ひらがな
+;    27 (0x1B  0001 1011)         全カタカナ
+
+;  ※ 地域と言語のオプション - [詳細] - 詳細設定
+;     - 詳細なテキストサービスのサポートをプログラムのすべてに拡張する
+;    が ONになってると値が取れない模様 
+;    (Google日本語入力βはここをONにしないと駄目なので値が取れないっぽい)
+
+;-------------------------------------------------------
+; IME 入力モード取得
+;   WinTitle="A"    対象Window
+;   戻り値          入力モード
+;--------------------------------------------------------
+ztGetIMEMode(WinTitle:="A")   {
+    hwnd := WinExist(WinTitle)
+    if  (WinActive(WinTitle))   {
+        ptrSize := !A_PtrSize ? 4 : A_PtrSize
+        cbSize := 4+4+(PtrSize*6)+16	; DWORD*2+HWND*6+RECT
+        stGTI := Buffer(cbSize,0)
+        NumPut("UInt", cbSize, stGTI.Ptr,0)   ;   DWORD   cbSize;
+        hwnd := DllCall("GetGUIThreadInfo", "Uint",0, "Uint",stGTI.Ptr)
+                 ? NumGet(stGTI.Ptr,8+PtrSize,"Uint") : hwnd
+    }
+    return DllCall("SendMessage"
+          , "Uint", DllCall("imm32\ImmGetDefaultIMEWnd", "Uint",hwnd)
+          , "Uint", 0x0283  ;Message : WM_IME_CONTROL
+          ,  "Int", 0x001   ;wParam  : IMC_GETCONVERSIONMODE
+          ,  "Int", 0)      ;lParam  : 0
+}
+
 ;; --------------------------------------------------------------------------------
 ztResizeCurrentWindow(zoom) {
     if (zoom < 1.0) {
@@ -1045,6 +1136,7 @@ GroupAdd("WPX", outlook_title)
 #HotIf WinActive(outlook_title)
     !+m::Send "^+1" ;; Done & Move (need to be configured on Outlook, mapped to "C-S-1")
     !m::Send "^+2" ;; Read (need to be configured on Outlook, mapped to "C-S-2")
+    !i::Send "^+3" ;; Flag
 #HotIf
 
 ;; ====================================================================================
@@ -1072,9 +1164,11 @@ winterm_mode_win_title := "Winterm Mode"
 #HotIf WinActive(winterm_title)
     !p::Send "+{Insert}"
     ^v::Send "^v"
-    !+BackSpace::Send "!{Del}"             ; ALT + SHIFT + BS   ->    BackSpace Word
-    !a::Send "^_"                          ; ALT + a            ->    Let terminal configures
-    ; #HotIf WinActive(winterm_title) and GetKeyState("Shift", "P")
+    !+BackSpace::Send "!{Del}"  ; ALT + SHIFT + BS      -> BackSpace Word
+    !a::Send "^_"               ; ALT + a               -> Let terminal configures
+    +!u::Send "^+{Up}"          ; ALT+SHIFT+u           -> Scrool up
+    +!d::Send "^+{Down}"        ; ALT+SHIFT+d           -> Scrool down
+    ; #HotIf WinActive(w::nterm_title)Send "^+{Down}" and GetKeyState("Shift", "P")
     ;     ~Space & [::Send "!+["
     ;     ~Space & ]::Send "!+]"
     ;     ~Space & u::Send "+!u"
@@ -1103,6 +1197,9 @@ winterm_mode_win_title := "Winterm Mode"
         +0::Send "+{Home}"
         +4::Send "+{End}"
         y::Send "^c"
+        +v::{
+            Send "{Home}+{End}"
+        }
         !;::{
             Send "^+m"
             global winterm_mode := winterm_mode_insert ; disable mark mode
@@ -1189,3 +1286,8 @@ wechat_login_title := "ahk_class WeChatLoginWndForPC"
 ;; ====================================================================================
 ; miscellaneous
 #^!z:: ztToolTip("love you!")
+
+
+#^!c:: {
+    ztToolTip(ztGetIMEMode())
+}    
