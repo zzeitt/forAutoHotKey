@@ -162,12 +162,15 @@ ztToolTip("Hello VHK!")
 #+,::Send "#+{Left}"                    ; WIN + SHIFT + h           -> WIN + SHIFT + Left
 #+.::Send "#+{Right}"                   ; WIN + SHIFT + l           -> WIN + SHIFT + Right
 #[::Send "#z"                           ; WIN + [                   -> WIN + z
-#+-::{
-    ztResizeCurrentWindow(-0.05)        ; Shrink the window
-}
-#+=::{
-    ztResizeCurrentWindow(+0.05)        ; Enlarge the window
-}
+#HotIf !WinActive(winterm_title)
+  #+-::{
+      ztResizeCurrentWindow(-0.05)        ; Shrink the window
+  }
+  #+=::{
+      ztResizeCurrentWindow(+0.05)        ; Enlarge the window
+  }
+#HotIf
+
 #+k::{
     ztMoveCurrentWindow(0,-15)          ; Move up the window
 }
@@ -468,6 +471,7 @@ quitMouseMode() {
 
     ; MButton::changeCursor()
     ; MButton Up::restoreCursors()
+    ; @todo: Press "shift" + "h|j|l|k" to do mouse selection.
 #HotIf
 
 #o::{
@@ -727,7 +731,6 @@ GroupAdd("BROWSER", firefox_title)
     !+-::Send "^+{PgUp}"     ; 左移标签
     !+=::Send "^+{PgDn}"     ; 右移标签
     !+y::Send "^+y"          ; 打开集锦
-    !s::Send "^+d"           ; 收藏
     !+'::Send "{F12}"        ; 开发者模式
     !+u:: Send "!d{^}"
     !+f:: Send "!d{*}"
@@ -746,7 +749,6 @@ GroupAdd("BROWSER", firefox_title)
         ~Space & r::Send "{F5}"          ; 刷新
         ~Space & [::Send "!{Left}"       ; 后退
         ~Space & ]::Send "!{Right}"      ; 前进
-        ~Space & s::Send "^d"            ; 收藏
         ~Space & d::Send "!d"            ; 搜索栏
         #HotIf WinActive("ahk_group BROWSER") and !isEditCursor() and GetKeyState("Shift", "P")
             Space & -::Send "^+{PgUp}"      ; 左移标签
@@ -827,6 +829,7 @@ zoteroClose() {
         zoteroClose()
     }
     !f::Send "^f"                                                           ; find
+    !+f::Send "^+f"                                                         ; advanced find
     !o::Send "!{Left}"
     !+o::Send "!{Right}"
     !t:: {
@@ -1235,24 +1238,13 @@ etx_title := "ahk_exe etxc.exe"
 ;  ╚══╝╚══╝ ╚══════╝ ╚═════╝╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   
 ;; ====================================================================================
 ; WeChat
-wechat_name := "WeChat.exe"
-wechat_title := "ahk_exe WeChat.exe"
+wechat_title := "ahk_exe Weixin.exe"
 wechat_login_title := "ahk_class WeChatLoginWndForPC"
-; #w:: {
-;     if WinExist(wechat_title) {
-;         if WinExist(wechat_login_title) {
-;             Send "#5"
-;         } else {
-;             Send "^[" ; WIN + w -> Ctrl + [  (Toggle Wechat "微信")
-;         }
-;     } else {
-;         Send "#5"
-;     }
-; }
 #w::Send "^[" ; WIN + w -> Ctrl + [  (Toggle Wechat "微信")
 #HotIf WinActive(wechat_title)
     !f::Send "^f" ; Search
 #HotIf
+
 
 ;; ====================================================================================
 ; ███████╗ ██████╗  ██████╗██╗   ██╗███████╗████████╗██╗███╗   ███╗███████╗██████╗ 
@@ -1274,6 +1266,21 @@ wechat_login_title := "ahk_class WeChatLoginWndForPC"
 #^f:: {
     Run "ms-clock://resetfocustimer"
 }
+
+
+;; ====================================================================================
+; ███╗   ██╗ ██████╗ ████████╗███████╗██████╗  █████╗ ██████╗ 
+; ████╗  ██║██╔═══██╗╚══██╔══╝██╔════╝██╔══██╗██╔══██╗██╔══██╗
+; ██╔██╗ ██║██║   ██║   ██║   █████╗  ██████╔╝███████║██║  ██║
+; ██║╚██╗██║██║   ██║   ██║   ██╔══╝  ██╔═══╝ ██╔══██║██║  ██║
+; ██║ ╚████║╚██████╔╝   ██║   ███████╗██║     ██║  ██║██████╔╝
+; ╚═╝  ╚═══╝ ╚═════╝    ╚═╝   ╚══════╝╚═╝     ╚═╝  ╚═╝╚═════╝ 
+; ;; ====================================================================================
+; Notepad
+notepad_title := "ahk_exe Notepad.exe"
+#HotIf WinActive(notepad_title)
+    !f::Send "^f" ; Search
+#HotIf
 
 
 ;; ====================================================================================
